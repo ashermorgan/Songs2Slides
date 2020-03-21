@@ -1,6 +1,9 @@
 # Import dependencies
 from bs4 import BeautifulSoup
 import requests
+from pptx import Presentation
+from pptx.enum.text import PP_ALIGN
+from pptx.util import Inches, Pt
 
 
 # Gets the lyrics
@@ -28,3 +31,34 @@ def ParseLyrics(lyrics):
             lines[-1] = lines[-1] + "\n" + rawLines[i]
             BlockSize += 1
     return lines
+
+
+# Create powerpoint
+def CreatePptx(parsedLyrics, filepath):
+    # Create presentation
+    prs = Presentation()
+    blank_slide_layout = prs.slide_layouts[6]
+    
+    for lyric in parsedLyrics:
+        # Add slide
+        slide = prs.slides.add_slide(blank_slide_layout)
+    
+        # Add text box
+        left = Inches(0.5)
+        top = Inches(0.5)
+        width = Inches(9)
+        height = Inches(6)
+        txBox = slide.shapes.add_textbox(left, top, width, height)
+        tf = txBox.text_frame
+        tf.clear()
+        tf.word_wrap = True
+    
+        # Add pharagraph
+        p = tf.paragraphs[0]
+        p.text = lyric
+        p.font.size = Pt(40)
+        p.alignment = PP_ALIGN.CENTER
+        p.line_spacing = 1.25
+
+    # Save powerpoint
+    prs.save(filepath)
