@@ -1,5 +1,6 @@
 # Import dependencies
 from bs4 import BeautifulSoup
+import os
 import requests
 from pptx import Presentation
 from pptx.enum.text import PP_ALIGN
@@ -47,7 +48,7 @@ def CreatePptx(parsedLyrics, filepath):
         left = Inches(0.5)
         top = Inches(0.5)
         width = Inches(9)
-        height = Inches(6)
+        height = Inches(6.5)
         txBox = slide.shapes.add_textbox(left, top, width, height)
         tf = txBox.text_frame
         tf.clear()
@@ -62,3 +63,40 @@ def CreatePptx(parsedLyrics, filepath):
 
     # Save powerpoint
     prs.save(filepath)
+
+
+# Run CLI
+if (__name__ == "__main__"):
+    # Print title
+    print("Songs2Slides")
+    print()
+
+    # Get song lyrics
+    lyrics = []
+    song = 1
+    while (True):
+        # Get song information
+        title = input("Song #{0} Title: ".format(song))
+        artist = input("Song #{0} Artist: ".format(song))
+        
+        # Get song lyrics
+        try:
+            lyrics += ParseLyrics(getLyrics(artist, title))
+            lyrics += [""]
+        except:
+            print("We couldn't find the lyrics to that song.")
+        
+        # Add more songs
+        if (input("Do you want to add another song? (y/n): ").lower() == "n"):
+            break
+        song += 1
+    
+    # Get filepath
+    filepath = input("Please enter a filepath to save your powerpoint to: ")
+
+    # Create powerpoint
+    CreatePptx(lyrics, filepath)
+
+    # Open powerpoint
+    if (input("Do you want to view your powerpoint now? (y/n): ").lower() == "y"):
+        os.startfile(filepath)
