@@ -5,6 +5,7 @@ from pptx import Presentation
 from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
 import requests
+import sys
 
 
 # Gets the lyrics
@@ -110,9 +111,23 @@ if (__name__ == "__main__"):
     # Get filepath
     filepath = input("Please enter a filepath to save your powerpoint to: ")
 
-    # Create powerpoint
-    CreatePptx(lyrics, filepath)
+    # Add extension
+    if (len(filepath) == 0):
+        filepath = "Untitled.pptx"
+    elif (len(filepath) < 4):
+        filepath += ".pptx"
+    elif (len(filepath) == 4 and filepath[-4:] != ".ppt"):
+        filepath += ".pptx"
+    elif (len(filepath) > 4 and filepath[-5:] != ".pptx" and filepath[-4:] != ".ppt"):
+        filepath += ".pptx"
 
+    # Create powerpoint
+    try:
+        CreatePptx(lyrics, filepath)
+    except:
+        print("We were unable to create the powerpoint.")
+        sys.exit()
+    
     # Open powerpoint
     if (input("Do you want to view your powerpoint now? (y/n): ").lower() == "y"):
         os.startfile(filepath)
