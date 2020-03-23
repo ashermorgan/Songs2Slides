@@ -1,19 +1,34 @@
 # Import dependencies
 from bs4 import BeautifulSoup
 import os
-import requests
 from pptx import Presentation
 from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
+import requests
 
 
 # Gets the lyrics
-def getLyrics(artist, song):
-    artist = artist.replace(" ", "-")
-    song = song.replace(" ", "-")
+def GetLyrics(artist, song):
+    # Convert to lowercase
+    artist = artist.lower()
+    song = song.lower()
+    
+    # Remove extra whitespace
+    artist = ' '.join(artist.split())
+    song = ' '.join(song.split())
+
+    # Replace invalid characters
+    old = [" ", "!", "@", "#", "$", "%", "^", "&",   "*", "(", ")", "+", "=", "'", "?", "/", "|", "\\", ".", ",", "á", "é", "í", "ó", "ñ", "ú"]
+    new = ["-", "",  "",  "",  "s", "",  "-", "and", "",  "",  "",  "-", "-", "",  "",  "",  "",  "",   "",  "",  "a", "e", "i", "o", "n", "u"]
+    for i in range(0, len(old)):
+        artist = artist.replace(old[i], new[i])
+        song = song.replace(old[i], new[i])
+
+    # Get lyrics
     page = requests.get("https://genius.com/{0}-{1}-lyrics".format(artist, song))
-    html = BeautifulSoup(page.text, 'html.parser')
-    lyrics = html.find('div', class_='lyrics').get_text()
+    lyrics = BeautifulSoup(page.text, 'html.parser').find('div', class_='lyrics').get_text()
+    
+    # Return lyrics
     return lyrics
 
 
@@ -81,7 +96,7 @@ if (__name__ == "__main__"):
         
         # Get song lyrics
         try:
-            lyrics += ParseLyrics(getLyrics(artist, title))
+            lyrics += ParseLyrics(GetLyrics(artist, title))
             lyrics += [""]
         except:
             print("We couldn't find the lyrics to that song.")
