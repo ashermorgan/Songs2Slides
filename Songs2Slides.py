@@ -100,9 +100,10 @@ if (__name__ == "__main__"):
             lyrics += [""]
         except:
             print("We couldn't find the lyrics to that song.")
+            song -= 1
         
         # Add more songs
-        if (input("Do you want to add another song? (y/n): ").lower() == "n"):
+        if (song >= 1 and input("Do you want to add another song? (y/n): ").lower() == "n"):
             break
         song += 1
     
