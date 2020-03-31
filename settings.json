@@ -1,0 +1,15 @@
+{
+    "margin-left": 0.5,
+    "margin-right": 0.5,
+    "margin-top": 0.5,
+    "margin-bottom": 0.5,
+    
+    "font-family": "Calibri",
+    "font-size": 40,
+    "font-bold": false,
+    "font-italic": false,
+    "font-color": [0, 0, 0],
+    
+    "line-spacing": 1.25,
+    "word-wrap": true
+}

@@ -1,7 +1,9 @@
 # Import dependencies
 from bs4 import BeautifulSoup
+import json
 import os
 from pptx import Presentation
+from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
 import requests
@@ -54,6 +56,10 @@ def ParseLyrics(lyrics):
 
 # Create powerpoint
 def CreatePptx(parsedLyrics, filepath):
+    # Load settings
+    with open("settings.json") as f:
+        settings = json.load(f)
+
     # Create presentation
     prs = Presentation()
     blank_slide_layout = prs.slide_layouts[6]
@@ -63,21 +69,25 @@ def CreatePptx(parsedLyrics, filepath):
         slide = prs.slides.add_slide(blank_slide_layout)
     
         # Add text box
-        left = Inches(0.5)
-        top = Inches(0.5)
-        width = Inches(9)
-        height = Inches(6.5)
+        left = Inches(settings["margin-left"])
+        top = Inches(settings["margin-top"])
+        width = Inches(10 - settings["margin-left"] - settings["margin-right"])
+        height = Inches(7.5 - settings["margin-top"] - settings["margin-bottom"])
         txBox = slide.shapes.add_textbox(left, top, width, height)
         tf = txBox.text_frame
         tf.clear()
-        tf.word_wrap = True
+        tf.word_wrap = settings["word-wrap"]
     
         # Add pharagraph
         p = tf.paragraphs[0]
         p.text = lyric
-        p.font.size = Pt(40)
+        p.font.name = settings["font-family"]
+        p.font.size = Pt(settings["font-size"])
+        p.font.bold = settings["font-bold"]
+        p.font.italic = settings["font-italic"]
+        p.font.color.rgb = RGBColor(settings["font-color"][0], settings["font-color"][1], settings["font-color"][2])
         p.alignment = PP_ALIGN.CENTER
-        p.line_spacing = 1.25
+        p.line_spacing = settings["line-spacing"]
 
     # Save powerpoint
     prs.save(filepath)
@@ -125,9 +135,8 @@ if (__name__ == "__main__"):
             subprocess.Popen(["notepad", temp.name]).wait()
 
             # Read file
-            file = open(temp.name,mode='r')
-            rawLines = file.read()
-            file.close()
+            with open(temp.name) as f:
+                rawLines = f.read()
 
             # Parse lyrics
             lyrics = []

@@ -2,6 +2,7 @@
 Creates a lyrics powerpoint from a list of songs.
 
 ## Powerpoint Format
+The default powerpoint format may be changed at anytime in `settings.json`.
 - Each slide contains a single textblock with 0.5 inch margins.
 - Text is 40pt Calibri and centered.
 - Each slide contains 4 lines.
