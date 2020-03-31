@@ -5,7 +5,9 @@ from pptx import Presentation
 from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
 import requests
+import subprocess
 import sys
+import tempfile
 
 
 # Gets the lyrics
@@ -37,7 +39,7 @@ def GetLyrics(artist, song):
 def ParseLyrics(lyrics):
     rawLines = lyrics.split("\n")
     lines = []
-    BlockSize = 0
+    BlockSize = 4
     for i in range(0, len(rawLines)):
         if (rawLines[i] == "" or rawLines[i][0] == "["):
             BlockSize = 4
@@ -107,6 +109,34 @@ if (__name__ == "__main__"):
         if (song >= 1 and input("Do you want to add another song? (y/n): ").lower() == "n"):
             break
         song += 1
+    
+    # Review lyrics
+    if (input("Would you like to review the parsed lyrics first? (y/n): ").lower() == "y"):
+        try:
+            # Create temp file
+            temp = tempfile.NamedTemporaryFile(mode='w+t', suffix=".txt", delete=False)
+            for line in lyrics:
+                temp.writelines(line)
+                temp.writelines("\n\n")
+            temp.close()
+            
+            # Open temp file and wait
+            subprocess.Popen(["notepad", temp.name]).wait()
+
+            # Read file
+            file = open(temp.name,mode='r')
+            rawLines = file.read()
+            file.close()
+
+            # Parse lyrics
+            lyrics = []
+            for song in rawLines.split("\n\n\n"):
+                lyrics += ParseLyrics(song)
+                lyrics += [""]
+        finally:
+            # Delete temp file
+            os.remove(temp.name)
+
     
     # Get filepath
     filepath = input("Please enter a filepath to save your powerpoint to: ")
