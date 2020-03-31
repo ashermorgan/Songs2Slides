@@ -100,7 +100,8 @@ if (__name__ == "__main__"):
         # Get song lyrics
         try:
             lyrics += ParseLyrics(GetLyrics(artist, title))
-            lyrics += [""]
+            if (lyrics[-1] != ""):
+                lyrics += [""]
         except:
             print("We couldn't find the lyrics to that song.")
             song -= 1
@@ -132,7 +133,8 @@ if (__name__ == "__main__"):
             lyrics = []
             for song in rawLines.split("\n\n\n"):
                 lyrics += ParseLyrics(song)
-                lyrics += [""]
+                if (lyrics[-1] != ""):
+                    lyrics += [""]
         finally:
             # Delete temp file
             os.remove(temp.name)
