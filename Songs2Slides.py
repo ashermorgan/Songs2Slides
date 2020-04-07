@@ -39,16 +39,24 @@ def GetLyrics(artist, song):
 
 # Parses the lyrics into blocks
 def ParseLyrics(lyrics):
+    # Load settings
+    with open("settings.json") as f:
+        settings = json.load(f)
+    
+    # Parse lyrics
     rawLines = lyrics.split("\n")
     lines = []
-    BlockSize = 4
+    BlockSize = settings["lines-per-slide"]
     for i in range(0, len(rawLines)):
         if (rawLines[i] == "" or rawLines[i][0] == "["):
-            BlockSize = 4
-        elif (BlockSize == 4):
+            # Start new block on the next line
+            BlockSize = settings["lines-per-slide"]
+        elif (BlockSize == settings["lines-per-slide"]):
+            # Start a new block
             lines.append(rawLines[i])
             BlockSize = 1
         else:
+            # Continue a block
             lines[-1] = lines[-1] + "\n" + rawLines[i]
             BlockSize += 1
     return lines
