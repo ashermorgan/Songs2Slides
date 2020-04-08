@@ -17,17 +17,17 @@ def GetLyrics(artist, song):
     # Convert to lowercase
     artist = artist.lower()
     song = song.lower()
-    
-    # Remove extra whitespace
-    artist = ' '.join(artist.split())
-    song = ' '.join(song.split())
 
     # Replace invalid characters
-    old = [" ", "!", "@", "#", "$", "%", "^", "&",   "*", "(", ")", "+", "=", "'", "?", "/", "|", "\\", ".", ",", "á", "é", "í", "ó", "ñ", "ú"]
-    new = ["-", "",  "",  "",  "s", "",  "-", "and", "",  "",  "",  "-", "-", "",  "",  "",  "",  "",   "",  "",  "a", "e", "i", "o", "n", "u"]
+    old = [" ", "!", "@", "#", "$", "%", "^", "&",     "*", "(", ")", "+", "=", "'", "?", "/", "|", "\\", ".", ",", "á", "é", "í", "ó", "ñ", "ú"]
+    new = ["-", "",  "",  "",  "s", "",  "-", "-and-", "",  "",  "",  "-", "-", "",  "",  "",  "",  "",   "",  "",  "a", "e", "i", "o", "n", "u"]
     for i in range(0, len(old)):
         artist = artist.replace(old[i], new[i])
         song = song.replace(old[i], new[i])
+    
+    # Remove unnecessary dashes
+    artist = '-'.join(list(filter(lambda a: a != '', artist.split("-"))))
+    song   = '-'.join(list(filter(lambda a: a != '', song.split("-"))))
 
     # Get lyrics
     page = requests.get("https://genius.com/{0}-{1}-lyrics".format(artist, song))
