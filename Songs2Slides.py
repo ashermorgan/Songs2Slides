@@ -63,13 +63,19 @@ def ParseLyrics(lyrics):
 
 
 # Create powerpoint
-def CreatePptx(parsedLyrics, filepath):
+def CreatePptx(parsedLyrics, filepath, openFirst):
     # Load settings
     with open("settings.json") as f:
         settings = json.load(f)
 
     # Create presentation
-    prs = Presentation()
+    if (openFirst):
+        try:
+            prs = Presentation(filepath)
+        except:
+            prs = Presentation()
+    else:
+        prs = Presentation()
     blank_slide_layout = prs.slide_layouts[6]
     
     for lyric in parsedLyrics:
@@ -159,6 +165,7 @@ if (__name__ == "__main__"):
     
     # Get filepath
     filepath = input("Please enter a filepath to save your powerpoint to: ")
+    openFirst = (input("Would you like to add on to the powerpoint if it already exists? (y/n): ").lower() == "y")
 
     # Add extension
     if (len(filepath) == 0):
@@ -172,7 +179,7 @@ if (__name__ == "__main__"):
 
     # Create powerpoint
     try:
-        CreatePptx(lyrics, filepath)
+        CreatePptx(lyrics, filepath, openFirst)
     except:
         print("We were unable to create the powerpoint.")
         sys.exit()
