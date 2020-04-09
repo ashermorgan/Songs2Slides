@@ -1,6 +1,9 @@
 {
     "lines-per-slide": 4,
     
+    "slide-width": 13.333,
+    "slide-height": 7.5,
+
     "margin-left": 0.5,
     "margin-right": 0.5,
     "margin-top": 0.5,

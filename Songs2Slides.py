@@ -77,6 +77,10 @@ def CreatePptx(parsedLyrics, filepath, openFirst):
     else:
         prs = Presentation()
     blank_slide_layout = prs.slide_layouts[6]
+
+    # Set slide width and height
+    prs.slide_width = Inches(settings["slide-width"])
+    prs.slide_height = Inches(settings["slide-height"])
     
     for lyric in parsedLyrics:
         # Add slide
@@ -85,8 +89,8 @@ def CreatePptx(parsedLyrics, filepath, openFirst):
         # Add text box
         left = Inches(settings["margin-left"])
         top = Inches(settings["margin-top"])
-        width = Inches(10 - settings["margin-left"] - settings["margin-right"])
-        height = Inches(7.5 - settings["margin-top"] - settings["margin-bottom"])
+        width = Inches(settings["slide-width"] - settings["margin-left"] - settings["margin-right"])
+        height = Inches(settings["slide-height"] - settings["margin-top"] - settings["margin-bottom"])
         txBox = slide.shapes.add_textbox(left, top, width, height)
         tf = txBox.text_frame
         tf.clear()
