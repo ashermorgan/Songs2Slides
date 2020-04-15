@@ -38,11 +38,7 @@ def GetLyrics(artist, song):
 
 
 # Parses the lyrics into blocks
-def ParseLyrics(lyrics):
-    # Load settings
-    with open(os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), "settings.json")) as f:
-        settings = json.load(f)
-    
+def ParseLyrics(lyrics, settings):
     # Parse lyrics
     rawLines = lyrics.split("\n")
     lines = []
@@ -63,11 +59,7 @@ def ParseLyrics(lyrics):
 
 
 # Create powerpoint
-def CreatePptx(parsedLyrics, filepath, openFirst):
-    # Load settings
-    with open(os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), "settings.json")) as f:
-        settings = json.load(f)
-
+def CreatePptx(parsedLyrics, filepath, openFirst, settings):
     # Create presentation
     if (openFirst):
         try:
@@ -113,6 +105,14 @@ def CreatePptx(parsedLyrics, filepath, openFirst):
 
 # Run CLI
 if (__name__ == "__main__"):
+    # Load settings
+    try:
+        with open(os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), "settings.json")) as f:
+            settings = json.load(f)
+    except:
+        print("Unable to load settings.json file.")
+        sys.exit()
+    
     # Print title
     print("Songs2Slides")
     print()
@@ -127,7 +127,7 @@ if (__name__ == "__main__"):
         
         # Get song lyrics
         try:
-            lyrics += ParseLyrics(GetLyrics(artist, title))
+            lyrics += ParseLyrics(GetLyrics(artist, title), settings)
             if (lyrics[-1] != ""):
                 lyrics += [""]
         except:
@@ -159,7 +159,7 @@ if (__name__ == "__main__"):
             # Parse lyrics
             lyrics = []
             for song in rawLines.split("\n\n\n"):
-                lyrics += ParseLyrics(song)
+                lyrics += ParseLyrics(song, settings)
                 if (lyrics[-1] != ""):
                     lyrics += [""]
         finally:
@@ -183,7 +183,7 @@ if (__name__ == "__main__"):
 
     # Create powerpoint
     try:
-        CreatePptx(lyrics, filepath, openFirst)
+        CreatePptx(lyrics, filepath, openFirst, settings)
     except:
         print("We were unable to create the powerpoint.")
         sys.exit()
