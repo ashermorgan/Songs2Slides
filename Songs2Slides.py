@@ -40,7 +40,7 @@ def GetLyrics(artist, song):
 # Parses the lyrics into blocks
 def ParseLyrics(lyrics):
     # Load settings
-    with open("settings.json") as f:
+    with open(os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), "settings.json")) as f:
         settings = json.load(f)
     
     # Parse lyrics
@@ -65,7 +65,7 @@ def ParseLyrics(lyrics):
 # Create powerpoint
 def CreatePptx(parsedLyrics, filepath, openFirst):
     # Load settings
-    with open("settings.json") as f:
+    with open(os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), "settings.json")) as f:
         settings = json.load(f)
 
     # Create presentation
