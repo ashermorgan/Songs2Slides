@@ -127,6 +127,8 @@ if (__name__ == "__main__"):
         
         # Get song lyrics
         try:
+            if (settings["title-slides"]):
+                lyrics += ["{0}\n{1}".format(title, artist)]
             lyrics += ParseLyrics(GetLyrics(artist, title), settings)
             if (lyrics[-1] != ""):
                 lyrics += [""]
