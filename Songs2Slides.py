@@ -169,7 +169,6 @@ if (__name__ == "__main__"):
     
     # Get filepath
     filepath = input("Please enter a filepath to save your powerpoint to: ")
-    openFirst = (input("Would you like to add on to the powerpoint if it already exists? (y/n): ").lower() == "y")
 
     # Add extension
     if (len(filepath) == 0):
@@ -180,6 +179,12 @@ if (__name__ == "__main__"):
         filepath += ".pptx"
     elif (len(filepath) > 4 and filepath[-5:] != ".pptx" and filepath[-4:] != ".ppt"):
         filepath += ".pptx"
+
+    # Confirm overwrite
+    if (os.path.exists(filepath)):
+        openFirst = (input("Would you like to add on to the existing powerpoint? (y/n): ").lower() == "y")
+    else:
+        openFirst = False
 
     # Create powerpoint
     try:
