@@ -4,6 +4,7 @@
     
     "slide-width": 13.333,
     "slide-height": 7.5,
+    "slide-color": [0, 0, 0],
 
     "margin-left": 0.5,
     "margin-right": 0.5,
@@ -14,7 +15,7 @@
     "font-size": 40,
     "font-bold": false,
     "font-italic": false,
-    "font-color": [0, 0, 0],
+    "font-color": [255, 255, 255],
     
     "vertical-alignment": "middle",
     "line-spacing": 1.25,
