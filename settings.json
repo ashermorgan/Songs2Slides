@@ -16,6 +16,7 @@
     "font-italic": false,
     "font-color": [0, 0, 0],
     
+    "vertical-alignment": "middle",
     "line-spacing": 1.25,
     "word-wrap": true
 }

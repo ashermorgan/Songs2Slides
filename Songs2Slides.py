@@ -4,7 +4,7 @@ import json
 import os
 from pptx import Presentation
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 import requests
 import subprocess
@@ -77,23 +77,35 @@ def CreatePptx(parsedLyrics, filepath, openFirst, settings):
     prs.slide_width = Inches(settings["slide-width"])
     prs.slide_height = Inches(settings["slide-height"])
     
+    # Get margins
+    left = Inches(settings["margin-left"])
+    top = Inches(settings["margin-top"])
+    width = Inches(settings["slide-width"] - settings["margin-left"] - settings["margin-right"])
+    height = Inches(settings["slide-height"] - settings["margin-top"] - settings["margin-bottom"])
+    
     for lyric in parsedLyrics:
         # Add slide
         slide = prs.slides.add_slide(blank_slide_layout)
-    
+        
         # Add text box
-        left = Inches(settings["margin-left"])
-        top = Inches(settings["margin-top"])
-        width = Inches(settings["slide-width"] - settings["margin-left"] - settings["margin-right"])
-        height = Inches(settings["slide-height"] - settings["margin-top"] - settings["margin-bottom"])
         txBox = slide.shapes.add_textbox(left, top, width, height)
         tf = txBox.text_frame
         tf.clear()
+
+        # Apply text formating
         tf.word_wrap = settings["word-wrap"]
+        if (settings["vertical-alignment"].lower() == "top"):
+            tf.vertical_anchor = MSO_ANCHOR.TOP
+        elif (settings["vertical-alignment"].lower() == "bottom"):
+            tf.vertical_anchor = MSO_ANCHOR.BOTTOM
+        else:
+            tf.vertical_anchor = MSO_ANCHOR.MIDDLE
     
         # Add pharagraph
         p = tf.paragraphs[0]
         p.text = lyric
+
+        # Apply pharagraph formating
         p.font.name = settings["font-family"]
         p.font.size = Pt(settings["font-size"])
         p.font.bold = settings["font-bold"]
