@@ -12,6 +12,7 @@ import sys
 import tempfile
 
 
+
 # Gets the lyrics
 def GetLyrics(artist, song):
     # Convert to lowercase
@@ -26,15 +27,16 @@ def GetLyrics(artist, song):
         song = song.replace(old[i], new[i])
     
     # Remove unnecessary dashes
-    artist = '-'.join(list(filter(lambda a: a != '', artist.split("-"))))
-    song   = '-'.join(list(filter(lambda a: a != '', song.split("-"))))
+    artist = "-".join(list(filter(lambda a: a != "", artist.split("-"))))
+    song   = "-".join(list(filter(lambda a: a != "", song.split("-"))))
 
     # Get lyrics
     page = requests.get("https://genius.com/{0}-{1}-lyrics".format(artist, song))
-    lyrics = BeautifulSoup(page.text, 'html.parser').find('div', class_='lyrics').get_text()
+    lyrics = BeautifulSoup(page.text, "html.parser").find("div", class_="lyrics").get_text()
     
     # Return lyrics
     return lyrics
+
 
 
 # Parses the lyrics into blocks
@@ -56,6 +58,7 @@ def ParseLyrics(lyrics, settings):
             lines[-1] = lines[-1] + "\n" + rawLines[i]
             BlockSize += 1
     return lines
+
 
 
 # Create powerpoint
@@ -103,6 +106,7 @@ def CreatePptx(parsedLyrics, filepath, openFirst, settings):
     prs.save(filepath)
 
 
+
 # Run CLI
 if (__name__ == "__main__"):
     # Load settings
@@ -110,7 +114,7 @@ if (__name__ == "__main__"):
         with open(os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), "settings.json")) as f:
             settings = json.load(f)
     except:
-        print("Unable to load settings.json file.")
+        print("There was an error while loading the settings.")
         sys.exit()
     
     # Print title
@@ -134,19 +138,20 @@ if (__name__ == "__main__"):
             if (lyrics[-1] != ""):
                 lyrics += [""]
         except:
-            print("We couldn't find the lyrics to that song.")
+            print("The song could not be found. Make sure that you spelled it correctly.")
             song -= 1
         
         # Add more songs
         if (song >= 1 and input("Do you want to add another song? (y/n): ").lower() == "n"):
             break
-        song += 1
+        else:
+            song += 1
     
     # Review lyrics
-    if (input("Would you like to review the parsed lyrics first? (y/n): ").lower() == "y"):
+    if (input("Do you want to review the parsed lyrics first? (y/n): ").lower() == "y"):
         try:
             # Create temp file
-            temp = tempfile.NamedTemporaryFile(mode='w+t', suffix=".txt", delete=False)
+            temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".txt", delete=False)
             for line in lyrics:
                 temp.writelines(line)
                 temp.writelines("\n\n")
@@ -160,18 +165,20 @@ if (__name__ == "__main__"):
                 rawLines = f.read()
 
             # Parse lyrics
-            lyrics = []
+            newLyrics = []
             for song in rawLines.split("\n\n\n"):
-                lyrics += ParseLyrics(song, settings)
-                if (lyrics[-1] != ""):
-                    lyrics += [""]
+                newLyrics += ParseLyrics(song, settings)
+                if (newLyrics[-1] != ""):
+                    newLyrics += [""]
+            lyrics = newLyrics
+        except:
+            print("There was an error while reviewing the lyrics. The unrevised lyrics will be used instead.")
         finally:
             # Delete temp file
             os.remove(temp.name)
 
-    
     # Get filepath
-    filepath = input("Please enter a filepath to save your powerpoint to: ")
+    filepath = input("Enter a filepath to save the powerpoint to: ")
 
     # Add extension
     if (len(filepath) == 0):
@@ -185,7 +192,7 @@ if (__name__ == "__main__"):
 
     # Confirm overwrite
     if (os.path.exists(filepath)):
-        openFirst = (input("Would you like to add on to the existing powerpoint? (y/n): ").lower() == "y")
+        openFirst = (input("This powerpoint already exists. Do you want to add on to it? (y/n): ").lower() == "y")
     else:
         openFirst = False
 
@@ -193,9 +200,13 @@ if (__name__ == "__main__"):
     try:
         CreatePptx(lyrics, filepath, openFirst, settings)
     except:
-        print("We were unable to create the powerpoint.")
+        print("There was an error while creating the powerpoint.")
         sys.exit()
     
     # Open powerpoint
-    if (input("Do you want to view your powerpoint now? (y/n): ").lower() == "y"):
-        os.startfile(filepath)
+    if (input("Do you want to view the powerpoint now? (y/n): ").lower() == "y"):
+        try:
+            os.startfile(filepath)
+        except:
+            print("There was an error while opening the powerpoint.")
+            sys.exit()
