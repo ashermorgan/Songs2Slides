@@ -131,6 +131,7 @@ if (__name__ == "__main__"):
             settings = json.load(f)
     except:
         print("There was an error while loading the settings.")
+        input("Press enter to exit...")
         sys.exit()
     
     # Print title
@@ -217,6 +218,7 @@ if (__name__ == "__main__"):
         CreatePptx(lyrics, filepath, openFirst, settings)
     except:
         print("There was an error while creating the powerpoint.")
+        input("Press enter to exit...")
         sys.exit()
     
     # Open powerpoint
@@ -225,4 +227,5 @@ if (__name__ == "__main__"):
             os.startfile(filepath)
         except:
             print("There was an error while opening the powerpoint.")
+            input("Press enter to exit...")
             sys.exit()
