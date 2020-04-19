@@ -41,22 +41,38 @@ def GetLyrics(artist, song):
 
 # Parses the lyrics into blocks
 def ParseLyrics(lyrics, settings):
-    # Parse lyrics
+    # Split lyrics
     rawLines = lyrics.split("\n")
+
+    # Remove starting and ending newlines
+    del rawLines[0]
+    del rawLines[0]
+    del rawLines[-1]
+    del rawLines[-1]
+
+    # Parse lyrics into lines
     lines = []
-    BlockSize = settings["lines-per-slide"]
+    slideSize = settings["lines-per-slide"]
     for i in range(0, len(rawLines)):
-        if (rawLines[i] == "" or rawLines[i][0] == "["):
-            # Start new block on the next line
-            BlockSize = settings["lines-per-slide"]
-        elif (BlockSize == settings["lines-per-slide"]):
-            # Start a new block
+        if (rawLines[i] == ""):
+            # Start a new slide without content
+            lines.append("")
+            slideSize = 0
+        elif (rawLines[i][0] == "["):
+            # Ignore
+            pass
+        elif (slideSize == settings["lines-per-slide"]):
+            # Start a new slide with content
             lines.append(rawLines[i])
-            BlockSize = 1
+            slideSize = 1
+        elif (slideSize == 0):
+            # Continue a blank slide
+            lines[-1] = lines[-1] + rawLines[i]
+            slideSize += 1
         else:
-            # Continue a block
+            # Continue a slide
             lines[-1] = lines[-1] + "\n" + rawLines[i]
-            BlockSize += 1
+            slideSize += 1
     return lines
 
 
@@ -182,11 +198,8 @@ if (__name__ == "__main__"):
                 rawLines = f.read()
 
             # Parse lyrics
-            newLyrics = []
-            for song in rawLines.split("\n\n\n"):
-                newLyrics += ParseLyrics(song, settings)
-                if (newLyrics[-1] != ""):
-                    newLyrics += [""]
+            newLyrics = rawLines.split("\n\n")
+            del newLyrics[-1]
             lyrics = newLyrics
         except:
             print("There was an error while reviewing the lyrics. The unrevised lyrics will be used instead.")
