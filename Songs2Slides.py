@@ -79,25 +79,33 @@ def ParseLyrics(lyrics, settings):
 
 # Create powerpoint
 def CreatePptx(parsedLyrics, filepath, openFirst, settings):
-    # Create presentation
     if (openFirst):
         try:
+            # Open presentation
             prs = Presentation(filepath)
         except:
+            # Create presentation
             prs = Presentation()
-    else:
-        prs = Presentation()
-    blank_slide_layout = prs.slide_layouts[6]
 
-    # Set slide width and height
-    prs.slide_width = Inches(settings["slide-width"])
-    prs.slide_height = Inches(settings["slide-height"])
+            # Set slide width and height
+            prs.slide_width = Inches(settings["slide-width"])
+            prs.slide_height = Inches(settings["slide-height"])
+    else:
+        # Create presentation
+        prs = Presentation()
+
+        # Set slide width and height
+        prs.slide_width = Inches(settings["slide-width"])
+        prs.slide_height = Inches(settings["slide-height"])
+    
+    # Get blank slide
+    blank_slide_layout = prs.slide_layouts[6]
     
     # Get margins
     left = Inches(settings["margin-left"])
     top = Inches(settings["margin-top"])
-    width = Inches(settings["slide-width"] - settings["margin-left"] - settings["margin-right"])
-    height = Inches(settings["slide-height"] - settings["margin-top"] - settings["margin-bottom"])
+    width = prs.slide_width - Inches(settings["margin-left"] + settings["margin-right"])
+    height = prs.slide_height - Inches(settings["margin-top"] + settings["margin-bottom"])
     
     for lyric in parsedLyrics:
         # Add slide
