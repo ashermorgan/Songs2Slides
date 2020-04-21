@@ -12,8 +12,7 @@ import tempfile
 if (__name__ == "__main__"):
     # Load settings
     try:
-        with open(os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), "settings.json")) as f:
-            settings = json.load(f)
+        settings = config.settings
     except:
         print("There was an error while loading the settings.")
         input("Press enter to exit...")

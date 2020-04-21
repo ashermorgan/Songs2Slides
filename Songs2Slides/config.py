@@ -1,5 +1,5 @@
-{
-    "title-slides": true,
+settings = {
+    "title-slides": True,
     "lines-per-slide": 4,
     
     "slide-width": 13.333,
@@ -13,11 +13,11 @@
     
     "font-family": "Calibri",
     "font-size": 40,
-    "font-bold": false,
-    "font-italic": false,
+    "font-bold": False,
+    "font-italic": False,
     "font-color": [255, 255, 255],
     
     "vertical-alignment": "middle",
     "line-spacing": 1.25,
-    "word-wrap": true
+    "word-wrap": True
 }
