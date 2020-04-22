@@ -20,3 +20,27 @@ function Add() {
     // Increment setId
     setId++;
 }
+
+
+
+// Prepares form data for a POST request
+function PrepareForm() {
+    // Get song info
+    var titles = [];
+    for (title of document.getElementsByClassName("title")) {
+        titles.push(title.value);
+    }
+    var artists = [];
+    for (artist of document.getElementsByClassName("artist")) {
+        artists.push(artist.value);
+    }
+
+    // Prepare data
+    data = []
+    for (var i = 0; i < titles.length; i++) {
+        data.push([titles[i], artists[i]])
+    }
+
+    // Set data
+    document.getElementsByName("data")[0].value = JSON.stringify(data)
+}
