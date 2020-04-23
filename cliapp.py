@@ -10,14 +10,6 @@ import tempfile
 
 # Run CLI
 if (__name__ == "__main__"):
-    # Load settings
-    try:
-        settings = config.settings
-    except:
-        print("There was an error while loading the settings.")
-        input("Press enter to exit...")
-        sys.exit()
-    
     # Print title
     print("Songs2Slides")
     print()
@@ -32,8 +24,8 @@ if (__name__ == "__main__"):
         
         # Get song lyrics
         try:
-            parsedLyrics = models.ParseLyrics(models.GetLyrics(artist, title), settings)
-            if (settings["title-slides"]):
+            parsedLyrics = models.ParseLyrics(models.GetLyrics(artist, title))
+            if (config.parsing["title-slides"]):
                 lyrics += ["{0}\n{1}".format(title, artist)]
             lyrics += parsedLyrics
             if (lyrics[-1] != ""):
@@ -96,7 +88,7 @@ if (__name__ == "__main__"):
 
     # Create powerpoint
     try:
-        models.CreatePptx(lyrics, filepath, openFirst, settings)
+        models.CreatePptx(lyrics, filepath, openFirst)
     except:
         print("There was an error while creating the powerpoint.")
         input("Press enter to exit...")

@@ -1,5 +1,6 @@
 # Import dependencies
 from bs4 import BeautifulSoup
+from Songs2Slides import config
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
@@ -35,7 +36,7 @@ def GetLyrics(artist, song):
 
 
 # Parses the lyrics into blocks
-def ParseLyrics(lyrics, settings):
+def ParseLyrics(lyrics):
     # Split lyrics
     rawLines = lyrics.split("\n")
 
@@ -47,7 +48,7 @@ def ParseLyrics(lyrics, settings):
 
     # Parse lyrics into lines
     lines = []
-    slideSize = settings["lines-per-slide"]
+    slideSize = config.parsing["lines-per-slide"]
     for i in range(0, len(rawLines)):
         if (rawLines[i] == ""):
             # Start a new slide without content
@@ -56,7 +57,7 @@ def ParseLyrics(lyrics, settings):
         elif (rawLines[i][0] == "["):
             # Ignore
             pass
-        elif (slideSize == settings["lines-per-slide"]):
+        elif (slideSize == config.parsing["lines-per-slide"]):
             # Start a new slide with content
             lines.append(rawLines[i])
             slideSize = 1
@@ -73,7 +74,7 @@ def ParseLyrics(lyrics, settings):
 
 
 # Create powerpoint
-def CreatePptx(parsedLyrics, filepath, openFirst, settings):
+def CreatePptx(parsedLyrics, filepath, openFirst):
     if (openFirst):
         try:
             # Open presentation
@@ -83,24 +84,24 @@ def CreatePptx(parsedLyrics, filepath, openFirst, settings):
             prs = Presentation()
 
             # Set slide width and height
-            prs.slide_width = Inches(settings["slide-width"])
-            prs.slide_height = Inches(settings["slide-height"])
+            prs.slide_width = Inches(config.slide["width"])
+            prs.slide_height = Inches(config.slide["height"])
     else:
         # Create presentation
         prs = Presentation()
 
         # Set slide width and height
-        prs.slide_width = Inches(settings["slide-width"])
-        prs.slide_height = Inches(settings["slide-height"])
+        prs.slide_width = Inches(config.slide["width"])
+        prs.slide_height = Inches(config.slide["height"])
     
     # Get blank slide
     blank_slide_layout = prs.slide_layouts[6]
     
     # Get margins
-    left = Inches(settings["margin-left"])
-    top = Inches(settings["margin-top"])
-    width = prs.slide_width - Inches(settings["margin-left"] + settings["margin-right"])
-    height = prs.slide_height - Inches(settings["margin-top"] + settings["margin-bottom"])
+    left = Inches(config.margin["left"])
+    top = Inches(config.margin["top"])
+    width = prs.slide_width - Inches(config.margin["left"] + config.margin["right"])
+    height = prs.slide_height - Inches(config.margin["top"] + config.margin["bottom"])
     
     for lyric in parsedLyrics:
         # Add slide
@@ -108,7 +109,7 @@ def CreatePptx(parsedLyrics, filepath, openFirst, settings):
         
         # Apply slide formating
         slide.background.fill.solid()
-        slide.background.fill.fore_color.rgb = RGBColor(settings["slide-color"][0], settings["slide-color"][1], settings["slide-color"][2])
+        slide.background.fill.fore_color.rgb = RGBColor(config.slide["color"][0], config.slide["color"][1], config.slide["color"][2])
         
         # Add text box
         txBox = slide.shapes.add_textbox(left, top, width, height)
@@ -116,10 +117,10 @@ def CreatePptx(parsedLyrics, filepath, openFirst, settings):
         tf.clear()
 
         # Apply text formating
-        tf.word_wrap = settings["word-wrap"]
-        if (settings["vertical-alignment"].lower() == "top"):
+        tf.word_wrap = config.paragraph["word-wrap"]
+        if (config.paragraph["vertical-alignment"].lower() == "top"):
             tf.vertical_anchor = MSO_ANCHOR.TOP
-        elif (settings["vertical-alignment"].lower() == "bottom"):
+        elif (config.paragraph["vertical-alignment"].lower() == "bottom"):
             tf.vertical_anchor = MSO_ANCHOR.BOTTOM
         else:
             tf.vertical_anchor = MSO_ANCHOR.MIDDLE
@@ -129,13 +130,13 @@ def CreatePptx(parsedLyrics, filepath, openFirst, settings):
         p.text = lyric
 
         # Apply pharagraph formating
-        p.font.name = settings["font-family"]
-        p.font.size = Pt(settings["font-size"])
-        p.font.bold = settings["font-bold"]
-        p.font.italic = settings["font-italic"]
-        p.font.color.rgb = RGBColor(settings["font-color"][0], settings["font-color"][1], settings["font-color"][2])
+        p.font.name = config.font["family"]
+        p.font.size = Pt(config.font["size"])
+        p.font.bold = config.font["bold"]
+        p.font.italic = config.font["italic"]
+        p.font.color.rgb = RGBColor(config.font["color"][0], config.font["color"][1], config.font["color"][2])
         p.alignment = PP_ALIGN.CENTER
-        p.line_spacing = settings["line-spacing"]
+        p.line_spacing = config.paragraph["line-spacing"]
 
     # Save powerpoint
     prs.save(filepath)

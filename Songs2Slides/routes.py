@@ -25,8 +25,8 @@ def pptx():
     lyrics = []
     for song in data:
         try:
-            parsedLyrics = models.ParseLyrics(models.GetLyrics(song[1], song[0]), config.settings)
-            if (config.settings["title-slides"]):
+            parsedLyrics = models.ParseLyrics(models.GetLyrics(song[1], song[0]))
+            if (config.parsing["title-slides"]):
                 lyrics += ["{0}\n{1}".format(song[0], song[1])]
             lyrics += parsedLyrics
             if (lyrics[-1] != ""):
@@ -37,7 +37,7 @@ def pptx():
     try:
         # Create powerpoint
         temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".pptx", delete=False)
-        models.CreatePptx(lyrics, temp.name, False, config.settings)
+        models.CreatePptx(lyrics, temp.name, False)
         temp.close()
 
         # Read file into stream
