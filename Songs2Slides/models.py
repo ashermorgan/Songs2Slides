@@ -26,19 +26,24 @@ def GetLyrics(title, artist):
     artist = "-".join(list(filter(lambda a: a != "", artist.split("-"))))
     title = "-".join(list(filter(lambda a: a != "", title.split("-"))))
 
-    # Get lyrics
+    # Get page
     page = requests.get("https://genius.com/{0}-{1}-lyrics".format(artist, title))
-    lyrics = BeautifulSoup(page.text, "html.parser").find("div", class_="lyrics").get_text()
+    soup = BeautifulSoup(page.text, "html.parser")
+    
+    # Find lyrics and song information
+    lyrics = soup.find("div", class_="lyrics").get_text()
+    title = soup.find("h1", class_="header_with_cover_art-primary_info-title").get_text()
+    artist = soup.find("a", class_="header_with_cover_art-primary_info-primary_artist").get_text()
     
     # Return lyrics
-    return lyrics
+    return lyrics, title, artist
 
 
 
 # Parses the lyrics of a song into slides
 def ParseLyrics(title, artist):
     # Get lyrics
-    rawLyrics = GetLyrics(title, artist)
+    rawLyrics, title, artist = GetLyrics(title, artist)
     rawLines = rawLyrics.split("\n")
 
     # Remove starting and ending newlines
