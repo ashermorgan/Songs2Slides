@@ -24,12 +24,7 @@ if (__name__ == "__main__"):
         
         # Get song lyrics
         try:
-            parsedLyrics = models.ParseLyrics(models.GetLyrics(artist, title))
-            if (config.parsing["title-slides"]):
-                lyrics += ["{0}\n{1}".format(title, artist)]
-            lyrics += parsedLyrics
-            if (lyrics[-1] != ""):
-                lyrics += [""]
+            lyrics += models.ParseLyrics(title, artist)
         except:
             print("The song could not be found. Make sure that you spelled it correctly.")
             song -= 1

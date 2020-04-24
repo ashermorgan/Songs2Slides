@@ -10,24 +10,24 @@ import requests
 
 
 # Gets the lyrics
-def GetLyrics(artist, song):
+def GetLyrics(title, artist):
     # Convert to lowercase
     artist = artist.lower()
-    song = song.lower()
+    title = title.lower()
 
     # Replace invalid characters
     old = [" ", "!", "@", "#", "$", "%", "^", "&",     "*", "(", ")", "+", "=", "'", "?", "/", "|", "\\", ".", ",", "á", "é", "í", "ó", "ñ", "ú"]
     new = ["-", "",  "",  "",  "s", "",  "-", "-and-", "",  "",  "",  "-", "-", "",  "",  "",  "",  "",   "",  "",  "a", "e", "i", "o", "n", "u"]
     for i in range(0, len(old)):
         artist = artist.replace(old[i], new[i])
-        song = song.replace(old[i], new[i])
+        title = title.replace(old[i], new[i])
     
     # Remove unnecessary dashes
     artist = "-".join(list(filter(lambda a: a != "", artist.split("-"))))
-    song   = "-".join(list(filter(lambda a: a != "", song.split("-"))))
+    title = "-".join(list(filter(lambda a: a != "", title.split("-"))))
 
     # Get lyrics
-    page = requests.get("https://genius.com/{0}-{1}-lyrics".format(artist, song))
+    page = requests.get("https://genius.com/{0}-{1}-lyrics".format(artist, title))
     lyrics = BeautifulSoup(page.text, "html.parser").find("div", class_="lyrics").get_text()
     
     # Return lyrics
@@ -35,10 +35,11 @@ def GetLyrics(artist, song):
 
 
 
-# Parses the lyrics into blocks
-def ParseLyrics(lyrics):
-    # Split lyrics
-    rawLines = lyrics.split("\n")
+# Parses the lyrics of a song into slides
+def ParseLyrics(title, artist):
+    # Get lyrics
+    rawLyrics = GetLyrics(title, artist)
+    rawLines = rawLyrics.split("\n")
 
     # Remove starting and ending newlines
     del rawLines[0]
@@ -46,30 +47,40 @@ def ParseLyrics(lyrics):
     del rawLines[-1]
     del rawLines[-1]
 
-    # Parse lyrics into lines
-    lines = []
+    # Add title slide
+    slides = []
+    if (config.parsing["title-slides"]):
+        slides += ["{0}\n{1}".format(title, artist)]
+
+    # Parse lyrics into slides
     slideSize = config.parsing["lines-per-slide"]
     for i in range(0, len(rawLines)):
         if (rawLines[i] == ""):
             # Start a new slide without content
-            lines.append("")
+            slides.append("")
             slideSize = 0
         elif (rawLines[i][0] == "["):
             # Ignore
             pass
         elif (slideSize == config.parsing["lines-per-slide"]):
             # Start a new slide with content
-            lines.append(rawLines[i])
+            slides.append(rawLines[i])
             slideSize = 1
         elif (slideSize == 0):
             # Continue a blank slide
-            lines[-1] = lines[-1] + rawLines[i]
+            slides[-1] = slides[-1] + rawLines[i]
             slideSize += 1
         else:
             # Continue a slide
-            lines[-1] = lines[-1] + "\n" + rawLines[i]
+            slides[-1] = slides[-1] + "\n" + rawLines[i]
             slideSize += 1
-    return lines
+
+    # Add blank slide
+    if (slides[-1] != ""):
+        slides += [""]
+
+    # Return parsed lyrics
+    return slides
 
 
 

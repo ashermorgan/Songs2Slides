@@ -25,12 +25,7 @@ def pptx():
     lyrics = []
     for song in data:
         try:
-            parsedLyrics = models.ParseLyrics(models.GetLyrics(song[1], song[0]))
-            if (config.parsing["title-slides"]):
-                lyrics += ["{0}\n{1}".format(song[0], song[1])]
-            lyrics += parsedLyrics
-            if (lyrics[-1] != ""):
-                lyrics += [""]
+            lyrics += models.ParseLyrics(song[0], song[1])
         except:
             pass
     
