@@ -1,0 +1,18 @@
+body {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    touch-action: manipulation;
+}
+
+button {
+    height: 25px;
+}
+
+#title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.songRemove {
+    cursor: pointer;
+}

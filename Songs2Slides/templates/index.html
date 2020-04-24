@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Songs2Slides</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"></link>
+        <script src="{{ url_for('static', filename='index.js') }}"></script>
+    </head>
+    <body onload="Add();">
+        <label id="title">Songs2Slides</label>
+        <br/>
+        <label>Create a lyrics powerpoints from a list of songs.</label>
+        <br/><br/>
+
+        <form action="/pptx" method="POST" onsubmit="PrepareForm();">
+            <input hidden name="data">
+            <button type="button" onclick="Add();">Add song</button>
+            <button type="submit">Create Powerpoint</button>
+        </form>
+    
+        
+        <template id="songTemplate">
+            <div>
+                <input type="text" class="title" placeholder="Song Title">
+                <input type="text" class="artist" placeholder="Song Artist">
+                <a id="remove" class="songRemove">╳</a>
+            </div>
+        </template>
+        
+        <br/>
+        <div id="songs"></div>
+    </body>
+</html>
