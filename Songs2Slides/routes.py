@@ -1,5 +1,5 @@
 # Import dependencies
-from flask import render_template, request, send_file, url_for
+from flask import render_template, request, send_file, url_for, jsonify
 import io
 import json
 import os
@@ -15,15 +15,12 @@ def index():
 
 
 
-# Powerpoint download
+# Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
-    # Parse POST parameters
-    data = json.loads(request.form["data"])
-    
     # Get lyrics
     lyrics = []
-    for song in data:
+    for song in request.json["songs"]:
         try:
             parsedLyrics = models.ParseLyrics(models.GetLyrics(song[1], song[0]))
             if (config.parsing["title-slides"]):
