@@ -46,3 +46,24 @@ def pptx():
     
     # Return powerpoint
     return send_file(pptx, as_attachment=True, attachment_filename='download.pptx')
+
+
+
+# Get lyrics
+@app.route("/lyrics", methods=["POST"])
+def lyrics():
+    # Get lyrics
+    lyrics = []
+    for song in request.json["songs"]:
+        try:
+            parsedLyrics = models.ParseLyrics(models.GetLyrics(song[1], song[0]))
+            if (config.parsing["title-slides"]):
+                lyrics += ["{0}\n{1}".format(song[0], song[1])]
+            lyrics += parsedLyrics
+            if (lyrics[-1] != ""):
+                lyrics += [""]
+        except:
+            pass
+    
+    # Return lyrics
+    return jsonify({"lyrics": lyrics})

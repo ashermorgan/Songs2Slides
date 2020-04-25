@@ -64,3 +64,28 @@ async function SubmitSongs() {
     // Download powerpoint
     download(await rawResponse.blob());
 }
+
+
+
+// Get the parsed lyrics for the user to review
+async function ReviewLyrics() {
+    // Get songs
+    songs = getSongs();
+
+    // Send POST request
+    const rawResponse = await fetch("/lyrics", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify({"songs":songs})
+    });
+    const json = await rawResponse.json();
+
+    // Set lyrics
+    document.getElementById("lyrics").value = json["lyrics"].join("\n\n")
+    
+    // Show and hide elements
+    document.getElementById("songs").hidden = true;
+    document.getElementById("lyricsContainer").hidden = false;
+}
