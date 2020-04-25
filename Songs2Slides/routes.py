@@ -18,18 +18,23 @@ def index():
 # Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
-    # Get lyrics
-    lyrics = []
-    for song in request.json["songs"]:
-        try:
-            parsedLyrics = models.ParseLyrics(models.GetLyrics(song[1], song[0]))
-            if (config.parsing["title-slides"]):
-                lyrics += ["{0}\n{1}".format(song[0], song[1])]
-            lyrics += parsedLyrics
-            if (lyrics[-1] != ""):
-                lyrics += [""]
-        except:
-            pass
+    # Parse POST parameters
+    if "songs" in request.json:
+        # Get lyrics
+        lyrics = []
+        for song in request.json["songs"]:
+            try:
+                parsedLyrics = models.ParseLyrics(models.GetLyrics(song[1], song[0]))
+                if (config.parsing["title-slides"]):
+                    lyrics += ["{0}\n{1}".format(song[0], song[1])]
+                lyrics += parsedLyrics
+                if (lyrics[-1] != ""):
+                    lyrics += [""]
+            except:
+                pass
+    elif "lyrics" in request.json:
+        # Get lyrics
+        lyrics = request.json["lyrics"]
     
     try:
         # Create powerpoint

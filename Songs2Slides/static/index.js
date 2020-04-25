@@ -89,3 +89,23 @@ async function ReviewLyrics() {
     document.getElementById("songs").hidden = true;
     document.getElementById("lyricsContainer").hidden = false;
 }
+
+
+
+// Gets the powerpoint by submitting lyrics
+async function SubmitLyrics() {
+    // Get lyrics
+    lyrics = document.getElementById("lyrics").value.split('\n\n');
+
+    // Send POST request
+    const rawResponse = await fetch("/pptx", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify({"lyrics":lyrics})
+    });
+
+    // Download powerpoint
+    download(await rawResponse.blob());
+}
