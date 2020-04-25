@@ -1,5 +1,5 @@
 # Import dependencies
-from flask import render_template, request, send_file, url_for
+from flask import render_template, request, send_file, url_for, jsonify
 import io
 import json
 import os
@@ -15,19 +15,21 @@ def index():
 
 
 
-# Powerpoint download
+# Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
     # Parse POST parameters
-    data = json.loads(request.form["data"])
-    
-    # Get lyrics
-    lyrics = []
-    for song in data:
-        try:
-            lyrics += models.ParseLyrics(song[0], song[1])
-        except:
-            pass
+    if "songs" in request.json:
+        # Get lyrics
+        lyrics = []
+        for song in request.json["songs"]:
+          try:
+              lyrics += models.ParseLyrics(song[0], song[1])
+          except:
+              pass
+    elif "lyrics" in request.json:
+        # Get lyrics
+        lyrics = request.json["lyrics"]
     
     try:
         # Create powerpoint
@@ -44,3 +46,19 @@ def pptx():
     
     # Return powerpoint
     return send_file(pptx, as_attachment=True, attachment_filename='download.pptx')
+
+
+
+# Get lyrics
+@app.route("/lyrics", methods=["POST"])
+def lyrics():
+    # Get lyrics
+    lyrics = []
+    for song in request.json["songs"]:
+        try:
+            lyrics += models.ParseLyrics(song[0], song[1])
+        except:
+            pass
+    
+    # Return lyrics
+    return jsonify({"lyrics": lyrics})

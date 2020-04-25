@@ -4,7 +4,7 @@ setId = 0;  // Next valid song id number
 
 
 // Adds a song
-function Add() {
+function AddSong() {
     // Create row
     var clone = document.getElementById("songTemplate").content.cloneNode(true);
     
@@ -23,8 +23,8 @@ function Add() {
 
 
 
-// Prepares form data for a POST request
-function PrepareForm() {
+// Gets the list of songs
+function getSongs() {
     // Get song info
     var titles = [];
     for (title of document.getElementsByClassName("title")) {
@@ -35,12 +35,77 @@ function PrepareForm() {
         artists.push(artist.value);
     }
 
-    // Prepare data
-    data = []
+    // Prepare songs
+    songs = []
     for (var i = 0; i < titles.length; i++) {
-        data.push([titles[i], artists[i]])
+        songs.push([titles[i], artists[i]])
     }
 
-    // Set data
-    document.getElementsByName("data")[0].value = JSON.stringify(data)
+    // Set songs
+    return songs
+}
+
+
+
+// Gets the powerpoint by submitting songs
+async function SubmitSongs() {
+    // Get songs
+    songs = getSongs();
+
+    // Send POST request
+    const rawResponse = await fetch("/pptx", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify({"songs":songs})
+    });
+
+    // Download powerpoint
+    download(await rawResponse.blob());
+}
+
+
+
+// Get the parsed lyrics for the user to review
+async function ReviewLyrics() {
+    // Get songs
+    songs = getSongs();
+
+    // Send POST request
+    const rawResponse = await fetch("/lyrics", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify({"songs":songs})
+    });
+    const json = await rawResponse.json();
+
+    // Set lyrics
+    document.getElementById("lyrics").value = json["lyrics"].join("\n\n")
+    
+    // Show and hide elements
+    document.getElementById("songs").hidden = true;
+    document.getElementById("lyricsContainer").hidden = false;
+}
+
+
+
+// Gets the powerpoint by submitting lyrics
+async function SubmitLyrics() {
+    // Get lyrics
+    lyrics = document.getElementById("lyrics").value.split('\n\n');
+
+    // Send POST request
+    const rawResponse = await fetch("/pptx", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify({"lyrics":lyrics})
+    });
+
+    // Download powerpoint
+    download(await rawResponse.blob());
 }

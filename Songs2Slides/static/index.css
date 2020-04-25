@@ -1,9 +1,13 @@
+/******** Body styles ********/
 body {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     touch-action: manipulation;
 }
 
+
+
+/******** Element styles ********/
 button {
     height: 25px;
 }
@@ -13,6 +17,24 @@ button {
     font-weight: bold;
 }
 
+
+
+/******** Songs styles ********/
 .songRemove {
     cursor: pointer;
+}
+
+
+
+/******** Lyrics styles ********/
+#lyricsContainer {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    text-align: left;
+}
+
+#lyrics {
+    width: 100%;
+    resize: none;
 }
