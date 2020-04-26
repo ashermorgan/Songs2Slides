@@ -38,3 +38,7 @@ button {
     width: 100%;
     resize: none;
 }
+
+#lyricsBack {
+    float: right;
+}

@@ -109,3 +109,11 @@ async function SubmitLyrics() {
     // Download powerpoint
     download(await rawResponse.blob());
 }
+
+
+
+// Makes the songs div visible
+function Reset() {
+    document.getElementById("songs").hidden = false;
+    document.getElementById("lyricsContainer").hidden = true;
+}
