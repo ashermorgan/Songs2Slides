@@ -63,6 +63,10 @@ async function SubmitSongs() {
 
     // Download powerpoint
     download(await rawResponse.blob());
+    
+    // Show and hide elements
+    document.getElementById("songs").hidden = true;
+    document.getElementById("thankyou").hidden = false;
 }
 
 
@@ -108,12 +112,35 @@ async function SubmitLyrics() {
 
     // Download powerpoint
     download(await rawResponse.blob());
+    
+    // Show and hide elements
+    document.getElementById("lyricsContainer").hidden = true;
+    document.getElementById("thankyou").hidden = false;
 }
 
 
 
 // Makes the songs div visible
-function Reset() {
+function Back() {
     document.getElementById("songs").hidden = false;
     document.getElementById("lyricsContainer").hidden = true;
+    document.getElementById("thankyou").hidden = true;
+}
+
+
+
+// Makes the songs div visible and removes songs
+function Reset() {
+    // Remove songs
+    songs = document.getElementsByClassName("song");
+    while (songs.length > 0) {
+        // Get song
+        songs[0].parentNode.removeChild(songs[0]);
+    }
+
+    // Add blank song
+    AddSong();
+
+    // Makes songs visible
+    Back();
 }

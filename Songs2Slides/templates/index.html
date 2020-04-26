@@ -19,7 +19,7 @@
             <button onclick="ReviewLyrics();">Review Lyrics</button><br/><br/>
             
             <template id="songTemplate">
-                <div>
+                <div class="song">
                     <input type="text" class="title" placeholder="Song Title"/>
                     <input type="text" class="artist" placeholder="Song Artist"/>
                     <a id="remove" class="songRemove">╳</a>
@@ -33,7 +33,12 @@
             
             <textarea rows="10" id="lyrics">Loading lyrics...</textarea><br/>
             <button id="submitLyricsButton" onclick="SubmitLyrics();">Create Powerpoint</button>
-            <a id="lyricsBack" href="javascript:Reset()">Back</a>
+            <a id="lyricsBack" href="javascript:Back()">Back</a>
+        </div>
+
+        <div id="thankyou" hidden>
+            Thankyou for using Songs2Slides<br/><br/>
+            Click <a href="javascript:Reset()">here</a> to create another PowerPoint.
         </div>
     </body>
 </html>
