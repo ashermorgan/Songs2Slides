@@ -40,9 +40,7 @@ if (__name__ == "__main__"):
         try:
             # Create temp file
             temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".txt", delete=False)
-            for line in lyrics:
-                temp.writelines(line)
-                temp.writelines("\n\n")
+            temp.writelines("\n\n".join(lyrics))
             temp.close()
             
             # Open temp file and wait
@@ -53,9 +51,7 @@ if (__name__ == "__main__"):
                 rawLines = f.read()
 
             # Parse lyrics
-            newLyrics = rawLines.split("\n\n")
-            del newLyrics[-1]
-            lyrics = newLyrics
+            lyrics = rawLines.split("\n\n")
         except:
             print("There was an error while reviewing the lyrics. The unrevised lyrics will be used instead.")
         finally:
