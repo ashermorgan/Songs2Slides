@@ -9,14 +9,13 @@
     </head>
     <body onload="AddSong()">
         <label id="title">Songs2Slides</label>
-        <br/>
-        <label>Create a lyrics powerpoints from a list of songs.</label>
-        <br/><br/>
 
         <div id="songs">
-            <button onclick="AddSong();">Add song</button>
-            <button onclick="SubmitSongs();">Create Powerpoint</button>
-            <button onclick="ReviewLyrics();">Review Lyrics</button><br/><br/>
+            <div id="songsButtons">
+                <button onclick="AddSong();">Add song</button>
+                <button onclick="SubmitSongs();">Create Powerpoint</button>
+                <button onclick="ReviewLyrics();">Review Lyrics</button>
+            </div>
             
             <template id="songTemplate">
                 <div class="song">
@@ -28,17 +27,20 @@
         </div>
 
         <div id="lyricsContainer" hidden>
-            Review and edit the parsed lyrics below and then click the create PowerPoint button.
-            One blank line signifies a new slide and three blank lines signifies a blank slide.<br/><br/>
+            <p>Review and edit the parsed lyrics below and then click the create PowerPoint button.
+            One blank line signifies a new slide and three blank lines signifies a blank slide.</p>
             
-            <textarea rows="10" id="lyrics">Loading lyrics...</textarea><br/>
-            <button id="submitLyricsButton" onclick="SubmitLyrics();">Create Powerpoint</button>
-            <a id="lyricsBack" href="javascript:Back()">Back</a>
+            <textarea rows="15" id="lyrics">Loading lyrics...</textarea>
+
+            <div>
+                <a id="lyricsBack" href="javascript:Back()">Back</a>
+                <button id="submitLyricsButton" onclick="SubmitLyrics();">Create Powerpoint</button>
+            </div>
         </div>
 
         <div id="thankyou" hidden>
-            Thankyou for using Songs2Slides<br/><br/>
-            Click <a href="javascript:Reset()">here</a> to create another PowerPoint.
+            <p>Thankyou for using Songs2Slides</p>
+            <p>Click <a href="javascript:Reset()">here</a> to create another PowerPoint.</p>
         </div>
     </body>
 </html>
