@@ -1,6 +1,7 @@
 parsing = {
     "title-slides": True,
     "lines-per-slide": 4,
+    "remove-parentheses": False,
 }
 
 slide = {

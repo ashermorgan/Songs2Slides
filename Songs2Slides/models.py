@@ -5,6 +5,7 @@ from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
+import re
 import requests
 
 
@@ -44,6 +45,12 @@ def GetLyrics(title, artist):
 def ParseLyrics(title, artist):
     # Get lyrics
     rawLyrics, title, artist = GetLyrics(title, artist)
+
+    # Remove content in parentheses
+    if (config.parsing["remove-parentheses"]):
+        rawLyrics = re.sub(r'\([^)]*\)', '', rawLyrics)
+    
+    # Parse Lyrics
     rawLines = rawLyrics.split("\n")
 
     # Remove starting and ending newlines
