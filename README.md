@@ -6,7 +6,7 @@ Not all features are currently available in the web interface.
 - Can parse any song given the artist and title.
 - New slides are automatically started at the beginning of verses, bridges, choruses, etc.
 - The user can easily review and edit the slides.
-- The default powerpoint format may be changed at anytime in `Songs2Slides/config.py`.
+- The format of the powerpoint can be customized.
 - The slides can be added to a new or existing powerpoint.
 
 ## Usage
@@ -18,8 +18,8 @@ To use the command line interface, run `cliapp.py`.
 ```
 python cliapp.py
 ```
-To use the web interface, run `webapp.py` and then go to https://localhost:5000 in your web browser.
+To use the web interface, run `webapp.py` and then open http://localhost:5000 in your web browser.
 ```
 python webapp.py
-start https://localhost:5000
+start http://localhost:5000
 ```
