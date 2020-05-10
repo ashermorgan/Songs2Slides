@@ -131,7 +131,7 @@ def CreatePptx(parsedLyrics, filepath, settings, openFirst):
         
         # Apply slide formating
         slide.background.fill.solid()
-        slide.background.fill.fore_color.rgb = RGBColor(settings["slide-color"][0], settings["slide-color"][1], settings["slide-color"][2])
+        slide.background.fill.fore_color.rgb = RGBColor.from_string(settings["slide-color"][1:])
         
         # Add text box
         txBox = slide.shapes.add_textbox(left, top, width, height)
@@ -156,7 +156,7 @@ def CreatePptx(parsedLyrics, filepath, settings, openFirst):
         p.font.size = Pt(settings["font-size"])
         p.font.bold = settings["font-bold"]
         p.font.italic = settings["font-italic"]
-        p.font.color.rgb = RGBColor(settings["font-color"][0], settings["font-color"][1], settings["font-color"][2])
+        p.font.color.rgb = RGBColor.from_string(settings["font-color"][1:])
         p.alignment = PP_ALIGN.CENTER
         p.line_spacing = settings["line-spacing"]
 
