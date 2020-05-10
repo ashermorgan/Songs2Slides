@@ -19,11 +19,17 @@ def index():
 # Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
+    # Get settings
+    if "settings" in request.json:
+        settings = request.json["settings"]
+    else:
+        settings = defaultSettings
+
     if "songs" in request.json:
         lyrics = []
         for song in request.json["songs"]:
           try:
-              lyrics += models.ParseLyrics(song[0], song[1], defaultSettings)
+              lyrics += models.ParseLyrics(song[0], song[1], settings)
           except:
               pass
     elif "lyrics" in request.json:
@@ -33,7 +39,7 @@ def pptx():
     try:
         # Create powerpoint
         temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".pptx", delete=False)
-        models.CreatePptx(lyrics, temp.name, defaultSettings, False)
+        models.CreatePptx(lyrics, temp.name, settings, False)
         temp.close()
 
         # Read file into stream
@@ -51,11 +57,17 @@ def pptx():
 # Get lyrics
 @app.route("/lyrics", methods=["POST"])
 def lyrics():
+    # Get settings
+    if "settings" in request.json:
+        settings = request.json["settings"]
+    else:
+        settings = defaultSettings
+
     # Get lyrics
     lyrics = []
     for song in request.json["songs"]:
         try:
-            lyrics += models.ParseLyrics(song[0], song[1], defaultSettings)
+            lyrics += models.ParseLyrics(song[0], song[1], settings)
         except:
             pass
     
