@@ -3,6 +3,16 @@ body {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     touch-action: manipulation;
+    margin-bottom: 50px;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    width: 100%;
+    background-color: #FFFFFF;
 }
 
 
@@ -10,13 +20,6 @@ body {
 /******** Element styles ********/
 button {
     height: 25px;
-}
-
-#title {
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    display: inline-block;
 }
 
 
@@ -72,4 +75,36 @@ button {
 
 #lyricsBack {
     float: left;
+}
+
+
+
+/******** Settings styles ********/
+#settings {
+    max-width: 300px;
+    margin: auto;
+    text-align: left;
+    line-height: 30px;
+    background-color: #F0F0F0;
+    padding: 10px;
+}
+
+h3:first-child {
+    margin-top: 0px;
+}
+
+h3 {
+    margin-bottom: 0px;
+}
+
+input[type="number"] {
+    width: 75px;
+}
+
+#settingsFooter {
+    margin-top: 15px;
+}
+
+#resetButton {
+    float: right;
 }
