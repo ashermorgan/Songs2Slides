@@ -16,6 +16,13 @@ def index():
 
 
 
+# Settings JSON file
+@app.route("/settings.json", methods=["GET"])
+def settings():
+    return jsonify(defaultSettings)
+
+
+
 # Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
