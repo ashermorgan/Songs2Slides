@@ -3,7 +3,8 @@ from flask import render_template, request, send_file, url_for, jsonify
 import io
 import json
 import os
-from Songs2Slides import app, models, config
+from Songs2Slides import app, models
+from Songs2Slides.config import defaultSettings
 import tempfile
 
 
@@ -18,13 +19,11 @@ def index():
 # Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
-    # Parse POST parameters
     if "songs" in request.json:
-        # Get lyrics
         lyrics = []
         for song in request.json["songs"]:
           try:
-              lyrics += models.ParseLyrics(song[0], song[1])
+              lyrics += models.ParseLyrics(song[0], song[1], defaultSettings)
           except:
               pass
     elif "lyrics" in request.json:
@@ -34,7 +33,7 @@ def pptx():
     try:
         # Create powerpoint
         temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".pptx", delete=False)
-        models.CreatePptx(lyrics, temp.name, False)
+        models.CreatePptx(lyrics, temp.name, defaultSettings, False)
         temp.close()
 
         # Read file into stream
@@ -56,7 +55,7 @@ def lyrics():
     lyrics = []
     for song in request.json["songs"]:
         try:
-            lyrics += models.ParseLyrics(song[0], song[1])
+            lyrics += models.ParseLyrics(song[0], song[1], defaultSettings)
         except:
             pass
     
