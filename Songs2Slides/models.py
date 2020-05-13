@@ -49,6 +49,9 @@ def ParseLyrics(title, artist, settings):
     if (settings["remove-parentheses"]):
         rawLyrics = re.sub(r'\([^)]*\)', '', rawLyrics)
     
+    # Remove extra spaces before commas
+    rawLyrics = rawLyrics.replace(" ,", ",")
+    
     # Parse Lyrics
     rawLines = rawLyrics.split("\n")
 
