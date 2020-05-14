@@ -21,7 +21,7 @@ function onLoad() {
 
 // Shows settings interface
 function showSettings() {
-    document.getElementById("songs").hidden = true;
+    document.getElementById("songsContainer").hidden = true;
     document.getElementById("lyricsContainer").hidden = true;
     document.getElementById("thankyou").hidden = true;
     document.getElementById("settings").hidden = false;
@@ -180,7 +180,7 @@ async function SubmitSongs() {
     download(await rawResponse.blob());
     
     // Show and hide elements
-    document.getElementById("songs").hidden = true;
+    document.getElementById("songsContainer").hidden = true;
     document.getElementById("thankyou").hidden = false;
 }
 
@@ -205,7 +205,7 @@ async function ReviewLyrics() {
     document.getElementById("lyrics").value = json["lyrics"].join("\n\n")
     
     // Show and hide elements
-    document.getElementById("songs").hidden = true;
+    document.getElementById("songsContainer").hidden = true;
     document.getElementById("lyricsContainer").hidden = false;
 }
 
@@ -237,7 +237,7 @@ async function SubmitLyrics() {
 
 // Makes the songs div visible
 function Back() {
-    document.getElementById("songs").hidden = false;
+    document.getElementById("songsContainer").hidden = false;
     document.getElementById("lyricsContainer").hidden = true;
     document.getElementById("thankyou").hidden = true;
     document.getElementById("settings").hidden = true;

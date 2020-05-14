@@ -10,13 +10,9 @@
     <body onload="onLoad();">
         <h1>Songs2Slides</h1>
 
-        <div id="songs">
-            <div id="songsButtons">
-                <button onclick="AddSong();">Add song</button>
-                <button onclick="SubmitSongs();">Create Powerpoint</button>
-                <button onclick="ReviewLyrics();">Review Lyrics</button>
-            </div>
-            
+        <div id="songsContainer" class="container">
+            <h3>Choose your songs</h3>
+
             <template id="songTemplate">
                 <div class="song">
                     <input type="text" class="title" placeholder="Song Title"/>
@@ -24,15 +20,28 @@
                     <a id="remove" class="songRemove">╳</a>
                 </div>
             </template>
+            <div id="songs"></div>
+
+            <div>
+                <span id="addSong" onclick="AddSong();">+</span>
+            </div>
+
+            <div id="songsButtons">
+                <a id="settingsLink" href="javascript:showSettings();">Settings</a>
+                <button id="submitSongsButton" onclick="SubmitSongs();">Create Powerpoint</button>
+                <button id="reviewButton" onclick="ReviewLyrics();">Review Lyrics</button>
+            </div>
         </div>
 
-        <div id="lyricsContainer" hidden>
-            <p>Review and edit the parsed lyrics below and then click the create PowerPoint button.
-            One blank line signifies a new slide and three blank lines signifies a blank slide.</p>
+        <div id="lyricsContainer" class="container" hidden>
+            <h3>Review your PowerPoint</h3>
+
+            <p>Review and edit the parsed lyrics below and then click the create PowerPoint button. One blank
+                line represents the start of a new slide and three blank lines represent a blank slide.</p>
             
             <textarea rows="15" id="lyrics">Loading lyrics...</textarea>
 
-            <div>
+            <div id="lyricsButtons">
                 <a id="lyricsBack" href="javascript:Back()">Back</a>
                 <button id="submitLyricsButton" onclick="SubmitLyrics();">Create Powerpoint</button>
             </div>
@@ -43,7 +52,7 @@
             <p>Click <a href="javascript:Reset()">here</a> to create another PowerPoint.</p>
         </div>
 
-        <div id="settings" hidden>
+        <div id="settings" class="container" hidden>
             <h3>Parsing:</h3>
             <div>
                 Add title slides:
@@ -136,10 +145,6 @@
                 <a href="javascript:Back();">Back</a>
                 <button id="resetButton" onclick="resetSettings();">Reset</button>
             </div>
-        </div>
-
-        <div id="footer">
-            <a href="javascript:showSettings();">Settings</a>
         </div>
     </body>
 </html>

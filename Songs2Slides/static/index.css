@@ -1,23 +1,16 @@
-/******** Body styles ********/
+/******** Other styles ********/
 body {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     touch-action: manipulation;
-    margin-bottom: 50px;
 }
 
-#footer {
-    position: fixed;
-    bottom: 0px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    width: 100%;
-    background-color: #FFFFFF;
+.container {
+    margin: auto;
+    padding: 10px;
+    background-color: #F0F0F0;
 }
 
-
-
-/******** Element styles ********/
 button {
     height: 25px;
 }
@@ -25,8 +18,9 @@ button {
 
 
 /******** Songs styles ********/
-#songsButtons {
-    margin-bottom: 15px;
+#songsContainer {
+    width: fit-content;
+    width: -moz-fit-content;
 }
 
 .song {
@@ -37,7 +31,7 @@ button {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 8px;
-    background: #E0E0E0;
+    background: #C0C0C0;
     border-radius: 5px;
 }
 
@@ -47,18 +41,41 @@ button {
     margin-right: 3px;
 }
 
+#addSong {
+    display: inline-block;
+    padding: 0px;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    font-size: 40px;
+    background-color: #C0C0C0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer
+}
+
+#songsButtons {
+    margin-top: 15px;
+    height: 25px;
+}
+
+#settingsLink {
+    float: left;
+}
+
+#reviewButton {
+    float: right;
+}
+
 
 
 /******** Lyrics styles ********/
 #lyricsContainer {
-    width: 100%;
     max-width: 500px;
-    margin: auto;
-    text-align: left;
 }
 
 #lyricsContainer p {
-    margin-top: 0px;
+    text-align: left;
 }
 
 #lyrics {
@@ -69,12 +86,15 @@ button {
     box-sizing: border-box;
 }
 
-#submitLyricsButton {
-    float: right;
+#lyricsButtons {
+    margin-top: 15px;
+    text-align: left;
+    height: 25px;
 }
 
-#lyricsBack {
-    float: left;
+#submitLyricsButton {
+    float: right;
+    font-size: 15px;
 }
 
 
@@ -82,11 +102,8 @@ button {
 /******** Settings styles ********/
 #settings {
     max-width: 300px;
-    margin: auto;
     text-align: left;
     line-height: 30px;
-    background-color: #F0F0F0;
-    padding: 10px;
 }
 
 h3:first-child {
