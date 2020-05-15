@@ -188,6 +188,12 @@ async function SubmitSongs() {
 
 // Get the parsed lyrics for the user to review
 async function ReviewLyrics() {
+    // Show and hide elements
+    document.getElementById("lyrics").value = "Loading lyrics...";
+    document.getElementById("lyrics").readOnly = true;
+    document.getElementById("songsContainer").hidden = true;
+    document.getElementById("lyricsContainer").hidden = false;
+
     // Get songs
     songs = getSongs();
 
@@ -203,10 +209,7 @@ async function ReviewLyrics() {
 
     // Set lyrics
     document.getElementById("lyrics").value = json["lyrics"].join("\n\n")
-    
-    // Show and hide elements
-    document.getElementById("songsContainer").hidden = true;
-    document.getElementById("lyricsContainer").hidden = false;
+    document.getElementById("lyrics").readOnly = false;
 }
 
 
