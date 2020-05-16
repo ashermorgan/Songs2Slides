@@ -191,6 +191,7 @@ async function ReviewLyrics() {
     // Show and hide elements
     document.getElementById("lyrics").value = "Loading lyrics...";
     document.getElementById("lyrics").readOnly = true;
+    document.getElementById("errors").textContent = "";
     document.getElementById("songsContainer").hidden = true;
     document.getElementById("lyricsContainer").hidden = false;
 
@@ -210,6 +211,17 @@ async function ReviewLyrics() {
     // Set lyrics
     document.getElementById("lyrics").value = json["lyrics"].join("\n\n")
     document.getElementById("lyrics").readOnly = false;
+
+    // Set errors
+    if (json["errors"].length != 0)
+    {
+        errors = "The lyrics to the following songs could not be found: ";
+        for (error of json["errors"]) {
+            errors += `"${error[0]}" by "${error[1]}", `;
+        }
+        errors = errors.slice(0, -2); // Remove trailing ', '
+        document.getElementById("errors").textContent = errors;
+    }
 }
 
 

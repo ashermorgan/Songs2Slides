@@ -72,11 +72,12 @@ def lyrics():
 
     # Get lyrics
     lyrics = []
+    failed = []
     for song in request.json["songs"]:
         try:
             lyrics += models.ParseLyrics(song[0], song[1], settings)
         except:
-            pass
+            failed += [song]
     
     # Return lyrics
-    return jsonify({"lyrics": lyrics})
+    return jsonify({"lyrics": lyrics, "errors": failed})
