@@ -162,30 +162,6 @@ function getSongs() {
 
 
 
-// Gets the powerpoint by submitting songs
-async function SubmitSongs() {
-    // Get songs
-    songs = getSongs();
-
-    // Send POST request
-    const rawResponse = await fetch("/pptx", {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }, body: JSON.stringify({"songs":songs,"settings":JSON.parse(localStorage.getItem("settings"))})
-    });
-
-    // Download powerpoint
-    download(await rawResponse.blob());
-    
-    // Show and hide elements
-    document.getElementById("songsContainer").hidden = true;
-    document.getElementById("thankyou").hidden = false;
-}
-
-
-
 // Get the parsed lyrics for the user to review
 async function ReviewLyrics() {
     // Show and hide elements

@@ -31,22 +31,11 @@ def pptx():
         settings = request.json["settings"]
     else:
         settings = defaultSettings
-
-    if "songs" in request.json:
-        lyrics = []
-        for song in request.json["songs"]:
-          try:
-              lyrics += models.ParseLyrics(song[0], song[1], settings)
-          except:
-              pass
-    elif "lyrics" in request.json:
-        # Get lyrics
-        lyrics = request.json["lyrics"]
     
     try:
         # Create powerpoint
         temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".pptx", delete=False)
-        models.CreatePptx(lyrics, temp.name, settings, False)
+        models.CreatePptx(request.json["lyrics"], temp.name, settings, False)
         temp.close()
 
         # Read file into stream

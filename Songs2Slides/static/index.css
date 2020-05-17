@@ -57,10 +57,7 @@ button {
 #songsButtons {
     margin-top: 15px;
     height: 25px;
-}
-
-#settingsLink {
-    float: left;
+    text-align: left;
 }
 
 #reviewButton {
