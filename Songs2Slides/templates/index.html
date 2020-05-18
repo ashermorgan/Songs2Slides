@@ -103,9 +103,23 @@
             <h3>Font settings</h3>
             <div>
                 Family:
-                <select id="font-family" onchange="saveSettings();">
+                <input id="font-family" list="fonts" onchange="saveSettings();">
+                <datalist id="fonts">
+                    <option>Arial</option>
+                    <option>Century</option>
+                    <option>Century Gothic</option>
                     <option>Calibri</option>
-                </select>
+                    <option>Comic Sans MS</option>
+                    <option>Courier New</option>
+                    <option>Georgia</option>
+                    <option>Impact</option>
+                    <option>Rockwell</option>
+                    <option>Segoe UI</option>
+                    <option>Tahoma</option>
+                    <option>Times New Roman</option>
+                    <option>Trebuchet MS</option>
+                    <option>Verdana</option>
+                </datalist>
             </div>
             <div>
                 Size:
