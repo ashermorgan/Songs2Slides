@@ -32,21 +32,24 @@
             </div>
         </div>
 
-        <div id="lyricsContainer" class="container" hidden>
+        <form id="lyricsContainer" class="container" hidden action="/pptx" method="POST">
+            <input type="text" id="pptxSettingsField" name="settings" hidden>
+            <input type="text" id="lyricsField" name="lyrics" hidden>
+
             <h3>Review your PowerPoint</h3>
 
             <p>Review and edit the parsed lyrics below and then click the create PowerPoint button.</p>
             <p>One blank line represents the start of a new slide and three blank lines represent a blank slide.</p>
             
-            <textarea rows="15" id="lyrics"></textarea>
+            <textarea rows="15" id="rawLyrics"></textarea>
 
             <p id="errors"></p>
 
             <div id="lyricsButtons">
                 <a id="lyricsBack" href="javascript:Back()">Back</a>
-                <button id="submitLyricsButton" onclick="SubmitLyrics();">Create Powerpoint</button>
+                <button id="submitLyricsButton" onclick="SubmitLyrics()">Create Powerpoint</button>
             </div>
-        </div>
+        </form>
 
         <div id="thankyou" hidden>
             <p>Thankyou for using Songs2Slides</p>

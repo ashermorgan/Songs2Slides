@@ -26,16 +26,16 @@ def settings():
 # Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
-    # Get settings
-    if "settings" in request.json:
-        settings = request.json["settings"]
-    else:
-        settings = defaultSettings
-    
     try:
-        # Create powerpoint
+        # Get settings and lyrics
+        settings = json.loads(request.form["settings"])
+        lyrics = json.loads(request.form["lyrics"])
+
+        # Get temp
         temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".pptx", delete=False)
-        models.CreatePptx(request.json["lyrics"], temp.name, settings, False)
+
+        # Create powerpoint
+        models.CreatePptx(lyrics, temp.name, settings, False)
         temp.close()
 
         # Read file into stream

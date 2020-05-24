@@ -75,7 +75,7 @@ button {
     text-align: left;
 }
 
-#lyrics {
+#rawLyrics {
     width: 100%;
     resize: none;
     -webkit-box-sizing: border-box;
