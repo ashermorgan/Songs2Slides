@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <form id="lyricsContainer" class="container" hidden action="/pptx" method="POST">
+        <form id="lyricsContainer" class="container" hidden action="/pptx" method="POST" enctype="multipart/form-data">
             <input type="text" id="pptxSettingsField" name="settings" hidden>
             <input type="text" id="lyricsField" name="lyrics" hidden>
 
@@ -42,6 +42,11 @@
             <p>One blank line represents the start of a new slide and three blank lines represent a blank slide.</p>
             
             <textarea rows="15" id="rawLyrics"></textarea>
+
+            <div id="fileUpload">
+                <label>Starting PowerPoint (optional): </label>
+                <input type="file" name="pptxFile">
+            </div>
 
             <p id="errors"></p>
 

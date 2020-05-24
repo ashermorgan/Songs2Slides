@@ -33,10 +33,14 @@ def pptx():
 
         # Get temp
         temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".pptx", delete=False)
+        temp.close()
+
+        # Save uploaded powerpoint
+        if (request.files["pptxFile"].filename != ""):
+            request.files["pptxFile"].save(temp.name)
 
         # Create powerpoint
-        models.CreatePptx(lyrics, temp.name, settings, False)
-        temp.close()
+        models.CreatePptx(lyrics, temp.name, settings, True)
 
         # Read file into stream
         with open(temp.name, 'rb') as f:
