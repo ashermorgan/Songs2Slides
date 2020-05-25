@@ -75,7 +75,7 @@ button {
     text-align: left;
 }
 
-#lyrics {
+#rawLyrics {
     width: 100%;
     resize: none;
     -webkit-box-sizing: border-box;
@@ -83,8 +83,13 @@ button {
     box-sizing: border-box;
 }
 
+#fileUpload {
+    text-align: left;
+    margin-top: 5px;
+}
+
 #errors {
-    margin-top: 10px;
+    margin-top: 15px;
     color: #E00000;
     font-weight: bold;
 }

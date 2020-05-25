@@ -165,8 +165,8 @@ function getSongs() {
 // Get the parsed lyrics for the user to review
 async function ReviewLyrics() {
     // Show and hide elements
-    document.getElementById("lyrics").value = "Loading lyrics...";
-    document.getElementById("lyrics").readOnly = true;
+    document.getElementById("rawLyrics").value = "Loading lyrics...";
+    document.getElementById("rawLyrics").readOnly = true;
     document.getElementById("errors").textContent = "";
     document.getElementById("songsContainer").hidden = true;
     document.getElementById("lyricsContainer").hidden = false;
@@ -185,8 +185,8 @@ async function ReviewLyrics() {
     const json = await rawResponse.json();
 
     // Set lyrics
-    document.getElementById("lyrics").value = json["lyrics"].join("\n\n")
-    document.getElementById("lyrics").readOnly = false;
+    document.getElementById("rawLyrics").value = json["lyrics"].join("\n\n")
+    document.getElementById("rawLyrics").readOnly = false;
 
     // Set errors
     if (json["errors"].length != 0)
@@ -205,19 +205,11 @@ async function ReviewLyrics() {
 // Gets the powerpoint by submitting lyrics
 async function SubmitLyrics() {
     // Get lyrics
-    lyrics = document.getElementById("lyrics").value.split('\n\n');
+    lyrics = document.getElementById("rawLyrics").value.split('\n\n');
 
-    // Send POST request
-    const rawResponse = await fetch("/pptx", {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }, body: JSON.stringify({"lyrics":lyrics,"settings":JSON.parse(localStorage.getItem("settings"))})
-    });
-
-    // Download powerpoint
-    download(await rawResponse.blob());
+    // Set hidden form values
+    document.getElementById("pptxSettingsField").value = localStorage.getItem("settings");
+    document.getElementById("lyricsField").value = JSON.stringify(lyrics);
     
     // Show and hide elements
     document.getElementById("lyricsContainer").hidden = true;
