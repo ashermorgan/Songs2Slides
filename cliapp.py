@@ -1,7 +1,7 @@
 # Import dependencies
 import json
 import os
-from Songs2Slides import models
+from Songs2Slides import core
 from Songs2Slides.config import defaultSettings
 import subprocess
 import sys
@@ -25,7 +25,7 @@ if (__name__ == "__main__"):
         
         # Get song lyrics
         try:
-            lyrics += models.ParseLyrics(title, artist, defaultSettings)
+            lyrics += core.ParseLyrics(title, artist, defaultSettings)
         except:
             print("The song could not be found. Make sure that you spelled it correctly.")
             song -= 1
@@ -80,7 +80,7 @@ if (__name__ == "__main__"):
 
     # Create powerpoint
     try:
-        models.CreatePptx(lyrics, filepath, defaultSettings, openFirst)
+        core.CreatePptx(lyrics, filepath, defaultSettings, openFirst)
     except:
         print("There was an error while creating the powerpoint.")
         input("Press enter to exit...")
