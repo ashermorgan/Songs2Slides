@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Songs2Slides</title>
+        <meta name="description" content="Quickly and easily create lyric powerpoints from a list of songs.">
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='settings.css') }}"></link>
+        <script src="{{ url_for('static', filename='settings.js') }}"></script>
+    </head>
+    <body onload="onLoad();">
+        <div id="header">
+            <h1>Songs2Slides</h1>
+        </div>
+
+        <h2>Settings</h2>
+
+        <div id="settings" class="container">
+            <h3>Parsing</h3>
+            <div>
+                Add title slides:
+                <input type="checkbox" id="title-slides" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Default lines per slide:
+                <input type="number" id="lines-per-slide" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Remove content in parentheses: 
+                <input type="checkbox" id="remove-parentheses" onchange="saveSettings();"/>
+            </div>
+
+            <h3>Slide settings</h3>
+            <div>
+                Width (Inches):
+                <input type="number" id="slide-width" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Height (Inches):
+                <input type="number" id="slide-height" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Background color:
+                <input type="color" id="slide-color" onchange="saveSettings();"/>
+            </div>
+
+            <h3>Margin settings</h3>
+            <div>
+                Left (Inches):
+                <input type="number" id="margin-left" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Right (Inches):
+                <input type="number" id="margin-right" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Top (Inches):
+                <input type="number" id="margin-top" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Bottom (Inches):
+                <input type="number" id="margin-bottom" onchange="saveSettings();"/>
+            </div>
+
+            <h3>Font settings</h3>
+            <div>
+                Family:
+                <input id="font-family" list="fonts" onchange="saveSettings();">
+                <datalist id="fonts">
+                    <option>Arial</option>
+                    <option>Century</option>
+                    <option>Century Gothic</option>
+                    <option>Calibri</option>
+                    <option>Comic Sans MS</option>
+                    <option>Courier New</option>
+                    <option>Georgia</option>
+                    <option>Impact</option>
+                    <option>Rockwell</option>
+                    <option>Segoe UI</option>
+                    <option>Tahoma</option>
+                    <option>Times New Roman</option>
+                    <option>Trebuchet MS</option>
+                    <option>Verdana</option>
+                </datalist>
+            </div>
+            <div>
+                Size:
+                <input type="number" id="font-size" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Bold:
+                <input type="checkbox" id = "font-bold" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Italic:
+                <input type="checkbox" id="font-italic" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Color:
+                <input type="color" id="font-color" onchange="saveSettings();"/>
+            </div>
+
+            <h3>Pharagraph settings</h3>
+            <div>
+                Vertical Alignment:
+                <select id="vertical-alignment" onchange="saveSettings();">
+                    <option>Top</option>
+                    <option>Middle</option>
+                    <option>Bottom</option>
+                </select>
+            </div>
+            <div>
+                Line spacing:
+                <input type="number" id="line-spacing" onchange="saveSettings();"/>
+            </div>
+            <div>
+                Word wrap:
+                <input type="checkbox" id="word-wrap" onchange="saveSettings();"/>
+            </div>
+
+            <div id="settingsFooter">
+                <a href="../">Back</a>
+                <button id="resetButton" onclick="resetSettings();">Reset</button>
+            </div>
+        </div>
+    </body>
+</html>

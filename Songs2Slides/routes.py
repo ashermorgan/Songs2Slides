@@ -16,9 +16,16 @@ def index():
 
 
 
+# Settings page
+@app.route("/settings/", methods=["GET"])
+def settings():
+    return render_template("settings.html")
+
+
+
 # Settings JSON file
 @app.route("/settings.json", methods=["GET"])
-def settings():
+def settingsJSON():
     return jsonify(defaultSettings)
 
 
