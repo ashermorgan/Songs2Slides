@@ -130,6 +130,9 @@ function Reset() {
         songs[0].parentNode.removeChild(songs[0]);
     }
 
+    // Reset pptx file input
+    document.getElementsByName("pptxFile")[0].value = null;
+
     // Add blank song
     AddSong();
 
