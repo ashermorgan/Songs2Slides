@@ -116,7 +116,6 @@ function Back() {
     document.getElementById("songsContainer").hidden = false;
     document.getElementById("lyricsContainer").hidden = true;
     document.getElementById("thankyou").hidden = true;
-    document.getElementById("settings").hidden = true;
 }
 
 
