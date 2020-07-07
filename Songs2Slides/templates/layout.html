@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% if title %}
+            <title>{{ title }}</title>
+        {% else %}
+            <title>SongsSlides</title>
+        {% endif %}
+        
+        <meta name="description" content="Quickly and easily create lyric powerpoints from a list of songs.">
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}"></link>
+        
+        {% block header %}{% endblock %}
+    </head>
+    <body onload="onLoad();">
+        <div id="header">
+            <h1>Songs2Slides</h1>
+        </div>
+        
+        {% block content %}{% endblock %}
+    </body>
+</html>

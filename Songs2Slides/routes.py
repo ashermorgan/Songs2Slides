@@ -19,7 +19,7 @@ def home():
 # Settings page
 @app.route("/settings/", methods=["GET"])
 def settings():
-    return render_template("settings.html")
+    return render_template("settings.html", title = "Settings")
 
 
 

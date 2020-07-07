@@ -1,68 +1,59 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Songs2Slides</title>
-        <meta name="description" content="Quickly and easily create lyric powerpoints from a list of songs.">
-        <meta name="viewport" content="width=device-width, user-scalable=no"/>
-        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32.png') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}"></link>
-        <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"></link>
-        <script src="{{ url_for('static', filename='home.js') }}"></script>
-    </head>
-    <body onload="onLoad();">
-        <div id="header">
-            <h1>Songs2Slides</h1>
+{% extends "layout.html" %}
+
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"></link>
+    <script src="{{ url_for('static', filename='home.js') }}"></script>
+{% endblock header %}
+
+{% block content %}
+    <div id="songsContainer" class="container">
+        <h3>Choose your songs</h3>
+
+        <template id="songTemplate">
+            <div class="song">
+                <input type="text" class="title" placeholder="Song Title"/>
+                <input type="text" class="artist" placeholder="Song Artist"/>
+                <a id="remove" class="songRemove">╳</a>
+            </div>
+        </template>
+        <div id="songs"></div>
+
+        <div>
+            <span id="addSong" onclick="AddSong();">+</span>
         </div>
 
-        <div id="songsContainer" class="container">
-            <h3>Choose your songs</h3>
+        <div id="songsButtons">
+            <a href="/settings/">Settings</a>
+            <button id="reviewButton" onclick="ReviewLyrics();">Next</button>
+        </div>
+    </div>
 
-            <template id="songTemplate">
-                <div class="song">
-                    <input type="text" class="title" placeholder="Song Title"/>
-                    <input type="text" class="artist" placeholder="Song Artist"/>
-                    <a id="remove" class="songRemove">╳</a>
-                </div>
-            </template>
-            <div id="songs"></div>
+    <form id="lyricsContainer" class="container" hidden action="/pptx" method="POST" enctype="multipart/form-data">
+        <h3>Review your PowerPoint</h3>
 
-            <div>
-                <span id="addSong" onclick="AddSong();">+</span>
-            </div>
+        <p>Review and edit the parsed lyrics below and then click the create PowerPoint button.</p>
+        <p>One blank line represents the start of a new slide and three blank lines represent a blank slide.</p>
+        
+        <input type="text" id="pptxSettingsField" name="settings" hidden>
+        <input type="text" id="lyricsField" name="lyrics" hidden>
 
-            <div id="songsButtons">
-                <a href="/settings/">Settings</a>
-                <button id="reviewButton" onclick="ReviewLyrics();">Next</button>
-            </div>
+        <textarea rows="15" id="rawLyrics"></textarea>
+
+        <div id="fileUpload">
+            <label>Starting PowerPoint (optional): </label>
+            <input type="file" name="pptxFile" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.ms-powerpoint">
         </div>
 
-        <form id="lyricsContainer" class="container" hidden action="/pptx" method="POST" enctype="multipart/form-data">
-            <h3>Review your PowerPoint</h3>
+        <p id="errors"></p>
 
-            <p>Review and edit the parsed lyrics below and then click the create PowerPoint button.</p>
-            <p>One blank line represents the start of a new slide and three blank lines represent a blank slide.</p>
-            
-            <input type="text" id="pptxSettingsField" name="settings" hidden>
-            <input type="text" id="lyricsField" name="lyrics" hidden>
-
-            <textarea rows="15" id="rawLyrics"></textarea>
-
-            <div id="fileUpload">
-                <label>Starting PowerPoint (optional): </label>
-                <input type="file" name="pptxFile" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.ms-powerpoint">
-            </div>
-
-            <p id="errors"></p>
-
-            <div id="lyricsButtons">
-                <a id="lyricsBack" href="javascript:Back()">Back</a>
-                <button id="submitLyricsButton" onclick="SubmitLyrics()">Create Powerpoint</button>
-            </div>
-        </form>
-
-        <div id="thankyou" hidden>
-            <p>Thankyou for using Songs2Slides</p>
-            <p>Click <a href="javascript:Reset()">here</a> to create another PowerPoint.</p>
+        <div id="lyricsButtons">
+            <a id="lyricsBack" href="javascript:Back()">Back</a>
+            <button id="submitLyricsButton" onclick="SubmitLyrics()">Create Powerpoint</button>
         </div>
-    </body>
-</html>
+    </form>
+
+    <div id="thankyou" hidden>
+        <p>Thankyou for using Songs2Slides</p>
+        <p>Click <a href="javascript:Reset()">here</a> to create another PowerPoint.</p>
+    </div>
+{% endblock content %}
