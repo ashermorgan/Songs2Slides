@@ -1,4 +1,5 @@
 # Import dependencies
+from copy import deepcopy
 from flask import render_template, request, send_file, url_for, jsonify
 import io
 import json
@@ -65,10 +66,12 @@ def pptx():
 @app.route("/lyrics", methods=["POST"])
 def lyrics():
     # Get settings
-    if "settings" in request.json:
-        settings = request.json["settings"]
-    else:
-        settings = defaultSettings
+    settings = deepcopy(defaultSettings)
+    try:
+        for setting in request.json["settings"]:
+            settings[setting] = request.json["settings"][setting]
+    except:
+        pass
 
     # Get lyrics
     lyrics = []
