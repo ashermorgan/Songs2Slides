@@ -6,6 +6,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 import re
 import requests
+from unidecode import unidecode
 
 
 
@@ -16,11 +17,15 @@ def GetLyrics(title, artist):
     title = title.lower()
 
     # Replace invalid characters
-    old = [" ", "!", "@", "#", "$", "%", "^", "&",     "*", "(", ")", "+", "=", "'", "?", "/", "|", "\\", ".", ",", "á", "é", "í", "ó", "ñ", "ú"]
-    new = ["-", "",  "",  "",  "s", "",  "-", "-and-", "",  "",  "",  "-", "-", "",  "",  "",  "",  "",   "",  "",  "a", "e", "i", "o", "n", "u"]
+    old = [" ", "!", "@", "#", "$", "%", "^", "&",     "*", "(", ")", "+", "=", "'", "?", "/", "|", "\\", ".", ","]
+    new = ["-", "",  "",  "",  "s", "",  "-", "-and-", "",  "",  "",  "-", "-", "",  "",  "",  "",  "",   "",  ""]
     for i in range(0, len(old)):
         artist = artist.replace(old[i], new[i])
         title = title.replace(old[i], new[i])
+    
+    # Replace unicode characters
+    artist = unidecode(artist)
+    title = unidecode(title)
     
     # Remove unnecessary dashes
     artist = "-".join(list(filter(lambda a: a != "", artist.split("-"))))
