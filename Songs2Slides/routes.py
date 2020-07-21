@@ -34,14 +34,21 @@ def settingsJSON():
 # Get Powerpoint
 @app.route("/pptx", methods=["POST"])
 def pptx():
+    # Get settings
+    settings = deepcopy(defaultSettings)
     try:
-        # Get settings and lyrics
-        settings = json.loads(request.form["settings"])
-        lyrics = json.loads(request.form["lyrics"])
+        for setting in request.json["settings"]:
+            settings[setting] = request.json["settings"][setting]
+    except:
+        pass
 
+    try:
         # Get temp
         temp = tempfile.NamedTemporaryFile(mode="w+t", suffix=".pptx", delete=False)
         temp.close()
+
+        # Get lyrics
+        lyrics = json.loads(request.form["lyrics"])
 
         # Save uploaded powerpoint
         if (request.files["pptxFile"].filename != ""):
