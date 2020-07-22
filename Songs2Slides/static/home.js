@@ -14,13 +14,13 @@ function onLoad() {
 // Adds a song
 function AddSong() {
     // Create row
-    var clone = document.getElementById("songTemplate").content.cloneNode(true);
+    let clone = document.getElementById("songTemplate").content.cloneNode(true);
     
     // Set row id
     clone.children[0].setAttribute("id", `song-${setId}`);
     
     // Add remove button onclick event
-    clone.getElementById("remove").setAttribute("onclick", `var element = document.getElementById('song-${setId}'); element.parentNode.removeChild(element);`);
+    clone.getElementById("remove").setAttribute("onclick", `let element = document.getElementById('song-${setId}'); element.parentNode.removeChild(element);`);
     
     // Add row  
     document.getElementById("songs").appendChild(clone);
@@ -34,18 +34,18 @@ function AddSong() {
 // Gets the list of songs
 function getSongs() {
     // Get song info
-    var titles = [];
+    let titles = [];
     for (title of document.getElementsByClassName("title")) {
         titles.push(title.value);
     }
-    var artists = [];
+    let artists = [];
     for (artist of document.getElementsByClassName("artist")) {
         artists.push(artist.value);
     }
 
     // Prepare songs
-    songs = []
-    for (var i = 0; i < titles.length; i++) {
+    let songs = []
+    for (let i = 0; i < titles.length; i++) {
         songs.push([titles[i], artists[i]])
     }
 
@@ -65,7 +65,7 @@ async function ReviewLyrics() {
     document.getElementById("lyricsContainer").hidden = false;
 
     // Get songs
-    songs = getSongs();
+    let songs = getSongs();
 
     // Send POST request
     const rawResponse = await fetch("/lyrics", {
@@ -84,7 +84,7 @@ async function ReviewLyrics() {
     // Set errors
     if (json["errors"].length != 0)
     {
-        errors = "The lyrics to the following songs could not be found: ";
+        let errors = "The lyrics to the following songs could not be found: ";
         for (error of json["errors"]) {
             errors += `"${error[0]}" by "${error[1]}", `;
         }
@@ -98,7 +98,7 @@ async function ReviewLyrics() {
 // Gets the powerpoint by submitting lyrics
 async function SubmitLyrics() {
     // Get lyrics
-    lyrics = document.getElementById("rawLyrics").value.split('\n\n');
+    let lyrics = document.getElementById("rawLyrics").value.split('\n\n');
 
     // Set hidden form values
     document.getElementById("pptxSettingsField").value = localStorage.getItem("settings");
@@ -123,7 +123,7 @@ function Back() {
 // Makes the songs div visible and removes songs
 function Reset() {
     // Remove songs
-    songs = document.getElementsByClassName("song");
+    let songs = document.getElementsByClassName("song");
     while (songs.length > 0) {
         // Get song
         songs[0].parentNode.removeChild(songs[0]);
