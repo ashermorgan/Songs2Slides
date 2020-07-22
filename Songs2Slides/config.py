@@ -1,6 +1,7 @@
 defaultSettings = {
     # Parsing settings
     "title-slides": True,
+    "slide-between-songs": True,
     "lines-per-slide": 4,
     "remove-parentheses": False,
 

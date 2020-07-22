@@ -15,6 +15,7 @@ function onLoad() {
 function loadSettings(settings) {
     // Parsing settings
     document.getElementById("title-slides").checked = settings["title-slides"];
+    document.getElementById("slide-between-songs").checked = settings["slide-between-songs"];
     document.getElementById("lines-per-slide").value = settings["lines-per-slide"];
     document.getElementById("remove-parentheses").checked = settings["remove-parentheses"];
 
@@ -50,6 +51,7 @@ function saveSettings() {
     const settings = {
         // Parsing settings
         "title-slides": document.getElementById("title-slides").checked,
+        "slide-between-songs": document.getElementById("slide-between-songs").checked,
         "lines-per-slide": Number(document.getElementById("lines-per-slide").value),
         "remove-parentheses": document.getElementById("remove-parentheses").checked,
         

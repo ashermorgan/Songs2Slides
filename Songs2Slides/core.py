@@ -94,9 +94,11 @@ def ParseLyrics(title, artist, settings):
             slides[-1] = slides[-1] + "\n" + rawLines[i]
             slideSize += 1
 
-    # Add blank slide
-    if (slides[-1] != ""):
+    # Add/remove blank slide
+    if (slides[-1] != "" and settings["slide-between-songs"]):
         slides += [""]
+    elif (slides[-1] == "" and not settings["slide-between-songs"]):
+        del slides[-1]
 
     # Return parsed lyrics
     return slides
