@@ -1,9 +1,21 @@
+/******** Variable styles ********/
+:root {
+    --theme-color: #ffff50;
+    --foreground-color: #000000;
+    --background-color: #ffffff;
+    --container-color: #f0f0f0;
+}
+
+
+
 /******** Global styles ********/
 body {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     touch-action: manipulation;
     margin-top: 80px;
+    color: var(--foreground-color);
+    background-color: var(--background-color);
 }
 
 h1 {
@@ -16,14 +28,14 @@ h1 {
     top: 0px;
     left: 0px;
     width: 100%;
-    background-color: #ffff50;
+    background-color: var(--theme-color);
 }
 
 
 .container {
     margin: auto;
     padding: 10px;
-    background-color: #F0F0F0;
+    background-color: var(--container-color);
 }
 
 button {
