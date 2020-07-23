@@ -13,6 +13,15 @@ function onLoad() {
 
 // Loads settings
 function loadSettings(settings) {
+    // Interface settings (not stored with other settings)
+    UpdateTheme();
+    if (document.body.classList.contains("dark")) {
+        document.getElementById("theme").value = "Dark";
+    }
+    else {
+        document.getElementById("theme").value = "Light";
+    }
+
     // Parsing settings
     document.getElementById("title-slides").checked = settings["title-slides"];
     document.getElementById("slide-between-songs").checked = settings["slide-between-songs"];
@@ -47,6 +56,9 @@ function loadSettings(settings) {
 
 // Saves settings to local storage
 function saveSettings() {
+    // Save interface settings and update interface
+    UpdateTheme(document.getElementById("theme").value);
+
     // Get settings
     const settings = {
         // Parsing settings
