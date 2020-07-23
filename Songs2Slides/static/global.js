@@ -2,11 +2,21 @@
 function UpdateTheme(theme = null) {
     // Get theme from localStorage
     if (theme === null) {
-        theme = localStorage.getItem("theme") || "Light";
+        theme = localStorage.getItem("theme");
+    }
+
+    // Detect preferred color scheme
+    if (theme === null) {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = "Dark";
+        }
+        else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            theme = "Light";
+        }
     }
     
     // Apply theme
-    if (theme == "Dark") {
+    if (theme === "Dark") {
         document.body.classList.add("dark");
     }
     else {
