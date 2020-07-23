@@ -64,3 +64,25 @@ h1 {
 button {
     height: 25px;
 }
+
+
+
+/******** Dark styles ********/
+body.dark {
+    --foreground-color: #e0e0e0;
+    --background-color: #121416;
+    --hover-color: #323436;
+    --border-color: #505050;
+}
+
+.dark h1 {
+    color: #000000;
+}
+
+.dark button, .dark input, .dark select {
+    --background-color: #222426;
+}
+
+.dark a {
+    color: #0080ff;
+}

@@ -28,10 +28,11 @@ h3 {
     border-radius: 5px;
 }
 
-.songRemove {
+.songRemove, .dark .songRemove {
     cursor: pointer;
     margin-left: 3px;
     margin-right: 3px;
+    color: var(--foreground-color);
 }
 
 #addSong {
@@ -95,4 +96,11 @@ h3 {
 
 #submitLyricsButton {
     float: right;
+}
+
+
+
+/******** Dark styles ********/
+body.dark {
+    --song-color: #525456
 }
