@@ -3,7 +3,8 @@
     --theme-color: #ffff50;
     --foreground-color: #000000;
     --background-color: #ffffff;
-    --container-color: #f0f0f0;
+    --border-color: #808080;
+    --hover-color: #f0f0f0;
 }
 
 
@@ -16,6 +17,28 @@ body {
     margin-top: 80px;
     color: var(--foreground-color);
     background-color: var(--background-color);
+}
+
+button, input, select, textarea {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    color: var(--foreground-color);
+    border-radius: 0px;
+}
+
+button:hover:enabled {
+    cursor: pointer;
+    background-color: var(--hover-color);
+}
+
+button:disabled {
+    background-color:  var(--hover-color);
+    color: var(--border-color);
+}
+
+input[type="file"] {
+    background-color: var(--hover-color);
+    border: none;
 }
 
 h1 {
@@ -35,7 +58,7 @@ h1 {
 .container {
     margin: auto;
     padding: 10px;
-    background-color: var(--container-color);
+    background-color: var(--hover-color);
 }
 
 button {
