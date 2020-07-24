@@ -8,6 +8,14 @@
 {% block content %}
     <div id="settings" class="container">
         <h2>Settings</h2>
+        <h4>Interface</h4>
+        <div>
+            Theme:
+            <select id="theme" onchange="saveSettings();">
+                <option>Light</option>
+                <option>Dark</option>
+            </select>
+        </div>
         <h4>Parsing</h4>
         <div>
             Add title slides:

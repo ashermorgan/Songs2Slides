@@ -7,6 +7,9 @@ setId = 0;  // Next valid song id number
 function onLoad() {
     // Add song
     AddSong();
+
+    // Set theme
+    UpdateTheme();
 }
 
 

@@ -1,9 +1,44 @@
+/******** Variable styles ********/
+:root {
+    --theme-color: #ffff50;
+    --foreground-color: #000000;
+    --background-color: #ffffff;
+    --border-color: #808080;
+    --hover-color: #f0f0f0;
+}
+
+
+
 /******** Global styles ********/
 body {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     touch-action: manipulation;
     margin-top: 80px;
+    color: var(--foreground-color);
+    background-color: var(--background-color);
+}
+
+button, input, select, textarea {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    color: var(--foreground-color);
+    border-radius: 0px;
+}
+
+button:hover:enabled {
+    cursor: pointer;
+    background-color: var(--hover-color);
+}
+
+button:disabled {
+    background-color:  var(--hover-color);
+    color: var(--border-color);
+}
+
+input[type="file"] {
+    background-color: var(--hover-color);
+    border: none;
 }
 
 h1 {
@@ -16,16 +51,38 @@ h1 {
     top: 0px;
     left: 0px;
     width: 100%;
-    background-color: #ffff50;
+    background-color: var(--theme-color);
 }
 
 
 .container {
     margin: auto;
     padding: 10px;
-    background-color: #F0F0F0;
+    background-color: var(--hover-color);
 }
 
 button {
     height: 25px;
+}
+
+
+
+/******** Dark styles ********/
+body.dark {
+    --foreground-color: #e0e0e0;
+    --background-color: #121416;
+    --hover-color: #323436;
+    --border-color: #505050;
+}
+
+.dark h1 {
+    color: #000000;
+}
+
+.dark button, .dark input, .dark select {
+    --background-color: #222426;
+}
+
+.dark a {
+    color: #0080ff;
 }
