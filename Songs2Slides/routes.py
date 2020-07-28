@@ -91,3 +91,11 @@ def lyrics():
     
     # Return lyrics
     return jsonify({"lyrics": lyrics, "errors": failed})
+
+
+
+# 404 page
+@app.errorhandler(404)
+def error404(e):
+    message = "The requested URL was not found on the server."
+    return render_template("error.html", title="404 Not Found", code="404", message=message), 404
