@@ -114,11 +114,18 @@ async function SubmitLyrics() {
 
 
 
-// Makes the songs div visible
+// Makes the previous div visible
 function Back() {
-    document.getElementById("songsContainer").hidden = false;
-    document.getElementById("lyricsContainer").hidden = true;
-    document.getElementById("thankyou").hidden = true;
+    if (document.getElementById("lyricsContainer").hidden == false) {
+        document.getElementById("songsContainer").hidden = false;
+        document.getElementById("lyricsContainer").hidden = true;
+        document.getElementById("thankyou").hidden = true;
+    }
+    else if (document.getElementById("thankyou").hidden == false) {
+        document.getElementById("songsContainer").hidden = true;
+        document.getElementById("lyricsContainer").hidden = false;
+        document.getElementById("thankyou").hidden = true;
+    }
 }
 
 
@@ -139,5 +146,7 @@ function Reset() {
     AddSong();
 
     // Makes songs visible
-    Back();
+    document.getElementById("songsContainer").hidden = false;
+    document.getElementById("lyricsContainer").hidden = true;
+    document.getElementById("thankyou").hidden = true;
 }
