@@ -28,11 +28,13 @@ h3 {
     border-radius: 5px;
 }
 
-.songRemove, .dark .songRemove {
+.songRemove {
+    border: none;
+    padding: 0px;
+    margin: 0px;
     cursor: pointer;
-    margin-left: 3px;
-    margin-right: 3px;
     color: var(--foreground-color);
+    background-color: var(--song-color);
 }
 
 #addSong {
