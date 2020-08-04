@@ -19,7 +19,9 @@
         <div id="songs"></div>
 
         <div>
-            <span id="addSong" onclick="AddSong();">+</span>
+            <button id="addSong" onclick="AddSong();">
+                <img src="{{ url_for('static', filename='plus.png')}}"/>
+            </button>
         </div>
 
         <div id="songsButtons">
