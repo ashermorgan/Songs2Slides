@@ -101,7 +101,7 @@ async function ReviewLyrics() {
 // Gets the powerpoint by submitting lyrics
 async function SubmitLyrics() {
     // Get lyrics
-    let lyrics = document.getElementById("rawLyrics").value.split('\n\n');
+    let lyrics = document.getElementById("rawLyrics").value.split(/\n *\n/);
 
     // Set hidden form values
     document.getElementById("pptxSettingsField").value = localStorage.getItem("settings");
