@@ -1,3 +1,4 @@
+# Contains default parsing and PowerPoint settings
 defaultSettings = {
     # Parsing settings
     "title-slides": True,
@@ -27,4 +28,19 @@ defaultSettings = {
     "vertical-alignment": "Middle", # Can be Top, Middle, or Bottom
     "line-spacing": 1.25,
     "word-wrap": True
+}
+
+
+
+# Contains cached and custom song information
+cachedSongs = {
+    # Keys should be lowercase ASCII strings without whitespace or special characters
+    "testartist-testsong": {
+        # Title and Artist of the song (formated however you want)
+        "title":"Test Song",
+        "artist":"Test Artist",
+
+        # Lyrics with two newlines between each stanza and no newlines at the beginning or end
+        "lyrics":"test1\ntest2\n\ntest3\ntest4"
+    }
 }

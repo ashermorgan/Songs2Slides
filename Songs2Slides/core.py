@@ -6,6 +6,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 import re
 import requests
+from Songs2Slides import config
 from unidecode import unidecode
 
 
@@ -31,14 +32,27 @@ def GetLyrics(title, artist):
     artist = "-".join(list(filter(lambda a: a != "", artist.split("-"))))
     title = "-".join(list(filter(lambda a: a != "", title.split("-"))))
 
-    # Get page
-    page = requests.get("https://genius.com/{0}-{1}-lyrics".format(artist, title))
-    soup = BeautifulSoup(page.text, "html.parser")
-    
-    # Find lyrics and song information
-    lyrics = soup.find("div", class_="lyrics").get_text()
-    title = soup.find("h1", class_="header_with_cover_art-primary_info-title").get_text()
-    artist = soup.find("a", class_="header_with_cover_art-primary_info-primary_artist").get_text()
+    # Get song info
+    if (f"{artist}-{title}" in config.cachedSongs):
+        # Get the cache key
+        key = f"{artist}-{title}"
+        
+        # Get info from cache
+        lyrics = config.cachedSongs[key]["lyrics"]
+        title = config.cachedSongs[key]["title"]
+        artist = config.cachedSongs[key]["artist"]
+    else:
+        # Get page from the internet
+        page = requests.get(f"https://genius.com/{artist}-{title}-lyrics")
+        soup = BeautifulSoup(page.text, "html.parser")
+        
+        # Find song info
+        lyrics = soup.find("div", class_="lyrics").get_text()
+        title = soup.find("h1", class_="header_with_cover_art-primary_info-title").get_text()
+        artist = soup.find("a", class_="header_with_cover_art-primary_info-primary_artist").get_text()
+
+        # Remove starting and ending newlines
+        lyrics = lyrics[2:-2]
     
     # Return lyrics
     return lyrics, title, artist
@@ -59,12 +73,6 @@ def ParseLyrics(title, artist, settings):
     
     # Parse Lyrics
     rawLines = rawLyrics.split("\n")
-
-    # Remove starting and ending newlines
-    del rawLines[0]
-    del rawLines[0]
-    del rawLines[-1]
-    del rawLines[-1]
 
     # Add title slide
     slides = []
