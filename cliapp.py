@@ -1,6 +1,6 @@
 # Import dependencies
-import json
 import os
+import re
 from Songs2Slides import core
 from Songs2Slides.config import defaultSettings
 import subprocess
@@ -52,7 +52,7 @@ if (__name__ == "__main__"):
                 rawLines = f.read()
 
             # Parse lyrics
-            lyrics = rawLines.split("\n\n")
+            lyrics = re.split("\n\s*\n", rawLines)
         except:
             print("There was an error while reviewing the lyrics. The unrevised lyrics will be used instead.")
         finally:
