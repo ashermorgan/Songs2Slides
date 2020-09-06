@@ -55,32 +55,32 @@ class TestCore(unittest.TestCase):
         # Mock core.getLyrics method
         with patch('Songs2Slides.core.GetLyrics') as mocked_get:
             # Initialize mocked_get
-            mocked_get.return_value = ("[Verse 1]\nTest1\nTest2\nTest3\nTest4\nTest5 (Test5)\n\n[Verse 2]\nTest10\nTest20\nTest30\nTest40\nTest50 (Test50)", "Test Song", "Test Artist")
+            mocked_get.return_value = ("[Verse 1]\nTest1\nTest2\nTest3\nTest4\nTest5 (Test5)\n\n[Verse 2]\nTest10\nTest20\nTest30\nTest40\nTest50(Test50)", "Test Song", "Test Artist")
             
             # Test parser
             lyrics = core.ParseLyrics("tEsT sOnG 2", "tEsT aRtIsT", settings)
-            self.assertEqual(lyrics, ["Test Song\nTest Artist", "Test1\nTest2\nTest3\nTest4", "Test5 (Test5)", "Test10\nTest20\nTest30\nTest40", "Test50 (Test50)", ""])
+            self.assertEqual(lyrics, ["Test Song\nTest Artist", "Test1\nTest2\nTest3\nTest4", "Test5 (Test5)", "Test10\nTest20\nTest30\nTest40", "Test50(Test50)", ""])
             mocked_get.assert_called_with("tEsT sOnG 2", "tEsT aRtIsT")
         
             # Test parser without title slide
             settings["title-slides"] = False
             lyrics = core.ParseLyrics("tEsT sOnG", "tEsT aRtIsT", settings)
-            self.assertEqual(lyrics, ["Test1\nTest2\nTest3\nTest4", "Test5 (Test5)", "Test10\nTest20\nTest30\nTest40", "Test50 (Test50)", ""])
+            self.assertEqual(lyrics, ["Test1\nTest2\nTest3\nTest4", "Test5 (Test5)", "Test10\nTest20\nTest30\nTest40", "Test50(Test50)", ""])
         
             # Test parser without slide at end
             settings["slide-between-songs"] = False
             lyrics = core.ParseLyrics("tEsT sOnG", "tEsT aRtIsT", settings)
-            self.assertEqual(lyrics, ["Test1\nTest2\nTest3\nTest4", "Test5 (Test5)", "Test10\nTest20\nTest30\nTest40", "Test50 (Test50)"])
+            self.assertEqual(lyrics, ["Test1\nTest2\nTest3\nTest4", "Test5 (Test5)", "Test10\nTest20\nTest30\nTest40", "Test50(Test50)"])
         
             # Test parser with 3 lines per slide
             settings["lines-per-slide"] = 3
             lyrics = core.ParseLyrics("tEsT sOnG", "tEsT aRtIsT", settings)
-            self.assertEqual(lyrics, ["Test1\nTest2\nTest3", "Test4\nTest5 (Test5)", "Test10\nTest20\nTest30", "Test40\nTest50 (Test50)"])
+            self.assertEqual(lyrics, ["Test1\nTest2\nTest3", "Test4\nTest5 (Test5)", "Test10\nTest20\nTest30", "Test40\nTest50(Test50)"])
             
             # Test parser with parentheses remover
             settings["remove-parentheses"] = True
             lyrics = core.ParseLyrics("tEsT sOnG 2", "tEsT aRtIsT", settings)
-            self.assertEqual(lyrics, ["Test1\nTest2\nTest3", "Test4\nTest5 ", "Test10\nTest20\nTest30", "Test40\nTest50 "])
+            self.assertEqual(lyrics, ["Test1\nTest2\nTest3", "Test4\nTest5", "Test10\nTest20\nTest30", "Test40\nTest50"])
             
             # Test parser with blank line
             mocked_get.return_value = ("[Verse 1]\nTest1\n\n[Instrumental]\n\n[Verse 2]\nTest2", "Test Song", "Test Artist")
