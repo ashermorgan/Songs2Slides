@@ -11,8 +11,27 @@ from unidecode import unidecode
 
 
 
-# Gets the lyrics
 def GetLyrics(title, artist):
+    """
+    Get the lyrics to a song.
+
+    Parameters
+    ----------
+    title : str
+        The title of the song.
+    artist : str
+        The name of the song's artist.
+    
+    Returns
+    -------
+    lyrics : str
+        The lyrics to the song.
+    title : str
+        The title of the song.
+    artist : str
+        The name of the song's artist.
+    """
+
     # Convert to lowercase
     artist = artist.lower()
     title = title.lower()
@@ -59,8 +78,25 @@ def GetLyrics(title, artist):
 
 
 
-# Parses the lyrics of a song into slides
 def ParseLyrics(title, artist, settings):
+    """
+    Parse the lyrics of a song into slides.
+
+    Parameters
+    ----------
+    title : str
+        The title of the song.
+    artist : str
+        The name of the song's artist.
+    settings : dict
+        The settings to use when parsing the lyrics into slides.
+    
+    Returns
+    -------
+    list
+        A list of strings containing the lyrics to the song. Each list item is one slide.
+    """
+
     # Get lyrics
     rawLyrics, title, artist = GetLyrics(title, artist)
 
@@ -110,8 +146,22 @@ def ParseLyrics(title, artist, settings):
 
 
 
-# Create powerpoint
 def CreatePptx(parsedLyrics, filepath, settings, openFirst):
+    """
+    Create a PowerPoint from a list of lyrics.
+
+    Parameters
+    ----------
+    parsedLyrics : list
+        The list of strings containing the lyrics. Each list item will be turned into one slide.
+    filepath : str
+        The filepath to save the PowerPoint to.
+    settings : dict
+        The settings to use while creating the filepath.
+    openFirst : bool
+        Whether to add on to the PowerPoint file if it already exists.
+    """
+
     if (openFirst):
         try:
             # Open presentation
