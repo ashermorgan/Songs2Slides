@@ -35,7 +35,7 @@ defaultSettings = {
 # Contains cached and custom song information
 cachedSongs = {
     # Keys should be lowercase ASCII strings without whitespace or special characters
-    "testartist-testsong": {
+    "test-artist-test-song": {
         # Title and Artist of the song (formated however you want)
         "title":"Test Song",
         "artist":"Test Artist",
