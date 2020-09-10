@@ -1,4 +1,8 @@
-// Updates the interface theme
+/**
+ * Updates the interface theme
+ * @param {bool} theme - False for light mode, true for dark mode
+ * @returns {void}
+ */
 function UpdateTheme(theme = null) {
     // Get theme from localStorage
     if (theme === null) {

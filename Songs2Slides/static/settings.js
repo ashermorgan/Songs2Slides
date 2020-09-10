@@ -1,4 +1,7 @@
-// Finishes setting up the page
+/**
+ * Finishes setting up the page
+ * @returns {void}
+ */
 function onLoad() {
     // Load settings
     if (localStorage.getItem("settings") == null) {
@@ -12,6 +15,11 @@ function onLoad() {
 
 
 // Loads settings
+/**
+ * Loads settings
+ * @param {object} settings - The settings object
+ * @returns {void}
+ */
 function loadSettings(settings) {
     // Interface settings (not stored with other settings)
     UpdateTheme();
@@ -54,7 +62,10 @@ function loadSettings(settings) {
 
 
 
-// Saves settings to local storage
+/**
+ * Saves settings to localStorage
+ * @returns {void}
+ */
 function saveSettings() {
     // Save interface settings and update interface
     UpdateTheme(document.getElementById("theme").value);
@@ -97,7 +108,10 @@ function saveSettings() {
 
 
 
-// Resets all settings to their default values
+/**
+ * Resets all settings to their default values
+ * @returns {void}
+ */
 async function resetSettings() {
     // Send POST request
     const rawResponse = await fetch("/settings.json", {

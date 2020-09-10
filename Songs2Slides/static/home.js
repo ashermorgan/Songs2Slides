@@ -3,7 +3,10 @@ setId = 0;  // Next valid song id number
 
 
 
-// Finishes setting up the page
+/**
+ * Finishes setting up the page
+ * @returns {void}
+ */
 function onLoad() {
     // Add song
     AddSong();
@@ -14,7 +17,10 @@ function onLoad() {
 
 
 
-// Adds a song
+/**
+ * Adds a blank song to the songs div
+ * @returns {void}
+ */
 function AddSong() {
     // Create row
     let clone = document.getElementById("songTemplate").content.cloneNode(true);
@@ -34,7 +40,10 @@ function AddSong() {
 
 
 
-// Gets the list of songs
+/**
+ * Gets the list of songs in the songs div
+ * @returns {list} - List of songs information
+ */
 function getSongs() {
     // Get song info
     let titles = [];
@@ -58,7 +67,10 @@ function getSongs() {
 
 
 
-// Get the parsed lyrics for the user to review
+/**
+ * Gets the parsed lyrics for the user to review
+ * @returns {void}
+ */
 async function ReviewLyrics() {
     // Show and hide elements
     document.getElementById("rawLyrics").value = "Loading lyrics...";
@@ -98,7 +110,10 @@ async function ReviewLyrics() {
 
 
 
-// Gets the powerpoint by submitting lyrics
+/**
+ * Prepares the lyrics form to be submitted and shows the thankyou screen
+ * @returns {void}
+ */
 async function SubmitLyrics() {
     // Get lyrics
     let lyrics = document.getElementById("rawLyrics").value.split(/\n\s*\n/);
@@ -114,7 +129,10 @@ async function SubmitLyrics() {
 
 
 
-// Makes the previous div visible
+/**
+ * Makes the previous screen visible
+ * @returns {void}
+ */
 function Back() {
     if (document.getElementById("lyricsContainer").hidden == false) {
         document.getElementById("songsContainer").hidden = false;
@@ -130,7 +148,10 @@ function Back() {
 
 
 
-// Makes the songs div visible and removes songs
+/**
+ * Clears the list of songs and makes the songs screen visible
+ * @returns {void}
+ */
 function Reset() {
     // Remove songs
     let songs = document.getElementsByClassName("song");
