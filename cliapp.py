@@ -45,7 +45,12 @@ if (__name__ == "__main__"):
             temp.close()
             
             # Open temp file and wait
-            subprocess.Popen(["notepad", temp.name]).wait()
+            if (sys.platform == "win32"):
+                subprocess.Popen(["notepad", temp.name]).wait()
+            elif (sys.platform == "darwin"):
+                subprocess.Popen(["open", temp.name]).wait()
+            else:
+                subprocess.Popen(["xdg-open", temp.name]).wait()
 
             # Read file
             with open(temp.name) as f:
@@ -89,7 +94,12 @@ if (__name__ == "__main__"):
     # Open powerpoint
     if (input("Do you want to view the powerpoint now? (y/n): ").lower() == "y"):
         try:
-            os.startfile(filepath)
+            if (sys.platform == "win32"):
+                os.startfile(filepath)
+            elif (sys.platform == "darwin"):
+                subprocess.Popen(["open", filepath])
+            else:
+                subprocess.Popen(["xdg-open", filepath])
         except:
             print("There was an error while opening the powerpoint.")
             input("Press enter to exit...")
