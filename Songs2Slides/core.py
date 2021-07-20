@@ -66,12 +66,10 @@ def GetLyrics(title, artist):
         soup = BeautifulSoup(page.text, "html.parser")
         
         # Find song info
-        lyrics = soup.find("div", class_="lyrics").get_text()
-        title = soup.find("h1", class_="header_with_cover_art-primary_info-title").get_text()
-        artist = soup.find("a", class_="header_with_cover_art-primary_info-primary_artist").get_text()
-
-        # Remove starting and ending newlines
-        lyrics = lyrics[2:-2]
+        divs = soup.find_all("div", class_="Lyrics__Container-sc-1ynbvzw-8")
+        lyrics = "\n".join([div.get_text(separator="\n") for div in divs])
+        title = soup.find("h1", class_="SongHeader__Title-sc-1b7aqpg-7").get_text()
+        artist = soup.find("a", class_="SongHeader__Artist-sc-1b7aqpg-9").get_text()
     
     # Return lyrics
     return lyrics, title, artist
@@ -115,13 +113,10 @@ def ParseLyrics(title, artist, settings):
     # Parse lyrics into slides
     slideSize = settings["lines-per-slide"]
     for i in range(0, len(rawLines)):
-        if (rawLines[i] == ""):
+        if (rawLines[i] == "" or rawLines[i].startswith("[")):
             # Start a new slide without content
             slides.append("")
             slideSize = 0
-        elif (rawLines[i][0] == "["):
-            # Ignore
-            pass
         elif (slideSize == settings["lines-per-slide"]):
             # Start a new slide with content
             slides.append(rawLines[i])
