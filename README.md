@@ -9,6 +9,8 @@ Creates a lyrics powerpoint from a list of songs. This program does NOT add any 
 - The slides can be added to a new or existing powerpoint.
 
 ## Usage
+Note: Songs2Slides requires Python 3.6.x
+
 Install the python requirements.
 ```
 pip install -r requirements.txt

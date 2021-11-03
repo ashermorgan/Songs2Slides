@@ -3,3 +3,6 @@
 
 # PowerPoint files
 *.pptx
+
+# Virtual environment
+.venv
