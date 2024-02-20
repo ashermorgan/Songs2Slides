@@ -10,9 +10,9 @@ class TestUtils(unittest.TestCase):
 
             # Mock os.getenv and requests.get
             mocked_env.return_value = 'api://lyrics/{artist}/{title}'
-            mocked_get.return_value.text = b'{"lyrics":"Test1\nTest2\nTest3\nTest4","title":"Foo","artist":"Bar","image":null}'
+            mocked_get.return_value.text = b'{"lyrics":"A\nB\nC\nD","title":"Foo","artist":"Bar","image":null}'
             mocked_get.return_value.json.return_value = {
-                'lyrics': 'Test1\nTest2\nTest3\nTest4',
+                'lyrics': 'A\nB\nC\nD',
                 'title': 'Foo',
                 'artist': 'Bar',
             }
@@ -25,7 +25,7 @@ class TestUtils(unittest.TestCase):
             mocked_get.assert_called_with('api://lyrics/bar/foo')
             self.assertEqual(song_data.title, 'Foo')
             self.assertEqual(song_data.artist, 'Bar')
-            self.assertEqual(song_data.lyrics, 'Test1\nTest2\nTest3\nTest4')
+            self.assertEqual(song_data.lyrics, 'A\nB\nC\nD')
 
     def test_get_song_data_no_url(self):
         with patch('songs2slides.utils.os.getenv') as mocked_env, \
@@ -58,3 +58,73 @@ class TestUtils(unittest.TestCase):
 
             # Assert request was called
             mocked_get.assert_called_with('api://lyrics/bar/foo')
+
+    def test_get_slide_contents_default(self):
+        # Declare song data and expected slides
+        lyrics = 'A\nB\nC\nD\nE\nF\n\nG\nH'
+        expected = ['A\nB\nC\nD', 'E\nF', 'G\nH']
+
+        # Get slide content
+        result = utils.get_slide_contents(lyrics)
+
+        self.assertEqual(result, expected)
+
+    def test_get_slide_contents_3_lines_per_slide(self):
+        # Declare song data and expected slides
+        lyrics = 'A\nB\nC\nD\nE\nF\n\nG\nH'
+        expected = ['A\nB\nC', 'D\nE\nF', 'G\nH']
+
+        # Get slide content
+        result = utils.get_slide_contents(lyrics, lines_per_slide = 3)
+
+        self.assertEqual(result, expected)
+
+    def test_get_slide_contents_empty_string(self):
+        # Declare song data and expected slides
+        lyrics = ''
+        expected = []
+
+        # Get slide content
+        result = utils.get_slide_contents(lyrics, lines_per_slide = 3)
+
+        self.assertEqual(result, expected)
+
+    def test_get_slide_contents_one_line(self):
+        # Declare song data and expected slides
+        lyrics = 'A'
+        expected = ['A']
+
+        # Get slide content
+        result = utils.get_slide_contents(lyrics)
+
+        self.assertEqual(result, expected)
+
+    def test_get_slide_contents_one_slide(self):
+        # Declare song data and expected slides
+        lyrics = 'A\nB\nC\nD'
+        expected = ['A\nB\nC\nD']
+
+        # Get slide content
+        result = utils.get_slide_contents(lyrics)
+
+        self.assertEqual(result, expected)
+
+    def test_get_slide_contents_tripple_newlines(self):
+        # Declare song data and expected slides
+        lyrics = 'A\nB\n\n\nC\nD'
+        expected = ['A\nB', '', 'C\nD']
+
+        # Get slide content
+        result = utils.get_slide_contents(lyrics)
+
+        self.assertEqual(result, expected)
+
+    def test_get_slide_contents_extra_whitespace(self):
+        # Declare song data and expected slides
+        lyrics = ' A\n B \nC D\nE '
+        expected = ['A\nB\nC D\nE']
+
+        # Get slide content
+        result = utils.get_slide_contents(lyrics)
+
+        self.assertEqual(result, expected)
