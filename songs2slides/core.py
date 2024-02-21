@@ -1,6 +1,5 @@
-from dotenv import load_dotenv
-
 from dataclasses import dataclass
+from dotenv import load_dotenv
 import pptx
 from pptx.dml.color import RGBColor
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
@@ -56,9 +55,11 @@ def get_song_data(title: str, artist:str):
     else:
         raise Exception()
 
-def get_slide_contents(lyrics: str, lines_per_slide: int = 4):
+def parse_song_lyrics(lyrics: str, lines_per_slide: int = 4):
     """
-    Generate slide contents from song lyrics
+    Parse slide contents from the raw lyrics of a song
+
+    Used by assemble_slides
 
     Parameters
     ----------
@@ -99,6 +100,37 @@ def get_slide_contents(lyrics: str, lines_per_slide: int = 4):
     # len(slides) is always greater than 1 or single slide is not empty
     if slides[0] == '': slides = slides[1:]
     if slides[-1] == '': slides = slides[:-1]
+
+    return slides
+
+def assemble_slides(songs, title_slides = True, blank_slides = True):
+    """
+    Assemble slides from a list of songs
+
+    Paramters
+    ---------
+    songs : list of SongData
+        The songs
+    title_slides : bool
+        Whether to include title slides before songs (default: True)
+    blank_slides : bool
+        Whether to include blank slides between songs (default: True)
+
+    Returns
+    -------
+    list of str
+        The list of slide contents
+    """
+
+    slides = []
+    for song in songs:
+        # Add slides for song
+        if title_slides: slides += [f'{song.title}']
+        slides += parse_song_lyrics(song.lyrics.upper())
+        if blank_slides: slides += ['']
+
+    # Remove trailing blank slides
+    if len(slides) and blank_slides: slides = slides[:-1]
 
     return slides
 
