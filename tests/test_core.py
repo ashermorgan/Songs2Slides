@@ -128,3 +128,11 @@ class TestUtils(unittest.TestCase):
         result = utils.get_slide_contents(lyrics)
 
         self.assertEqual(result, expected)
+
+    def test_create_pptx(self):
+        with patch('songs2slides.utils.pptx.presentation.Presentation.save') as mocked_save:
+            # Create PowerPoint
+            utils.create_pptx(['A', 'B\nC', 'D'], 'test.pptx')
+
+            # Assert PowerPoint was saved
+            mocked_save.assert_called_with('test.pptx')

@@ -1,6 +1,10 @@
 from dotenv import load_dotenv
 
 from dataclasses import dataclass
+import pptx
+from pptx.dml.color import RGBColor
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.util import Inches, Pt
 import os
 import requests
 
@@ -97,3 +101,49 @@ def get_slide_contents(lyrics: str, lines_per_slide: int = 4):
     if slides[-1] == '': slides = slides[:-1]
 
     return slides
+
+def create_pptx(slide_contents: list[str], filepath: str):
+    """
+    Create a PowerPoint from a list of slide contents
+
+    Parameters
+    ----------
+    slide_contents : list of str
+        The list of slide contents
+    filepath : str
+        The file to save the PowerPoint to
+    """
+
+    # Create presentation
+    prs = pptx.Presentation()
+
+    # Get blank slide template
+    blank_slide_layout = prs.slide_layouts[6]
+
+    # Get textbox size parameters
+    margin = Inches(1)
+    width = prs.slide_width - Inches(2)
+    height = prs.slide_height - Inches(2)
+
+    for slide_content in slide_contents:
+        # Create and format slide
+        slide = prs.slides.add_slide(blank_slide_layout)
+        slide.background.fill.solid()
+        slide.background.fill.fore_color.rgb = RGBColor.from_string('000000')
+
+        # Create and format textbox
+        textbox = slide.shapes.add_textbox(margin, margin, width, height)
+        textbox.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
+        textbox.text_frame.word_wrap = True
+
+        # Format paragraph
+        paragraph = textbox.text_frame.paragraphs[0]
+        paragraph.font.color.rgb = RGBColor.from_string('ffffff')
+        paragraph.font.size = Pt(48)
+        paragraph.alignment = PP_ALIGN.CENTER
+
+        # Add slide content
+        paragraph.text = slide_content
+
+    # Save to file
+    prs.save(filepath)
