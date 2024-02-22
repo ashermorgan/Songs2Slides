@@ -55,7 +55,7 @@ def get_song_data(title: str, artist:str):
     else:
         raise Exception()
 
-def parse_song_lyrics(lyrics: str, lines_per_slide: int = 4):
+def parse_song_lyrics(lyrics: str, lines_per_slide: int):
     """
     Parse slide contents from the raw lyrics of a song
 
@@ -66,7 +66,7 @@ def parse_song_lyrics(lyrics: str, lines_per_slide: int = 4):
     lyrics : str
         The song lyrics
     lines_per_slide : int
-        The maximum number of lines per slide (the default is 4)
+        The maximum number of lines per slide
 
     Returns
     -------
@@ -87,7 +87,7 @@ def parse_song_lyrics(lyrics: str, lines_per_slide: int = 4):
                 slides += ['']
                 line_count = 0
 
-        elif line_count < lines_per_slide:
+        elif lines_per_slide is None or line_count < lines_per_slide:
             # Add line to current slide
             if line_count != 0: slides[-1] += '\n'
             slides[-1] += line
@@ -103,7 +103,8 @@ def parse_song_lyrics(lyrics: str, lines_per_slide: int = 4):
 
     return slides
 
-def assemble_slides(songs, title_slides = True, blank_slides = True):
+def assemble_slides(songs: list[SongData], lines_per_slide: int = 4,
+                    title_slides: bool = True, blank_slides: bool = True):
     """
     Assemble slides from a list of songs
 
@@ -111,6 +112,8 @@ def assemble_slides(songs, title_slides = True, blank_slides = True):
     ---------
     songs : list of SongData
         The songs
+    lines_per_slide : int
+        The maximum number of lines per slide (default: 4)
     title_slides : bool
         Whether to include title slides before songs (default: True)
     blank_slides : bool
@@ -126,7 +129,7 @@ def assemble_slides(songs, title_slides = True, blank_slides = True):
     for song in songs:
         # Add slides for song
         if title_slides: slides += [f'{song.title}']
-        slides += parse_song_lyrics(song.lyrics.upper())
+        slides += parse_song_lyrics(song.lyrics.upper(), lines_per_slide)
         if blank_slides: slides += ['']
 
     # Remove trailing blank slides

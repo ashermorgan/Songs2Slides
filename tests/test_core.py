@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, call
 
 from songs2slides import core
 
@@ -59,13 +59,13 @@ class TestCore(unittest.TestCase):
             # Assert request was called
             mocked_get.assert_called_with('api://lyrics/bar/foo')
 
-    def test_parse_song_lyrics_default(self):
+    def test_parse_song_lyrics_basic(self):
         # Declare song data and expected slides
         lyrics = 'A\nB\nC\nD\nE\nF\n\nG\nH'
         expected = ['A\nB\nC\nD', 'E\nF', 'G\nH']
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics)
+        result = core.parse_song_lyrics(lyrics, 4)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -76,7 +76,7 @@ class TestCore(unittest.TestCase):
         expected = ['A\nB\nC', 'D\nE\nF', 'G\nH']
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics, lines_per_slide = 3)
+        result = core.parse_song_lyrics(lyrics, 3)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -87,7 +87,7 @@ class TestCore(unittest.TestCase):
         expected = []
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics, lines_per_slide = 3)
+        result = core.parse_song_lyrics(lyrics, 4)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -98,7 +98,7 @@ class TestCore(unittest.TestCase):
         expected = ['A']
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics)
+        result = core.parse_song_lyrics(lyrics, 4)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -109,7 +109,7 @@ class TestCore(unittest.TestCase):
         expected = ['A\nB\nC\nD']
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics)
+        result = core.parse_song_lyrics(lyrics, 4)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -120,7 +120,7 @@ class TestCore(unittest.TestCase):
         expected = ['A\nB', '', 'C\nD']
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics)
+        result = core.parse_song_lyrics(lyrics, 4)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -131,7 +131,7 @@ class TestCore(unittest.TestCase):
         expected = ['A\nB\nC D\nE']
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics)
+        result = core.parse_song_lyrics(lyrics, 4)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -142,7 +142,7 @@ class TestCore(unittest.TestCase):
         expected = ['A', '', 'B']
 
         # Get slide content
-        result = core.parse_song_lyrics(lyrics)
+        result = core.parse_song_lyrics(lyrics, 4)
 
         # Assert slides are correct
         self.assertEqual(result, expected)
@@ -166,6 +166,9 @@ class TestCore(unittest.TestCase):
             # Assert slides are correct
             self.assertEqual(slides, expected)
 
+            # Assert parse_song_lyrics called
+            mocked_parse.assert_has_calls([call('L1', 4), call('L2', 4)])
+
     def test_assemble_slides_default(self):
         # Declare song data and expected slides
         songs = [
@@ -182,6 +185,28 @@ class TestCore(unittest.TestCase):
 
         # Assert slides are correct
         self.assertEqual(slides, expected)
+
+    def test_assemble_slides_custom_lines_per_slide(self):
+        with patch('songs2slides.core.parse_song_lyrics') as mocked_parse:
+
+            # Mock parse_song_lyrics
+            mocked_parse.side_effect = [['aaa'], ['b1', 'b2']]
+
+            # Declare song data and expected slides
+            songs = [
+                core.SongData('T1', 'A1', 'l1'),
+                core.SongData('T2', 'A3', 'l2'),
+                ]
+            expected = ['T1', 'aaa', '', 'T2', 'b1', 'b2']
+
+            # Get slides
+            slides = core.assemble_slides(songs, lines_per_slide = 3)
+
+            # Assert slides are correct
+            self.assertEqual(slides, expected)
+
+            # Assert parse_song_lyrics called correctly
+            mocked_parse.assert_has_calls([call('L1', 3), call('L2', 3)])
 
     def test_assemble_slides_no_title_slides(self):
         # Declare song data and expected slides
