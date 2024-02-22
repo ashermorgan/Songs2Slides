@@ -136,6 +136,17 @@ class TestCore(unittest.TestCase):
         # Assert slides are correct
         self.assertEqual(result, expected)
 
+    def test_parse_song_lyrics_extra_newlines(self):
+        # Declare song data and expected slides
+        lyrics = '\n\n\nA\n\n\n\n\nB\n\n\n'
+        expected = ['A', '', 'B']
+
+        # Get slide content
+        result = core.parse_song_lyrics(lyrics)
+
+        # Assert slides are correct
+        self.assertEqual(result, expected)
+
     def test_assemble_slides_calls_parse_song_lyrics(self):
         with patch('songs2slides.core.parse_song_lyrics') as mocked_parse:
 

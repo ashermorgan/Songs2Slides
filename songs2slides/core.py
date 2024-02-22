@@ -77,13 +77,15 @@ def parse_song_lyrics(lyrics: str, lines_per_slide: int = 4):
     slides = ['']
     line_count = 0
 
-    for line in lyrics.split('\n'):
+    for line in lyrics.strip().split('\n'):
         line = line.strip()
 
         if line == '':
             # Empty line represents new slide
-            slides += ['']
-            line_count = 0
+            if line_count != 0 or len(slides) < 2 or slides[-2] != '':
+                # Consecutive empty slides are not allowed
+                slides += ['']
+                line_count = 0
 
         elif line_count < lines_per_slide:
             # Add line to current slide
@@ -96,10 +98,8 @@ def parse_song_lyrics(lyrics: str, lines_per_slide: int = 4):
             slides += [line]
             line_count = 1
 
-    # Remove first/last slide if empty
-    # len(slides) is always greater than 1 or single slide is not empty
-    if slides[0] == '': slides = slides[1:]
-    if slides[-1] == '': slides = slides[:-1]
+    # Address case where lyrics are empty
+    if slides == ['', '']: slides = []
 
     return slides
 
