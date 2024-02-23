@@ -4,28 +4,95 @@ from unittest.mock import patch, call
 from songs2slides import core
 
 class TestCore(unittest.TestCase):
+    def test_filter_lyrics_inline(self):
+        # Declare raw lyrics and expected cleaned lyrics
+        lyrics = 'A[remove]B\nC(remove)D'
+        expected = 'AB\nCD'
+
+        # Clean lyrics
+        result = core.filter_lyrics(lyrics)
+
+        # Assert slides are correct
+        self.assertEqual(result, expected)
+
+    def test_filter_lyrics_whole_lines(self):
+        # Declare raw lyrics and expected cleaned lyrics
+        lyrics = 'A\n[remove]\nB\n(remove)\nC'
+        expected = 'A\nB\nC'
+
+        # Clean lyrics
+        result = core.filter_lyrics(lyrics)
+
+        # Assert slides are correct
+        self.assertEqual(result, expected)
+
+    def test_filter_lyrics_multiple_lines(self):
+        # Declare raw lyrics and expected cleaned lyrics
+        lyrics = 'A\n[re\nmove]\nB\n(re\nmove)\nC'
+        expected = 'A\nB\nC'
+
+        # Clean lyrics
+        result = core.filter_lyrics(lyrics)
+
+        # Assert slides are correct
+        self.assertEqual(result, expected)
+
+    def test_filter_lyrics_blank_lines(self):
+        # Declare raw lyrics and expected cleaned lyrics
+        lyrics = 'A\n[remove]\n\n(remove)\nB'
+        expected = 'A\n\nB'
+
+        # Clean lyrics
+        result = core.filter_lyrics(lyrics)
+
+        # Assert slides are correct
+        self.assertEqual(result, expected)
+
+    def test_filter_lyrics_all(self):
+        # Declare raw lyrics and expected cleaned lyrics
+        lyrics = 'A[remove]B\n[remove]\n\nC(remove)D\n(re\nmove)'
+        expected = 'AB\n\nCD'
+
+        # Clean lyrics
+        result = core.filter_lyrics(lyrics)
+
+        # Assert slides are correct
+        self.assertEqual(result, expected)
+
+    def test_filter_lyrics_empty_string(self):
+        # Clean lyrics
+        result = core.filter_lyrics('')
+
+        # Assert slides are correct
+        self.assertEqual(result, '')
+
     def test_get_song_data_success(self):
         with patch('songs2slides.core.os.getenv') as mocked_env, \
-            patch('songs2slides.core.requests.get') as mocked_get:
+            patch('songs2slides.core.requests.get') as mocked_get, \
+            patch('songs2slides.core.filter_lyrics') as mocked_clean:
 
-            # Mock os.getenv and requests.get
+            # Mock os.getenv, requests.get, and core.filter_lyrics
             mocked_env.return_value = 'api://lyrics/{artist}/{title}'
-            mocked_get.return_value.text = b'{"lyrics":"A\nB\nC\nD","title":"Foo","artist":"Bar","image":null}'
             mocked_get.return_value.json.return_value = {
-                'lyrics': 'A\nB\nC\nD',
+                'lyrics': 'raw',
                 'title': 'Foo',
                 'artist': 'Bar',
             }
             mocked_get.return_value.status_code = 200
+            mocked_clean.return_value = 'clean'
 
             # Get song data
             song_data = core.get_song_data('foo', 'bar')
 
-            # Assert song data is correct
+            # Assert mocked methods were used correctly
+            mocked_env.assert_called_with('API_URL')
             mocked_get.assert_called_with('api://lyrics/bar/foo')
+            mocked_clean.assert_called_with('raw')
+
+            # Assert song data is correct
             self.assertEqual(song_data.title, 'Foo')
             self.assertEqual(song_data.artist, 'Bar')
-            self.assertEqual(song_data.lyrics, 'A\nB\nC\nD')
+            self.assertEqual(song_data.lyrics, 'clean')
 
     def test_get_song_data_no_url(self):
         with patch('songs2slides.core.os.getenv') as mocked_env, \

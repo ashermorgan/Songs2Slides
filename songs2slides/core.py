@@ -5,6 +5,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 import os
+import re
 import requests
 
 @dataclass
@@ -25,6 +26,35 @@ class SongData:
     title: str
     artist: str
     lyrics: str
+
+def filter_lyrics(lyrics: str):
+    """
+    Filter raw lyrics to remove text enclosed in brackets or parenthesis
+
+    Used by get_song_data
+
+    Parameters
+    ----------
+    lyrics : str
+        The raw lyrics
+
+    Returns
+    -------
+    str
+        The filtered lyrics
+    """
+
+    filtered = '\n' + lyrics + '\n'
+
+    # Remove enclosed text that takes up whole numbers of lines
+    filtered = re.sub(r'\n\[[^\]]*\]\n', '\n', filtered)
+    filtered = re.sub(r'\n\([^\)]*\)\n', '\n', filtered)
+
+    # Remove enclosed text that takes up partial lines
+    filtered = re.sub(r'\[[^\]]*\]', '', filtered)
+    filtered = re.sub(r'\([^\)]*\)', '', filtered)
+
+    return filtered.strip()
 
 def get_song_data(title: str, artist:str):
     """
@@ -51,7 +81,8 @@ def get_song_data(title: str, artist:str):
     data = requests.get(url).json()
 
     if 'lyrics' in data.keys():
-        return SongData(data['title'], data['artist'], data['lyrics'])
+        return SongData(data['title'], data['artist'],
+                        filter_lyrics(data['lyrics']))
     else:
         raise Exception()
 
