@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SongsSlides</title>
+        <meta name="description" content="Automatically creates lyric slide shows from a list of songs">
+        <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}"/>
+
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            Songs2Slides
+        </header>
+
+        <main>
+            {% block main %}{% endblock %}
+        </main>
+    </body>
+</html>

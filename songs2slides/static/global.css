@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* page setup */
+body {
+    font-family: sans-serif;
+}
+header, main {
+    padding: 1rem;
+}
+
+/* page header */
+header {
+    background: #ffff50;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* page content */
+main {
+    margin: auto;
+    max-width: 500px;
+}
+p {
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}

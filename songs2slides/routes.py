@@ -1,4 +1,4 @@
-from flask import abort, Blueprint, request, send_file
+from flask import abort, Blueprint, render_template, request, send_file
 import tempfile
 
 from songs2slides import core
@@ -36,8 +36,8 @@ def parse_form(form):
         return songs
 
 @bp.route('/')
-def index():
-    return '<p>Hello world</p>'
+def home():
+    return render_template('home.html')
 
 @bp.post('/slides/')
 def slides():
