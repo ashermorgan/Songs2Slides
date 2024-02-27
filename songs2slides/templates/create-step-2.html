@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<ol>
+    {% for song in songs %}
+        <i>{{ song.title }}</i>
+        {% if song.artist %} ({{ song.artist }}) {% endif %}
+        <br>
+        {{ song.lyrics }}
+    {% endfor %}
+</ol>
+{% endblock main %}

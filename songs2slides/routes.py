@@ -39,8 +39,28 @@ def parse_form(form):
 def home():
     return render_template('home.html')
 
+@bp.post('/create/')
+def get_lyrics():
+    # Parse form data
+    songs = parse_form(request.form)
+
+    # Get lyrics
+    for i in range(len(songs)):
+        try:
+            songs[i] = core.get_song_data(songs[i].title, songs[i].artist)
+            slides = core.parse_song_lyrics(songs[i].lyrics, 4)
+            songs[i].lyrics = '\n\n'.join(slides)
+        except:
+            pass
+
+    # Count missing songs
+    missing = sum([1 for x in songs if x.lyrics == None])
+
+    # Return song data
+    return render_template('create-step-2.html', songs=songs, missing=missing)
+
 @bp.post('/slides/')
-def slides():
+def create_slides():
     # Parse form data
     songs = parse_form(request.form)
 
