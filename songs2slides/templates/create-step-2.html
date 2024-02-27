@@ -54,7 +54,7 @@
     </div>
 
     <div id="actions">
-        <a href="#">Back</a>
+        <a href="{{ url_for('.create') }}">Back</a>
         <button>
             Create Slide Show
         </button>
@@ -67,7 +67,7 @@
         thank you for using Songs2Slides.
     </p>
     <p>
-        <a href="#">Create another slide show</a>
+        <a href="{{ url_for('.create') }}">Create another slide show</a>
     </p>
 </div>
 {% endblock main %}

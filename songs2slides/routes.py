@@ -39,6 +39,10 @@ def parse_form(form):
 def home():
     return render_template('home.html')
 
+@bp.get('/create/')
+def create():
+    return render_template('create-step-1.html')
+
 @bp.post('/create/')
 def get_lyrics():
     # Parse form data
