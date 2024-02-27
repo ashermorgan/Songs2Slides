@@ -1,12 +1,73 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='create.css') }}"/>
+<script src="{{ url_for('static', filename='create.js') }}"></script>
+{% endblock head %}
+
 {% block main %}
-<ol>
-    {% for song in songs %}
-        <i>{{ song.title }}</i>
-        {% if song.artist %} ({{ song.artist }}) {% endif %}
-        <br>
-        {{ song.lyrics }}
-    {% endfor %}
-</ol>
+<form id="step-2" method="POST" action="{{ url_for('.create_slides') }}">
+    <h1>Step 2: Preview Slides</h1>
+    <p>
+        Review the parsed song lyrics below and make any necessary corrections.
+        One blank line represents the start of a new slide and three blank
+        lines represent an empty slide.
+    </p>
+
+    {% if missing > 0 %}
+    <p class="missing">
+        Lyrics must be entered manually for {{ missing }}
+        {% if missing == 1 %} song. {% else %} songs. {% endif %}
+    </p>
+    {% endif %}
+
+    <div id="song-lyrics">
+        {% for song in songs %}
+        <details {% if not song.lyrics %} open class="missing" {% endif %} >
+            <input hidden name="title-{{ loop.index }}"
+                value="{{ song.title }}"/>
+            <input hidden name="artist-{{ loop.index }}"
+                value="{{ song.artist }}"/>
+
+            <summary>
+                <i>{{ song.title }}</i>
+
+                {% if song.artist %}
+                ({{ song.artist }})
+                {% endif %}
+
+                {% if not song.lyrics %}
+                <span>lyrics not found</span>
+                {% endif %}
+            </summary>
+
+            {% if song.lyrics %}
+            <textarea name="lyrics-{{ loop.index }}">{{ song.lyrics }}</textarea>
+            {% else %}
+            <textarea name="lyrics-{{ loop.index }}" placeholder="{{
+                'Lyrics not found, please enter them here manually.\n\nOne ' +
+                'blank line represents the start of a new slide and three ' +
+                'blank lines represent an empty slide.'}}"></textarea>
+            {% endif %}
+        </details>
+        {% endfor %}
+    </div>
+
+    <div id="actions">
+        <a href="#">Back</a>
+        <button>
+            Create Slide Show
+        </button>
+    </div>
+</form>
+
+<div id="after-submit" hidden>
+    <p>
+        Your slide show is being downloaded,
+        thank you for using Songs2Slides.
+    </p>
+    <p>
+        <a href="#">Create another slide show</a>
+    </p>
+</div>
 {% endblock main %}

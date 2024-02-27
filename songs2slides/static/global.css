@@ -29,3 +29,6 @@ p {
     line-height: 1.4;
     margin-bottom: 1rem;
 }
+button {
+    padding: 0.2rem 0.5rem;
+}

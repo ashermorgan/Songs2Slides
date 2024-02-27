@@ -1,0 +1,24 @@
+#actions {
+    margin-top: 2rem;
+}
+#actions :last-child {
+    float: right;
+}
+
+details {
+    margin-bottom: 1rem;
+}
+textarea {
+    margin-top: 0.5rem;
+    width: 100%;
+    height: 15rem;
+    resize: vertical;
+}
+
+.missing {
+    color: red;
+}
+.missing summary span {
+    float: right;
+    font-weight: bold;
+}
