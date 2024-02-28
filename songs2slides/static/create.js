@@ -1,5 +1,8 @@
 addEventListener("submit", () => {
-    document.getElementById('after-submit').hidden = false
+    if (document.querySelector('input[value=html]:checked]') === null) {
+        // Don't show #after-submit for HTML slide creation
+        document.getElementById('after-submit').hidden = false
+    }
     if (document.getElementById('step-2')) {
         document.getElementById('step-2').hidden = true
     }

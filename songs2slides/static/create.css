@@ -73,3 +73,11 @@ textarea {
     float: right;
     font-weight: bold;
 }
+
+fieldset {
+    border: none;
+}
+fieldset label {
+    display: block;
+    margin-top: 0.5rem;
+}

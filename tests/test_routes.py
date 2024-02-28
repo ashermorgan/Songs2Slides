@@ -89,6 +89,7 @@ class TestRoutes(unittest.TestCase):
                 'title-2': 'T2',
                 'artist-2': 'A2',
                 'lyrics-2': 'L2',
+                'output-type': 'pptx',
             })
 
             # Assert mocks called correctly
@@ -112,6 +113,7 @@ class TestRoutes(unittest.TestCase):
                 'lyrics-1': 'L1',
                 'title-2': 'T2',
                 'lyrics-2': 'L2',
+                'output-type': 'pptx',
             })
 
             # Assert response has 400 status code
@@ -119,3 +121,33 @@ class TestRoutes(unittest.TestCase):
 
             # Assert assemble_slides not called
             mocked_assemble.assert_not_called()
+
+    def test_create_slides_html_slides(self):
+        with patch('songs2slides.core.assemble_slides') as mocked_assemble, \
+            patch('songs2slides.core.create_pptx') as mocked_create, \
+            patch('songs2slides.routes.render_template') as mocked_render:
+
+            # Mock assemble_slides
+            slides = ['T1', 'L1\nL2', 'L3', 'T2', 'L4']
+            mocked_assemble.return_value = slides
+
+            # Send request
+            self.client.post('/slides/', data={
+                'title-1': 'T1',
+                'artist-1': 'A1',
+                'lyrics-1': 'L1',
+                'title-2': 'T2',
+                'artist-2': 'A2',
+                'lyrics-2': 'L2',
+                'output-type': 'html',
+            })
+
+            # Assert mocks called correctly
+            mocked_assemble.assert_called_with([
+                    core.SongData('T1', 'A1', 'L1'),
+                    core.SongData('T2', 'A2', 'L2'),
+                ],
+                lines_per_slide = None
+            )
+            mocked_create.assert_not_called()
+            mocked_render.assert_called_with('slides.html', slides=slides)

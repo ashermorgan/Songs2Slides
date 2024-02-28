@@ -53,6 +53,18 @@
         {% endfor %}
     </div>
 
+    <fieldset>
+        <legend>Output type:</legend>
+        <label>
+            <input type="radio" name="output-type" value="pptx" checked/>
+            PowerPoint Download
+        </label>
+        <label>
+            <input type="radio" name="output-type" value="html"/>
+            Online View
+        </label>
+    </fieldset>
+
     <div id="actions">
         <a href="{{ url_for('.create') }}">Back</a>
         <button>

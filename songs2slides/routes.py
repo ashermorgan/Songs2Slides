@@ -71,8 +71,12 @@ def create_slides():
     # Assemble slides
     slides = core.assemble_slides(songs, lines_per_slide = None)
 
-    # Create and send powerpoint
-    with tempfile.NamedTemporaryFile(suffix='.pptx') as f:
-        core.create_pptx(slides, f.name)
-        return send_file(f.name, as_attachment=True,
-                         download_name='slides.pptx')
+    if (request.form.get('output-type') == 'pptx'):
+        # Create and send powerpoint
+        with tempfile.NamedTemporaryFile(suffix='.pptx') as f:
+            core.create_pptx(slides, f.name)
+            return send_file(f.name, as_attachment=True,
+                             download_name='slides.pptx')
+    else:
+        # Render HTML slides
+        return render_template('slides.html', slides=slides)
