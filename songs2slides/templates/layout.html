@@ -3,6 +3,9 @@
     <head>
         <title>SongsSlides</title>
         <meta name="description" content="Automatically creates lyric slide shows from a list of songs">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icon-32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icon-32.png') }}">
+        <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-180.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}"/>
 
         {% block head %}{% endblock %}
