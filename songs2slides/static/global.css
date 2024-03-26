@@ -5,13 +5,17 @@
 }
 
 /* page setup */
-body {
+body, textarea {
     font-family: sans-serif;
 }
 header {
     font-weight: bold;
     text-align: center;
     font-size: 1.5rem;
+}
+header img {
+    vertical-align: bottom;
+    height: 2rem;
 }
 main {
     margin: auto;
@@ -27,8 +31,25 @@ p {
     margin-bottom: 1rem;
 }
 
+/* button icons */
+.icon {
+  height: 2rem;
+  border: none;
+  padding: 0rem;
+  background-color: #00000000;
+  vertical-align: middle;
+}
+.icon img {
+  height: 2rem;
+  width: 2rem;
+  padding: 0.3rem;
+}
+
 /* padding */
-header, main {
+header {
+    padding: 0.75rem;
+}
+main {
     padding: 1rem;
 }
 button, input {
@@ -43,6 +64,10 @@ button, input, textarea {
     border: 1px solid;
     border-radius: 5px;
 }
+button[type=submit] {
+    font-weight: bold;
+    border-color: var(--foreground);
+}
 
 /* colors */
 body {
@@ -50,8 +75,11 @@ body {
     background-color: var(--background1);
 }
 header {
-    color: #000000;
     background: var(--theme);
+}
+header a {
+    color: #000000;
+    text-decoration: none;
 }
 input, button, textarea {
     color: var(--foreground);
@@ -110,6 +138,10 @@ a {
     --background5: hsl(210, 20%, 45%);
     --foreground: #e8e8e8;
     --link: hsl(210, 100%, 65%);
+  }
+
+  .icon img {
+      filter: invert(95%);
   }
 }
 

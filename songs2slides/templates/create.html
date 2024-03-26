@@ -23,7 +23,10 @@
                 <input name="artist-" placeholder="Song artist"/>
             </td>
             <td>
-                <input type="button" value="Remove"/>
+                <button class="icon" type="button" title="Remove">
+                        <img src="{{ url_for('static', filename='trash.svg') }}"
+                            alt="Remove icon"/>
+                </button>
             </td>
         </tr>
     </template>
@@ -48,7 +51,11 @@
                     <input type="text" name="artist-1" placeholder="Song artist"/>
                 </td>
                 <td>
-                    <input type="button" value="Remove" onclick="remove_song(1)"/>
+                    <button class="icon" type="button" onclick="remove_song(1)"
+                       title="Remove">
+                        <img src="{{ url_for('static', filename='trash.svg') }}"
+                            alt="Remove icon"/>
+                    </button>
                 </td>
             </tr>
             {% else %}
@@ -64,8 +71,11 @@
                             placeholder="Song artist" value="{{ song.artist }}"/>
                     </td>
                     <td>
-                        <input type="button" value="Remove"
-                            onclick="remove_song({{ loop.index }})"/>
+                        <button class="icon" type="button" title="Remove"
+                            onclick="remove_song({{ loop.index }})">
+                            <img src="{{ url_for('static', filename='trash.svg') }}"
+                                 alt="Remove icon"/>
+                        </button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -75,7 +85,7 @@
 
     <div id="actions">
         <input type="button" value="Add song" onclick="add_song()"/>
-        <button>
+        <button type="submit">
             Next
         </button>
     </div>
@@ -171,7 +181,7 @@
 
     <div id="actions">
         <input onclick="back()" type="button" value="Back"/>
-        <button>
+        <button type="submit">
             Create Slide Show
         </button>
     </div>
