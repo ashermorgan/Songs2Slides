@@ -183,13 +183,17 @@ def create_pptx(slide_contents: list[str], filepath: str):
     # Create presentation
     prs = pptx.Presentation()
 
+    # Set slide aspect ratio to 16:9
+    prs.slide_width = Inches(11)
+    prs.slide_height = Inches(6.1875)
+
     # Get blank slide template
     blank_slide_layout = prs.slide_layouts[6]
 
     # Get textbox size parameters
-    margin = Inches(1)
-    width = prs.slide_width - Inches(2)
-    height = prs.slide_height - Inches(2)
+    margin = Inches(0.5)
+    width = prs.slide_width - 2 * margin
+    height = prs.slide_height - 2 * margin
 
     for slide_content in slide_contents:
         # Create and format slide
@@ -205,7 +209,7 @@ def create_pptx(slide_contents: list[str], filepath: str):
         # Format paragraph
         paragraph = textbox.text_frame.paragraphs[0]
         paragraph.font.color.rgb = RGBColor.from_string('ffffff')
-        paragraph.font.size = Pt(48)
+        paragraph.font.size = Pt(36)
         paragraph.alignment = PP_ALIGN.CENTER
 
         # Add slide content
