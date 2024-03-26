@@ -27,17 +27,21 @@ p {
     margin-bottom: 1rem;
 }
 
-/* padding and borders */
+/* padding */
 header, main {
     padding: 1rem;
 }
 button, input {
     padding: 0.3rem 0.5rem;
-    border: 1px solid;
-    border-radius: 5px;
 }
 textarea {
     padding: 0.5rem;
+}
+
+/* borders */
+button, input, textarea {
+    border: 1px solid;
+    border-radius: 5px;
 }
 
 /* colors */
