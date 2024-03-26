@@ -1,0 +1,189 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='create.css') }}"/>
+<script src="{{ url_for('static', filename='create.js') }}"></script>
+{% endblock head %}
+
+{% block main %}
+<form id="step-1" method="POST" {% if step == 2 %} hidden {% endif %}>
+    <h1>Step 1: Select Songs</h1>
+
+    <p>
+        Select the songs to include in the slide show by their title and artist.
+    </p>
+
+    <template id="row-template">
+        <tr>
+            <td></td>
+            <td>
+                <input name="title-" placeholder="Song title" required/>
+            </td>
+            <td>
+                <input name="artist-" placeholder="Song artist"/>
+            </td>
+            <td>
+                <input type="button" value="Remove"/>
+            </td>
+        </tr>
+    </template>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Artist</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="songs">
+            {% if step == 1 %}
+            <tr>
+                <td>1.</td>
+                <td>
+                    <input type="text" name="title-1" placeholder="Song title" required/>
+                </td>
+                <td>
+                    <input type="text" name="artist-1" placeholder="Song artist"/>
+                </td>
+                <td>
+                    <input type="button" value="Remove" onclick="remove_song(1)"/>
+                </td>
+            </tr>
+            {% else %}
+                {% for song in songs %}
+                <tr>
+                    <td>{{ loop.index }}.</td>
+                    <td>
+                        <input type="text" name="title-{{ loop.index }}" required
+                            placeholder="Song title" value="{{ song.title }}"/>
+                    </td>
+                    <td>
+                        <input type="text" name="artist-{{ loop.index }}"
+                            placeholder="Song artist" value="{{ song.artist }}"/>
+                    </td>
+                    <td>
+                        <input type="button" value="Remove"
+                            onclick="remove_song({{ loop.index }})"/>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div id="actions">
+        <input type="button" value="Add song" onclick="add_song()"/>
+        <button>
+            Next
+        </button>
+    </div>
+</form>
+
+<div id="post-step-1" class="loading-modal" hidden>
+    <div>
+        <p>Loading your song lyrics...</p>
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<form id="step-2" method="POST"  {% if step == 1 %} hidden {% endif %}
+    action="{{ url_for('.create_slides') }}">
+
+    {% set format_hint =
+        'One blank line represents the start of a new slide and three blank ' +
+        'lines represent an empty slide.'
+    %}
+
+    <h1>Step 2: Preview Slides</h1>
+    <p>
+        Review the parsed song lyrics below and make any necessary corrections.
+        {{ format_hint }}
+    </p>
+
+    {% if missing > 0 %}
+    <p>
+        Lyrics must be entered manually for
+        {{ missing }} {% if missing == 1 %} song. {% else %} songs. {% endif %}
+    </p>
+    {% endif %}
+
+    <div>
+        {% for song in songs %}
+        <details
+            {% if missing == 0 and loop.index == 1 %} open {% endif %}
+            {% if not song.lyrics %} open class="missing" {% endif %}>
+
+            <input hidden name="title-{{ loop.index }}"
+                value="{{ song.title }}"/>
+            <input hidden name="artist-{{ loop.index }}"
+                value="{{ song.artist }}"/>
+
+            <summary>
+                <i>{{ song.title }}</i>
+
+                {% if song.artist %}
+                ({{ song.artist }})
+                {% endif %}
+
+                {% if not song.lyrics %}
+                <span>lyrics not found</span>
+                {% endif %}
+            </summary>
+
+            {% if song.lyrics %}
+            <textarea name="lyrics-{{ loop.index }}"
+                placeholder="{{format_hint}}">{{ song.lyrics }}</textarea>
+            {% else %}
+            <textarea name="lyrics-{{ loop.index }}" placeholder="{{
+                'Lyrics not found, please enter them here manually.\n\n' +
+                format_hint }}"></textarea>
+            {% endif %}
+        </details>
+        {% endfor %}
+    </div>
+
+    <div>
+        <fieldset>
+            <legend>Extra slides:</legend>
+            <label>
+                <input type="checkbox" name="title-slides" checked/>
+                Include a title slide before each song
+            </label>
+            <label>
+                <input type="checkbox" name="blank-slides" checked/>
+                Include a blank slide between each song
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Output type:</legend>
+            <label>
+                <input type="radio" name="output-type" value="pptx" checked/>
+                PowerPoint Download
+            </label>
+            <label>
+                <input type="radio" name="output-type" value="html"/>
+                Online View
+            </label>
+        </fieldset>
+    </div>
+
+    <div id="actions">
+        <input onclick="back()" type="button" value="Back"/>
+        <button>
+            Create Slide Show
+        </button>
+    </div>
+</form>
+
+<div id="post-step-2" hidden>
+    <p>
+        Your slide show is being downloaded,
+        thank you for using Songs2Slides.
+    </p>
+    <p>
+        <a href="{{ url_for('.create') }}">Create another slide show</a>
+    </p>
+</div>
+{% endblock main %}

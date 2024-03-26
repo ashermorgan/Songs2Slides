@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* page setup */
+body {
+    font-family: sans-serif;
+}
+header {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.5rem;
+}
+main {
+    margin: auto;
+    max-width: 500px;
+}
+
+/* spacing and alignment */
+h1 {
+    text-align: center;
+}
+p {
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+/* padding and borders */
+header, main {
+    padding: 1rem;
+}
+button, input {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid;
+    border-radius: 5px;
+}
+textarea {
+    padding: 0.5rem;
+}
+
+/* colors */
+body {
+    color: var(--foreground);
+    background-color: var(--background1);
+}
+header {
+    color: #000000;
+    background: var(--theme);
+}
+input, button, textarea {
+    color: var(--foreground);
+    border-color: var(--background5);
+    background-color: var(--background2);
+}
+@media (hover: hover) {
+    button:hover, input[type=button]:hover {
+        background-color: var(--background3);
+    }
+}
+button:active, input[type=button]:active {
+    background-color: var(--background4);
+}
+a {
+    color: var(--link);
+}
+
+/* light/default theme */
+:root {
+  /* The theme color of the app */
+  --theme: hsl(60, 100%, 65%);
+
+  /* The background color of the app */
+  --background1: #ffffff;
+
+  /* The default background color of app elements */
+  --background2: #f8f8f8;
+
+  /* The background color of focused app elements */
+  --background3: #e8e8e8;
+
+  /* The background color of active app elements */
+  --background4: #e0e0e0;
+
+  /* The border color of app elements */
+  --background5: #a0a0a0;
+
+  /* The foreground color of app elements */
+  --foreground: #000000;
+
+  /* The color of links */
+  --link: hsl(210, 100%, 40%);
+
+  /* The error color */
+  --error: hsl(0, 100%, 40%);
+}
+
+/* dark mode */
+@media only screen and (prefers-color-scheme: dark) {
+  :root {
+    --background1: hsl(210, 20%, 10%);
+    --background2: hsl(210, 20%, 15%);
+    --background3: hsl(210, 20%, 20%);
+    --background4: hsl(210, 20%, 25%);
+    --background5: hsl(210, 20%, 45%);
+    --foreground: #e8e8e8;
+    --link: hsl(210, 100%, 65%);
+  }
+}
+
+/* print media mode */
+@media only print {
+  :root {
+    --background1: #ffffff;
+    --background2: #ffffff;
+    --background3: #ffffff;
+    --background4: #ffffff;
+    --background5: #000000;
+    --foreground: #000000;
+    --link: #0000ff;
+  }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Online View - SongsSlides</title>
+
+        <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+        <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css">
+        <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+    </head>
+
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                {% for slide in slides %}
+                <section>
+                    {% for line in slide.split('\n') %}
+                    <p>{{ line }}</p>
+                    {% endfor %}
+                </section>
+                {% endfor %}
+            </div>
+        </div>
+
+        <script>
+            // Start Reveal.js slideshow without extra features
+            Reveal.initialize({
+                controls: false,
+                help: false,
+                jumpToSlide: false,
+                overview: false,
+                pause: false,
+                progress: false,
+                transition: 'none',
+            });
+        </script>
+    </body>
+</html>

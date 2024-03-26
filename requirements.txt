@@ -1,5 +1,4 @@
-bs4
+flask
+python-dotenv
 python-pptx
 requests
-flask
-unidecode
