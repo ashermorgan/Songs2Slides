@@ -1,10 +1,11 @@
-addEventListener("submit", () => {
-    if (document.querySelector('input[value=html]:checked]') === null) {
-        // Don't show #after-submit for HTML slide creation
-        document.getElementById('after-submit').hidden = false
-    }
-    if (document.getElementById('step-2')) {
+addEventListener('submit', () => {
+    if (document.getElementById('step-1').hidden == false) {
+        // Show step 1 spinner
+        document.getElementById('post-step-1').hidden = false
+    } else if (document.querySelector('input[value=pptx]').checked) {
+        // Show step 2 downloading message
         document.getElementById('step-2').hidden = true
+        document.getElementById('post-step-2').hidden = false
     }
 });
 
@@ -29,4 +30,12 @@ function renumber_songs() {
         songs[i].children[2].children[0].name = `artist-${i}`
         songs[i].children[3].children[0].onclick = () => remove_song(i)
     }
+}
+
+/* step 2 functions */
+function back() {
+    document.getElementById('step-1').hidden = false
+    document.getElementById('post-step-1').hidden = true
+    document.getElementById('step-2').hidden = true
+    document.getElementById('post-step-2').hidden = true
 }

@@ -32,7 +32,7 @@ class TestRoutes(unittest.TestCase):
             # Assert mocks called correctly
             mocked_get.assert_has_calls([call('T1', 'A1'), call('T2', 'A2')])
             mocked_parse.assert_has_calls([call('L1', 4), call('L2', 4)])
-            mocked_render.assert_called_with('create-step-2.html', songs=songs, missing=0)
+            mocked_render.assert_called_with('create.html', step=2, songs=songs, missing=0)
 
     def test_get_lyrics_one_error(self):
         with patch('songs2slides.core.get_song_data') as mocked_get, \
@@ -58,7 +58,7 @@ class TestRoutes(unittest.TestCase):
             # Assert mocks called correctly
             mocked_get.assert_has_calls([call('T1', 'A1'), call('T2', 'A2')])
             mocked_parse.assert_has_calls([call('L2', 4)])
-            mocked_render.assert_called_with('create-step-2.html', songs=songs, missing=1)
+            mocked_render.assert_called_with('create.html', step=2, songs=songs, missing=1)
 
     def test_get_lyrics_missing_artist(self):
         with patch('songs2slides.core.get_song_data') as mocked_get:

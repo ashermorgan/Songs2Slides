@@ -41,7 +41,7 @@ def home():
 
 @bp.get('/create/')
 def create():
-    return render_template('create-step-1.html')
+    return render_template('create.html', step=1, songs=[], missing=0)
 
 @bp.post('/create/')
 def get_lyrics():
@@ -61,7 +61,7 @@ def get_lyrics():
     missing = sum([1 for x in songs if x.lyrics == None])
 
     # Return song data
-    return render_template('create-step-2.html', songs=songs, missing=missing)
+    return render_template('create.html', step=2, songs=songs, missing=missing)
 
 @bp.post('/slides/')
 def create_slides():
