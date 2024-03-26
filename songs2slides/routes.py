@@ -67,9 +67,12 @@ def get_lyrics():
 def create_slides():
     # Parse form data
     songs = parse_form(request.form)
+    title_slides = 'title-slides' in request.form
+    blank_slides = 'blank-slides' in request.form
 
     # Assemble slides
-    slides = core.assemble_slides(songs, lines_per_slide = None)
+    slides = core.assemble_slides(songs, lines_per_slide = None,
+        title_slides=title_slides, blank_slides=blank_slides)
 
     if (request.form.get('output-type') == 'pptx'):
         # Create and send powerpoint

@@ -144,17 +144,30 @@
         {% endfor %}
     </div>
 
-    <fieldset>
-        <legend>Output type:</legend>
-        <label>
-            <input type="radio" name="output-type" value="pptx" checked/>
-            PowerPoint Download
-        </label>
-        <label>
-            <input type="radio" name="output-type" value="html"/>
-            Online View
-        </label>
-    </fieldset>
+    <div>
+        <fieldset>
+            <legend>Extra slides:</legend>
+            <label>
+                <input type="checkbox" name="title-slides" checked/>
+                Include a title slide before each song
+            </label>
+            <label>
+                <input type="checkbox" name="blank-slides" checked/>
+                Include a blank slide between each song
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Output type:</legend>
+            <label>
+                <input type="radio" name="output-type" value="pptx" checked/>
+                PowerPoint Download
+            </label>
+            <label>
+                <input type="radio" name="output-type" value="html"/>
+                Online View
+            </label>
+        </fieldset>
+    </div>
 
     <div id="actions">
         <input onclick="back()" type="button" value="Back"/>

@@ -90,6 +90,8 @@ class TestRoutes(unittest.TestCase):
                 'artist-2': 'A2',
                 'lyrics-2': 'L2',
                 'output-type': 'pptx',
+                'title-slides': 'on',
+                'blank-slides': 'on',
             })
 
             # Assert mocks called correctly
@@ -97,7 +99,9 @@ class TestRoutes(unittest.TestCase):
                     core.SongData('T1', 'A1', 'L1'),
                     core.SongData('T2', 'A2', 'L2'),
                 ],
-                lines_per_slide = None
+                lines_per_slide = None,
+                title_slides = True,
+                blank_slides = True,
             )
             file = mocked_create.call_args.args[1]
             mocked_send.assert_called_with(file, as_attachment=True,
@@ -114,6 +118,8 @@ class TestRoutes(unittest.TestCase):
                 'title-2': 'T2',
                 'lyrics-2': 'L2',
                 'output-type': 'pptx',
+                'title-slides': 'on',
+                'blank-slides': 'on',
             })
 
             # Assert response has 400 status code
@@ -140,6 +146,8 @@ class TestRoutes(unittest.TestCase):
                 'artist-2': 'A2',
                 'lyrics-2': 'L2',
                 'output-type': 'html',
+                'title-slides': 'on',
+                'blank-slides': 'on',
             })
 
             # Assert mocks called correctly
@@ -147,7 +155,75 @@ class TestRoutes(unittest.TestCase):
                     core.SongData('T1', 'A1', 'L1'),
                     core.SongData('T2', 'A2', 'L2'),
                 ],
-                lines_per_slide = None
+                lines_per_slide = None,
+                title_slides = True,
+                blank_slides = True,
+            )
+            mocked_create.assert_not_called()
+            mocked_render.assert_called_with('slides.html', slides=slides)
+
+    def test_create_slides_no_title_slides(self):
+        with patch('songs2slides.core.assemble_slides') as mocked_assemble, \
+            patch('songs2slides.core.create_pptx') as mocked_create, \
+            patch('songs2slides.routes.render_template') as mocked_render:
+
+            # Mock assemble_slides
+            slides = ['T1', 'L1\nL2', 'L3', 'T2', 'L4']
+            mocked_assemble.return_value = slides
+
+            # Send request
+            self.client.post('/slides/', data={
+                'title-1': 'T1',
+                'artist-1': 'A1',
+                'lyrics-1': 'L1',
+                'title-2': 'T2',
+                'artist-2': 'A2',
+                'lyrics-2': 'L2',
+                'output-type': 'html',
+                'blank-slides': 'on',
+            })
+
+            # Assert mocks called correctly
+            mocked_assemble.assert_called_with([
+                    core.SongData('T1', 'A1', 'L1'),
+                    core.SongData('T2', 'A2', 'L2'),
+                ],
+                lines_per_slide = None,
+                title_slides = False,
+                blank_slides = True,
+            )
+            mocked_create.assert_not_called()
+            mocked_render.assert_called_with('slides.html', slides=slides)
+
+    def test_create_slides_no_blank_slides(self):
+        with patch('songs2slides.core.assemble_slides') as mocked_assemble, \
+            patch('songs2slides.core.create_pptx') as mocked_create, \
+            patch('songs2slides.routes.render_template') as mocked_render:
+
+            # Mock assemble_slides
+            slides = ['T1', 'L1\nL2', 'L3', 'T2', 'L4']
+            mocked_assemble.return_value = slides
+
+            # Send request
+            self.client.post('/slides/', data={
+                'title-1': 'T1',
+                'artist-1': 'A1',
+                'lyrics-1': 'L1',
+                'title-2': 'T2',
+                'artist-2': 'A2',
+                'lyrics-2': 'L2',
+                'output-type': 'html',
+                'title-slides': 'on',
+            })
+
+            # Assert mocks called correctly
+            mocked_assemble.assert_called_with([
+                    core.SongData('T1', 'A1', 'L1'),
+                    core.SongData('T2', 'A2', 'L2'),
+                ],
+                lines_per_slide = None,
+                title_slides = True,
+                blank_slides = False,
             )
             mocked_create.assert_not_called()
             mocked_render.assert_called_with('slides.html', slides=slides)
