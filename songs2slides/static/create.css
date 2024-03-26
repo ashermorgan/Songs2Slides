@@ -9,11 +9,13 @@
 /* step 1 */
 table {
     width: 100%;
-    border-collapse: enable;
+    border-collapse: collapse;
 }
 table input {
     width: 100%;
-    padding: 0.2rem 0.5rem;
+}
+table td {
+    padding: 0.2rem;
 }
 
 .loading-modal {
@@ -29,7 +31,7 @@ table input {
     padding: 1rem;
     width: 300px;
     text-align: center;
-    background: #fff;
+    background: var(--background1);
     border-radius: 0.5rem;
 }
 
@@ -43,7 +45,7 @@ table input {
   height: 2rem;
   border-radius: 50%;
   border: 0.3rem solid;
-  border-color: #000 #000 #000 transparent;
+  border-color: var(--foreground) var(--foreground) var(--foreground) transparent;
   animation: spinner 1s linear infinite;
 }
 @keyframes spinner {
@@ -67,7 +69,7 @@ textarea {
 }
 
 .missing summary {
-    color: red;
+    color: var(--error);
 }
 .missing summary span {
     float: right;
