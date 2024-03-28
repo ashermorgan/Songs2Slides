@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from dotenv import load_dotenv
 import pptx
 from pptx.dml.color import RGBColor
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
