@@ -1,4 +1,5 @@
-from flask import abort, Blueprint, render_template, request, send_file
+from flask import abort, Blueprint, redirect, render_template, request, \
+    send_file, url_for
 import tempfile
 
 from songs2slides import core
@@ -40,11 +41,20 @@ def home():
     return render_template('home.html')
 
 @bp.get('/create/')
-def create():
-    return render_template('create.html', step=1, songs=[], missing=0)
+def create_root():
+    return redirect(url_for('.create_step_1'), 301)
 
-@bp.post('/create/')
-def get_lyrics():
+@bp.get('/create/step-1/')
+def create_step_1():
+    return render_template('create-step-1.html')
+
+@bp.get('/create/step-2/')
+def create_step_2_get():
+    # GET requests not allowed, redirect to step 1
+    return redirect(url_for('.create_step_1'), 302)
+
+@bp.post('/create/step-2/')
+def create_step_2():
     # Parse form data
     songs = parse_form(request.form)
 
@@ -61,10 +71,15 @@ def get_lyrics():
     missing = sum([1 for x in songs if x.lyrics == None])
 
     # Return song data
-    return render_template('create.html', step=2, songs=songs, missing=missing)
+    return render_template('create-step-2.html', songs=songs, missing=missing)
+
+@bp.get('/slides/')
+def slides_get():
+    # GET requests not allowed, redirect to home page
+    return redirect(url_for('.home'), 302)
 
 @bp.post('/slides/')
-def create_slides():
+def slides():
     # Parse form data
     songs = parse_form(request.form)
     title_slides = 'title-slides' in request.form

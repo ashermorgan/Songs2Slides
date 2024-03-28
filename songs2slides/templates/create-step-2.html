@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='create.css') }}"/>
+<script src="{{ url_for('static', filename='create.js') }}"></script>
+{% endblock head %}
+
+{% set format_hint =
+'One blank line represents the start of a new slide and three blank ' +
+'lines represent an empty slide.'
+%}
+
+{% block main %}
+<form id="step-2" method="POST" action="{{ url_for('.slides') }}">
+    <h1>Step 2: Preview Slides</h1>
+    <p>
+        Review the parsed song lyrics below and make any necessary corrections.
+        {{ format_hint }}
+    </p>
+
+    {% if missing > 0 %}
+    <p>
+        Lyrics must be entered manually for
+        {{ missing }} {% if missing == 1 %} song. {% else %} songs. {% endif %}
+    </p>
+    {% endif %}
+
+    <div>
+        {% for song in songs %}
+        <details
+            {% if missing == 0 and loop.index == 1 %} open {% endif %}
+            {% if not song.lyrics %} open class="missing" {% endif %}>
+
+            <input hidden name="title-{{ loop.index }}"
+                value="{{ song.title }}"/>
+            <input hidden name="artist-{{ loop.index }}"
+                value="{{ song.artist }}"/>
+
+            <summary>
+                <i>{{ song.title }}</i>
+
+                {% if song.artist %}
+                ({{ song.artist }})
+                {% endif %}
+
+                {% if not song.lyrics %}
+                <span>lyrics not found</span>
+                {% endif %}
+            </summary>
+
+            {% if song.lyrics %}
+            <textarea name="lyrics-{{ loop.index }}" placeholder="{{format_hint}}"
+                aria-label="{{ song.title }} Lyrics">{{ song.lyrics }}</textarea>
+            {% else %}
+            <textarea name="lyrics-{{ loop.index }}" placeholder="{{
+                'Lyrics not found, please enter them here manually.\n\n' +
+                format_hint }}" aria-label="{{ song.title }} Lyrics"></textarea>
+            {% endif %}
+        </details>
+        {% endfor %}
+    </div>
+
+    <div>
+        <fieldset>
+            <legend>Extra slides:</legend>
+            <label>
+                <input type="checkbox" name="title-slides" checked/>
+                Include a title slide before each song
+            </label>
+            <label>
+                <input type="checkbox" name="blank-slides" checked/>
+                Include a blank slide between each song
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Output type:</legend>
+            <label>
+                <input type="radio" name="output-type" value="html" checked/>
+                Web View
+            </label>
+            <label>
+                <input type="radio" name="output-type" value="pptx"/>
+                PowerPoint download
+            </label>
+        </fieldset>
+    </div>
+
+    <div id="actions">
+        <input onclick="history.back()" type="button" value="Back"/>
+        <button type="submit">
+            Create Slide Show
+        </button>
+    </div>
+</form>
+
+<div id="post-submit" hidden>
+    <p>
+        Your slide show is being downloaded,
+        thank you for using Songs2Slides.
+    </p>
+    <p>
+        <a href="{{ url_for('.create_step_1') }}">Create another slide show</a>
+    </p>
+</div>
+{% endblock main %}

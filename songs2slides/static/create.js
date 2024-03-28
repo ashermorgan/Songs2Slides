@@ -1,13 +1,19 @@
 addEventListener('submit', () => {
-    if (document.getElementById('step-1').hidden == false) {
+    if (document.getElementById('step-1')) {
         // Show step 1 spinner
-        document.getElementById('post-step-1').hidden = false
+        document.getElementById('post-submit').hidden = false
     } else if (document.querySelector('input[value=pptx]').checked) {
-        // Show step 2 downloading message
+        // Show step 2 downloading message and hide step 2 form
+        document.getElementById('post-submit').hidden = false
         document.getElementById('step-2').hidden = true
-        document.getElementById('post-step-2').hidden = false
     }
-});
+})
+
+addEventListener('pageshow', () => {
+    // Correct page state after returning via browser back button
+    document.getElementById('post-submit').hidden = true
+    document.getElementsByTagName('form')[0].hidden = false
+})
 
 /* step 1 functions */
 function add_song() {
@@ -30,12 +36,4 @@ function renumber_songs() {
         songs[i].children[2].children[0].name = `artist-${i}`
         songs[i].children[3].children[0].onclick = () => remove_song(i)
     }
-}
-
-/* step 2 functions */
-function back() {
-    document.getElementById('step-1').hidden = false
-    document.getElementById('post-step-1').hidden = true
-    document.getElementById('step-2').hidden = true
-    document.getElementById('post-step-2').hidden = true
 }

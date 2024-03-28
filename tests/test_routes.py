@@ -22,7 +22,7 @@ class TestRoutes(unittest.TestCase):
             mocked_parse.side_effect = ['L1', 'L2']
 
             # Send request
-            self.client.post('/create/', data={
+            self.client.post('/create/step-2/', data={
                 'title-1': 'T1',
                 'artist-1': 'A1',
                 'title-2': 'T2',
@@ -32,7 +32,7 @@ class TestRoutes(unittest.TestCase):
             # Assert mocks called correctly
             mocked_get.assert_has_calls([call('T1', 'A1'), call('T2', 'A2')])
             mocked_parse.assert_has_calls([call('L1', 4), call('L2', 4)])
-            mocked_render.assert_called_with('create.html', step=2, songs=songs, missing=0)
+            mocked_render.assert_called_with('create-step-2.html', songs=songs, missing=0)
 
     def test_get_lyrics_one_error(self):
         with patch('songs2slides.core.get_song_data') as mocked_get, \
@@ -48,7 +48,7 @@ class TestRoutes(unittest.TestCase):
             mocked_parse.side_effect = ['L1', 'L2']
 
             # Send request
-            self.client.post('/create/', data={
+            self.client.post('/create/step-2/', data={
                 'title-1': 'T1',
                 'artist-1': 'A1',
                 'title-2': 'T2',
@@ -58,13 +58,13 @@ class TestRoutes(unittest.TestCase):
             # Assert mocks called correctly
             mocked_get.assert_has_calls([call('T1', 'A1'), call('T2', 'A2')])
             mocked_parse.assert_has_calls([call('L2', 4)])
-            mocked_render.assert_called_with('create.html', step=2, songs=songs, missing=1)
+            mocked_render.assert_called_with('create-step-2.html', songs=songs, missing=1)
 
     def test_get_lyrics_missing_artist(self):
         with patch('songs2slides.core.get_song_data') as mocked_get:
 
             # Send request
-            res = self.client.post('/create/', data={
+            res = self.client.post('/create/step-2/', data={
                 'title-1': 'T1',
                 'title-2': 'T2',
                 'artist-2': 'A2',
