@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='post-download.css') }}"/>
+{% endblock head %}
+
+{% block main %}
+<p>
+    Thank you for using Songs2Slides
+</p>
+<p>
+    <a href="{{ url_for('.create_step_1') }}">Create another slide show</a>
+</p>
+{% endblock main %}

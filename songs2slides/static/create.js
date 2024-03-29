@@ -3,16 +3,22 @@ addEventListener('submit', () => {
         // Show step 1 spinner
         document.getElementById('post-submit').hidden = false
     } else if (document.querySelector('input[value=pptx]').checked) {
-        // Show step 2 downloading message and hide step 2 form
-        document.getElementById('post-submit').hidden = false
-        document.getElementById('step-2').hidden = true
+        // Redirect to post download message
+        // (REDIRECT_URL set in create-step-2.html template)
+        setTimeout(() => {
+            // On Chrome, redirecting after a form submission doesn't work
+            // unless setTimeout is used
+            window.location.href = REDIRECT_URL
+        }, 100)
     }
 })
 
 addEventListener('pageshow', () => {
     // Correct page state after returning via browser back button
-    document.getElementById('post-submit').hidden = true
-    document.getElementsByTagName('form')[0].hidden = false
+    if (document.getElementById('step-1')) {
+        document.getElementById('post-submit').hidden = true
+        document.getElementById('step-1').hidden = false
+    }
 })
 
 /* step 1 functions */

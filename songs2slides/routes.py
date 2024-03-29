@@ -73,6 +73,10 @@ def create_step_2():
     # Return song data
     return render_template('create-step-2.html', songs=songs, missing=missing)
 
+@bp.get('/post-download/')
+def post_download():
+    return render_template('post-download.html')
+
 @bp.get('/slides/')
 def slides_get():
     # GET requests not allowed, redirect to home page
