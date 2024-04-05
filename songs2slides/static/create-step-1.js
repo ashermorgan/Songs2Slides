@@ -1,27 +1,14 @@
 addEventListener('submit', () => {
-    if (document.getElementById('step-1')) {
-        // Show step 1 spinner
-        document.getElementById('post-submit').hidden = false
-    } else if (document.querySelector('input[value=pptx]').checked) {
-        // Redirect to post download message
-        // (REDIRECT_URL set in create-step-2.html template)
-        setTimeout(() => {
-            // On Chrome, redirecting after a form submission doesn't work
-            // unless setTimeout is used
-            window.location.href = REDIRECT_URL
-        }, 100)
-    }
+    // Show loading spinner
+    document.getElementById('post-submit').hidden = false
 })
 
 addEventListener('pageshow', () => {
     // Correct page state after returning via browser back button
-    if (document.getElementById('step-1')) {
-        document.getElementById('post-submit').hidden = true
-        document.getElementById('step-1').hidden = false
-    }
+    document.getElementById('post-submit').hidden = true
+    document.getElementById('step-1').hidden = false
 })
 
-/* step 1 functions */
 function add_song() {
     let row = document.getElementById('row-template').content.children[0].cloneNode(true)
     document.getElementById('songs').appendChild(row)
