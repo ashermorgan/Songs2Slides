@@ -23,7 +23,7 @@ function remove_song(n) {
 
 function renumber_songs() {
     const songs = document.getElementsByTagName('tr')
-    for (let i = 1; i < songs.length; i++) {
+    for (let i = 1; i < songs.length - 1; i++) {
         songs[i].children[0].textContent = `${i}.`
         songs[i].children[1].children[0].name = `title-${i}`
         songs[i].children[2].children[0].name = `artist-${i}`

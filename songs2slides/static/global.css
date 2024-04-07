@@ -45,6 +45,12 @@ p {
   padding: 0.3rem;
 }
 
+/* link buttons */
+a.button {
+    text-decoration: none;
+    display: inline-block;
+}
+
 /* padding */
 header {
     padding: 0.75rem;
@@ -52,7 +58,7 @@ header {
 main {
     padding: 1rem;
 }
-button, input {
+button, a.button, input {
     padding: 0.3rem 0.5rem;
 }
 textarea {
@@ -60,11 +66,11 @@ textarea {
 }
 
 /* borders */
-button, input, textarea {
+button, a.button, input, textarea {
     border: 1px solid;
     border-radius: 5px;
 }
-button[type=submit] {
+button[type=submit], a.button.primary {
     font-weight: bold;
     border-color: var(--foreground);
 }
@@ -81,17 +87,17 @@ header a {
     color: #000000;
     text-decoration: none;
 }
-input, button, textarea {
+input, button, a.button, textarea {
     color: var(--foreground);
     border-color: var(--background5);
     background-color: var(--background2);
 }
 @media (hover: hover) {
-    button:hover, input[type=button]:hover {
+    button:hover, input[type=button]:hover, a.button:hover {
         background-color: var(--background3);
     }
 }
-button:active, input[type=button]:active {
+button:active, input[type=button]:active, a.button:active {
     background-color: var(--background4);
 }
 a {

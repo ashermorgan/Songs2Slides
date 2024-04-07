@@ -1,5 +1,5 @@
 # Songs2Slides
-Creates a lyrics slide show from a list of songs
+Creates a lyrics slideshow from a list of songs
 
 ## Setup
 1. Install python dependencies

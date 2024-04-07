@@ -26,8 +26,8 @@
             </td>
             <td>
                 <button class="icon" type="button" title="Remove">
-                        <img src="{{ url_for('static', filename='trash.svg') }}"
-                            alt="Remove icon"/>
+                    <img src="{{ url_for('static', filename='trash.svg') }}"
+                        alt="Remove icon"/>
                 </button>
             </td>
         </tr>
@@ -62,10 +62,16 @@
                 </td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <input type="button" value="Add song" onclick="add_song()"/>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
     <div id="actions">
-        <input type="button" value="Add song" onclick="add_song()"/>
         <button type="submit">
             Next
         </button>

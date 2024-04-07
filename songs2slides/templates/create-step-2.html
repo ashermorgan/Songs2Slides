@@ -6,13 +6,13 @@
 {% endblock head %}
 
 {% set format_hint =
-'One blank line represents the start of a new slide and three blank ' +
+'A blank line represents the start of a new slide and three blank ' +
 'lines represent an empty slide.'
 %}
 
 {% block main %}
 <form id="step-2" method="POST" action="{{ url_for('.slides') }}">
-    <h1>Step 2: Preview Slides</h1>
+    <h1>Step 2: Review Lyrics</h1>
     <p>
         Review the parsed song lyrics below and make any necessary corrections.
         {{ format_hint }}

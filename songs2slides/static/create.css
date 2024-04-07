@@ -11,11 +11,15 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-table input {
+tbody input {
     width: 100%;
 }
-table td {
+tbody td {
     padding: 0.2rem;
+}
+tfoot td {
+    padding-top: 1rem;
+    text-align: center;
 }
 
 .loading-modal {
