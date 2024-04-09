@@ -9,7 +9,8 @@ python3 -m pip install -r requirements.txt
 
 2. Add variables to `.env` file
 ```
-API_URL="http://exampl.com/get-lyrics?title={title}&artist={artist}"
+API_URL="http://example.com/get-lyrics?title={title}&artist={artist}"
+API_AUTH="Bearer secrettoken" # Optional
 ```
 
 3. Run app in debug mode

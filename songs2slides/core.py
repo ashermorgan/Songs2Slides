@@ -72,13 +72,21 @@ def get_song_data(title: str, artist:str):
         The song data
     """
 
+    # Get API URL
     url = os.getenv('API_URL')
     if url is None:
         raise Exception()
     url = url.replace('{title}', title, 1)
     url = url.replace('{artist}', artist, 1)
-    data = requests.get(url).json()
 
+    # Get HTTP authorization header
+    auth = os.getenv('API_AUTH', None)
+    headers = { 'Authorization': auth } if auth else {}
+
+    # Query API
+    data = requests.get(url, headers=headers).json()
+
+    # Parse response
     if 'lyrics' in data.keys():
         return SongData(data['title'], data['artist'],
                         filter_lyrics(data['lyrics']))

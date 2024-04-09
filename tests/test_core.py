@@ -72,7 +72,10 @@ class TestCore(unittest.TestCase):
             patch('songs2slides.core.filter_lyrics') as mocked_clean:
 
             # Mock os.getenv, requests.get, and core.filter_lyrics
-            mocked_env.return_value = 'api://lyrics/{artist}/{title}'
+            mocked_env.side_effect = [
+                'api://lyrics/{artist}/{title}',
+                'Bearer secrettoken'
+            ]
             mocked_get.return_value.json.return_value = {
                 'lyrics': 'raw',
                 'title': 'Foo',
@@ -85,8 +88,47 @@ class TestCore(unittest.TestCase):
             song_data = core.get_song_data('foo', 'bar')
 
             # Assert mocked methods were used correctly
-            mocked_env.assert_called_with('API_URL')
-            mocked_get.assert_called_with('api://lyrics/bar/foo')
+            mocked_env.assert_has_calls([
+                call('API_URL'),
+                call('API_AUTH', None)
+            ])
+            mocked_get.assert_called_with('api://lyrics/bar/foo', headers={
+                'Authorization': 'Bearer secrettoken'
+            })
+            mocked_clean.assert_called_with('raw')
+
+            # Assert song data is correct
+            self.assertEqual(song_data.title, 'Foo')
+            self.assertEqual(song_data.artist, 'Bar')
+            self.assertEqual(song_data.lyrics, 'clean')
+
+    def test_get_song_data_no_auth_header(self):
+        with patch('songs2slides.core.os.getenv') as mocked_env, \
+            patch('songs2slides.core.requests.get') as mocked_get, \
+            patch('songs2slides.core.filter_lyrics') as mocked_clean:
+
+            # Mock os.getenv, requests.get, and core.filter_lyrics
+            mocked_env.side_effect = [
+                'api://lyrics/{artist}/{title}',
+                None,
+            ]
+            mocked_get.return_value.json.return_value = {
+                'lyrics': 'raw',
+                'title': 'Foo',
+                'artist': 'Bar',
+            }
+            mocked_get.return_value.status_code = 200
+            mocked_clean.return_value = 'clean'
+
+            # Get song data
+            song_data = core.get_song_data('foo', 'bar')
+
+            # Assert mocked methods were used correctly
+            mocked_env.assert_has_calls([
+                call('API_URL'),
+                call('API_AUTH', None)
+            ])
+            mocked_get.assert_called_with('api://lyrics/bar/foo', headers={})
             mocked_clean.assert_called_with('raw')
 
             # Assert song data is correct
@@ -115,7 +157,10 @@ class TestCore(unittest.TestCase):
             patch('songs2slides.core.requests.get') as mocked_get:
 
             # Mock os.getenv and requests.get
-            mocked_env.return_value = 'api://lyrics/{artist}/{title}'
+            mocked_env.side_effect = [
+                'api://lyrics/{artist}/{title}',
+                'Bearer secrettoken'
+            ]
             mocked_get.return_value.text = b'{}'
             mocked_get.return_value.status_code = 200
 
@@ -124,7 +169,9 @@ class TestCore(unittest.TestCase):
                 song_data = core.get_song_data('foo', 'bar')
 
             # Assert request was called
-            mocked_get.assert_called_with('api://lyrics/bar/foo')
+            mocked_get.assert_called_with('api://lyrics/bar/foo', headers={
+                'Authorization': 'Bearer secrettoken'
+            })
 
     def test_parse_song_lyrics_basic(self):
         # Declare song data and expected slides
