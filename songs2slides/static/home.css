@@ -7,6 +7,11 @@ h1 {
     margin-bottom: 0.5rem;
     font-size: 2rem;
 }
+p {
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
 a.primary {
     padding: 0.5rem 1rem;
 }

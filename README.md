@@ -1,5 +1,5 @@
 # Songs2Slides
-Creates a lyrics slideshow from a list of songs
+An easy-to-use tool that automatically finds song lyrics and creates lyric slideshows
 
 ## Setup
 1. Install python dependencies
