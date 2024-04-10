@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='create.css') }}"/>
+<script src="{{ url_for('static', filename='create.js') }}"></script>
+{% endblock head %}
+
+{% block main %}
+<form id="create-form" method="POST" action="{{ url_for('.slides') }}">
+    <h1>Step 3: Create Slideshow</h1>
+    <p>
+        Customize your slideshow with the options below.
+    </p>
+
+    {% for song in songs %}
+    <input hidden name="title-{{ loop.index }}"
+        value="{{ song.title }}"/>
+    <input hidden name="artist-{{ loop.index }}"
+        value="{{ song.artist }}"/>
+    <textarea hidden name="lyrics-{{ loop.index }}"
+        >{{ song.lyrics }}</textarea>
+    {% endfor %}
+
+    <fieldset>
+        <legend>Extra slides:</legend>
+        <label>
+            <input type="checkbox" name="title-slides" checked/>
+            Include a title slide before each song
+        </label>
+        <label>
+            <input type="checkbox" name="blank-slides" checked/>
+            Include a blank slide between each song
+        </label>
+    </fieldset>
+    <fieldset>
+        <legend>Output type:</legend>
+        <label>
+            <input type="radio" name="output-type" value="html" checked/>
+            Web View
+        </label>
+        <label>
+            <input type="radio" name="output-type" value="pptx"/>
+            PowerPoint download
+        </label>
+    </fieldset>
+
+    <div id="actions">
+        <input onclick="history.back()" type="button" value="Back"/>
+        <button type="submit">
+            Create
+        </button>
+    </div>
+</form>
+
+<script>
+    const STEP = 3
+    const REDIRECT_URL = "{{ url_for('.post_download') }}"
+</script>
+{% endblock main %}

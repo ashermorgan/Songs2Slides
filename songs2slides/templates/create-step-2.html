@@ -2,26 +2,29 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='create.css') }}"/>
-<script src="{{ url_for('static', filename='create-step-2.js') }}"></script>
+<script src="{{ url_for('static', filename='create.js') }}"></script>
 {% endblock head %}
 
 {% set format_hint =
-'A blank line represents the start of a new slide and three blank ' +
-'lines represent an empty slide.'
+'Each stanza will appear on its own slide. ' +
+'Stanzas must be separated by one blank line. ' +
+'Three blank lines represent an empty slide.'
 %}
 
 {% block main %}
-<form id="step-2" method="POST" action="{{ url_for('.slides') }}">
+<form method="POST" action="{{ url_for('.create_step_3') }}">
     <h1>Step 2: Review Lyrics</h1>
     <p>
         Review the parsed song lyrics below and make any necessary corrections.
+    </p>
+    <p>
         {{ format_hint }}
     </p>
 
     {% if missing > 0 %}
     <p>
-        Lyrics must be entered manually for
-        {{ missing }} {% if missing == 1 %} song. {% else %} songs. {% endif %}
+        Lyrics must be entered manually for <strong>{{ missing }}
+        song{% if missing != 1 %}s{% endif %}</strong>.
     </p>
     {% endif %}
 
@@ -60,40 +63,22 @@
         {% endfor %}
     </div>
 
-    <div>
-        <fieldset>
-            <legend>Extra slides:</legend>
-            <label>
-                <input type="checkbox" name="title-slides" checked/>
-                Include a title slide before each song
-            </label>
-            <label>
-                <input type="checkbox" name="blank-slides" checked/>
-                Include a blank slide between each song
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Output type:</legend>
-            <label>
-                <input type="radio" name="output-type" value="html" checked/>
-                Web View
-            </label>
-            <label>
-                <input type="radio" name="output-type" value="pptx"/>
-                PowerPoint download
-            </label>
-        </fieldset>
-    </div>
-
     <div id="actions">
         <input onclick="history.back()" type="button" value="Back"/>
         <button type="submit">
-            Create Slide Show
+            Next
         </button>
     </div>
 </form>
 
+<div id="post-submit" class="loading-modal" hidden>
+    <div>
+        <p>Updating your song lyrics...</p>
+        <div class="spinner"></div>
+    </div>
+</div>
+
 <script>
-    const REDIRECT_URL = "{{ url_for('.post_download') }}"
+    const STEP = 2
 </script>
 {% endblock main %}

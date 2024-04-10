@@ -2,11 +2,11 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='create.css') }}"/>
-<script src="{{ url_for('static', filename='create-step-1.js') }}"></script>
+<script src="{{ url_for('static', filename='create.js') }}"></script>
 {% endblock head %}
 
 {% block main %}
-<form id="step-1" method="POST" action="{{ url_for('.create_step_2') }}">
+<form method="POST" action="{{ url_for('.create_step_2') }}">
     <h1>Step 1: Select Songs</h1>
 
     <p>
@@ -80,8 +80,12 @@
 
 <div id="post-submit" class="loading-modal" hidden>
     <div>
-        <p>Loading your song lyrics...</p>
+        <p>Searching for your song lyrics...</p>
         <div class="spinner"></div>
     </div>
 </div>
+
+<script>
+    const STEP = 1
+</script>
 {% endblock main %}

@@ -76,6 +76,27 @@ class TestRoutes(unittest.TestCase):
             # Assert response has 400 status code
             self.assertEqual(res.status_code, 400)
 
+    def test_update_lyrics(self):
+        with patch('songs2slides.routes.render_template') as mocked_render:
+
+            # Send request
+            self.client.post('/create/step-3/', data={
+                'title-1': 'T1',
+                'artist-1': 'A1',
+                'lyrics-1': 'L1',
+                'title-2': 'T2',
+                'artist-2': 'A2',
+                'lyrics-2': 'L2',
+                'output-type': 'html',
+                'title-slides': 'on',
+            })
+
+            # Assert render_template called correctly
+            mocked_render.assert_called_with('create-step-3.html', songs=[
+                core.SongData('T1', 'A1', 'L1'),
+                core.SongData('T2', 'A2', 'L2'),
+            ])
+
     def test_create_slides_basic(self):
         with patch('songs2slides.core.assemble_slides') as mocked_assemble, \
             patch('songs2slides.core.create_pptx') as mocked_create, \

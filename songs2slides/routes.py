@@ -73,6 +73,19 @@ def create_step_2():
     # Return song data
     return render_template('create-step-2.html', songs=songs, missing=missing)
 
+@bp.get('/create/step-3/')
+def create_step_3_get():
+    # GET requests not allowed, redirect to step 1
+    return redirect(url_for('.create_step_1'), 302)
+
+@bp.post('/create/step-3/')
+def create_step_3():
+    # Parse form data
+    songs = parse_form(request.form)
+
+    # Return song data
+    return render_template('create-step-3.html', songs=songs)
+
 @bp.get('/post-download/')
 def post_download():
     return render_template('post-download.html')
