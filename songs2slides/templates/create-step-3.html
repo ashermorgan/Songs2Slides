@@ -52,6 +52,13 @@
     </div>
 </form>
 
+<div id="post-submit" class="loading-modal" hidden>
+    <div>
+        <p>Creating your slideshow...</p>
+        <div class="spinner"></div>
+    </div>
+</div>
+
 <script>
     const STEP = 3
     const REDIRECT_URL = "{{ url_for('.post_download') }}"

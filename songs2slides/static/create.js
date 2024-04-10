@@ -3,10 +3,10 @@ const PREFIX = 's2s'
 
 // Page load/reload handler
 addEventListener('pageshow', () => {
-    if (STEP === 1 || STEP == 2) {
-        // Correct page state after returning via browser back button
-        document.getElementById('post-submit').hidden = true
-    } else if (STEP === 3) {
+    // Correct page state after returning via browser back button
+    document.getElementById('post-submit').hidden = true
+
+    if (STEP === 3) {
         // Load settings
         const form = document.getElementById('create-form')
         form['title-slides'].checked = storage_get('title-slides', true)
@@ -17,10 +17,10 @@ addEventListener('pageshow', () => {
 
 // Form submit handler
 addEventListener('submit', () => {
-    if (STEP === 1 || STEP === 2) {
-        // Show loading spinner
-        document.getElementById('post-submit').hidden = false
-    } else if (STEP === 3) {
+    // Show loading spinner
+    document.getElementById('post-submit').hidden = false
+
+    if (STEP === 3) {
         // Save settings
         const form = document.getElementById('create-form')
         storage_set('title-slides', form['title-slides'].checked)
@@ -34,7 +34,7 @@ addEventListener('submit', () => {
                 // unless setTimeout is used
                 // (REDIRECT_URL set in create-step-3.html template)
                 window.location.href = REDIRECT_URL
-            }, 100)
+            }, 300)
         }
     }
 })
