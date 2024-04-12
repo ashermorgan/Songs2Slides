@@ -166,7 +166,7 @@ def assemble_slides(songs: list[SongData], lines_per_slide: int = 4,
     slides = []
     for song in songs:
         # Add slides for song
-        if title_slides: slides += [f'{song.title}']
+        if title_slides: slides += [f'{song.title.upper()}']
         slides += parse_song_lyrics(song.lyrics.upper(), lines_per_slide)
         if blank_slides: slides += ['']
 

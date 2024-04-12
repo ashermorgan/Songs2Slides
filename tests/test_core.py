@@ -286,7 +286,7 @@ class TestCore(unittest.TestCase):
     def test_assemble_slides_default(self):
         # Declare song data and expected slides
         songs = [
-            core.SongData('T1', 'A1', 'l1\nl2\nl3\nl4\nl5'),
+            core.SongData('t1', 'a1', 'l1\nl2\nl3\nl4\nl5'),
             core.SongData('T2', 'A3', 'L6\nL7\n\nL8\n\n\nL9'),
         ]
         expected = [
@@ -325,7 +325,7 @@ class TestCore(unittest.TestCase):
     def test_assemble_slides_no_title_slides(self):
         # Declare song data and expected slides
         songs = [
-            core.SongData('T1', 'A1', 'l1\nl2\nl3\nl4\nl5'),
+            core.SongData('t1', 'a1', 'l1\nl2\nl3\nl4\nl5'),
             core.SongData('T2', 'A3', 'L6\nL7\n\nL8\n\n\nL9'),
         ]
         expected = [
@@ -342,7 +342,7 @@ class TestCore(unittest.TestCase):
     def test_assemble_slides_no_blank_slides(self):
         # Declare song data and expected slides
         songs = [
-            core.SongData('T1', 'A1', 'l1\nl2\nl3\nl4\nl5'),
+            core.SongData('t1', 'a1', 'l1\nl2\nl3\nl4\nl5'),
             core.SongData('T2', 'A3', 'L6\nL7\n\nL8\n\n\nL9'),
         ]
         expected = [
@@ -359,7 +359,7 @@ class TestCore(unittest.TestCase):
     def test_assemble_slides_no_extra_slides(self):
         # Declare song data and expected slides
         songs = [
-            core.SongData('T1', 'A1', 'l1\nl2\nl3\nl4\nl5'),
+            core.SongData('t1', 'a1', 'l1\nl2\nl3\nl4\nl5'),
             core.SongData('T2', 'A3', 'L6\nL7\n\nL8\n\n\nL9'),
         ]
         expected = [
