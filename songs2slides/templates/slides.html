@@ -1,37 +1,49 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Web View - SongsSlides</title>
+{% extends "base.html" %}
 
-        <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
-        <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css">
-        <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
-    </head>
+{% set title = 'Web View' %}
 
-    <body>
-        <div class="reveal">
-            <div class="slides">
-                {% for slide in slides %}
-                <section>
-                    {% for line in slide.split('\n') %}
-                    <p>{{ line }}</p>
-                    {% endfor %}
-                </section>
-                {% endfor %}
-            </div>
-        </div>
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='slides.css') }}"/>
+<link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+<link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/black.css">
+<script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+{% endblock head %}
 
-        <script>
-            // Start Reveal.js slideshow without extra features
-            Reveal.initialize({
-                controls: false,
-                help: false,
-                jumpToSlide: false,
-                overview: false,
-                pause: false,
-                progress: false,
-                transition: 'none',
-            });
-        </script>
-    </body>
-</html>
+{% block body %}
+<header>
+    <a href="{{ url_for('main.home') }}">
+        <img src="{{ url_for('static', filename='icon.svg') }}" alt=""/>
+        Songs2Slides
+    </a>
+    <button class="icon" title="Fullscreen"
+        onclick="document.body.requestFullscreen()">
+        <img src="{{ url_for('static', filename='maximize.svg') }}"
+             alt="Fullscreen icon"/>
+    </button>
+</header>
+
+<div class="reveal">
+    <div class="slides">
+        {% for slide in slides %}
+        <section>
+            {% for line in slide.split('\n') %}
+            <p>{{ line }}</p>
+            {% endfor %}
+        </section>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // Start Reveal.js slideshow without extra features
+    Reveal.initialize({
+        controls: false,
+        help: false,
+        jumpToSlide: false,
+        overview: false,
+        pause: false,
+        progress: false,
+        transition: 'none',
+    });
+</script>
+{% endblock body %}

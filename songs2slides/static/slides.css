@@ -1,0 +1,25 @@
+/* Revert reveal.js styling */
+header a {
+    line-height: normal;
+}
+
+/* Position header button */
+header button {
+    float: right;
+}
+
+/* Adjust button styles for header */
+header .icon img {
+    filter: none !important;
+}
+header .icon:hover {
+    background-color: #00000010;
+}
+header .icon:active {
+    background-color: #00000020;
+}
+
+/* Hide header in fullscreen mode */
+:fullscreen header {
+    display: none;
+}

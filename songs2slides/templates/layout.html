@@ -1,27 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
 
-        <title>{% if title %}{{ title }} - {% endif %}SongsSlides</title>
-        <meta name="description" content="An easy-to-use tool that automatically finds song lyrics and creates lyric slideshows">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icon-32.png') }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icon-32.png') }}">
-        <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-180.png') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}"/>
+{% block body %}
+<header>
+    <a href="{{ url_for('main.home') }}">
+        <img src="{{ url_for('static', filename='icon.svg') }}" alt=""/>
+        Songs2Slides
+    </a>
+</header>
 
-        {% block head %}{% endblock %}
-    </head>
-    <body>
-        <header>
-            <a href="{{ url_for('main.home') }}">
-                <img src="{{ url_for('static', filename='icon.svg') }}" alt=""/>
-                Songs2Slides
-            </a>
-        </header>
-
-        <main>
-            {% block main %}{% endblock %}
-        </main>
-    </body>
-</html>
+<main>
+    {% block main %}{% endblock %}
+</main>
+{% endblock body %}
