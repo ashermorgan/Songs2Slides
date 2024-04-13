@@ -4,10 +4,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>{% if title %}{{ title }} - {% endif %}SongsSlides</title>
-        <meta name="description" content="An easy-to-use tool that automatically finds song lyrics and creates lyric slideshows">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icon-32.png') }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icon-32.png') }}">
-        <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-180.png') }}">
+        <meta name="description" content="An easy-to-use tool that automatically finds song lyrics and creates lyric slideshows"/>
+
+        <meta property="og:title" content="Songs2Slides"/>
+        <meta property="og:description" content="An easy-to-use tool that automatically finds song lyrics and creates lyric slideshows"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:url" content="{{ url_for('.home', _external=True) }}"/>
+        <meta property="og:image" content="{{ url_for('static', filename='open-graph.png', _external=True) }}"/>
+
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icon-32.png') }}"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icon-32.png') }}"/>
+        <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-180.png') }}"/>
+
         <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}"/>
 
         {% block head %}{% endblock %}
