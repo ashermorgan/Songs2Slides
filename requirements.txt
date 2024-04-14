@@ -2,3 +2,5 @@ flask
 python-dotenv
 python-pptx
 requests
+pytest
+pytest-mock
