@@ -4,3 +4,4 @@ python-pptx
 requests
 pytest
 pytest-mock
+pytest-playwright
