@@ -9,7 +9,7 @@ def api(xprocess):
     class Starter(ProcessStarter):
         pattern = '.*Running.*'
         timeout = 10
-        args = ['python', '-m', 'flask', '--app', '../../../../mock_api.py', 'run']
+        args = ['python3', '-m', 'flask', '--app', '../../../../mock_api.py', 'run']
         env = {
             'FLASK_RUN_PORT': port,
         }
@@ -29,7 +29,7 @@ def server(xprocess, api):
     class Starter(ProcessStarter):
         pattern = '.*Running.*'
         timeout = 10
-        args = ['python', '-m', 'flask', '--app', '../../../../songs2slides', 'run']
+        args = ['python3', '-m', 'flask', '--app', '../../../../songs2slides', 'run']
         env = {
             'API_URL': api + '/{title}/{artist}/',
             'FLASK_RUN_PORT': port,
