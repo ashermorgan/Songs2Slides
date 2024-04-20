@@ -1,21 +1,22 @@
 # Songs2Slides
-An easy-to-use tool that automatically finds song lyrics and creates lyric slideshows
+A tool that automatically finds song lyrics and creates lyric slideshows
 
 ## Setup
-1. Install python dependencies
+Install Python dependencies:
 ```
 python3 -m pip install -r requirements.txt
 ```
 
-2. Add variables to `.env` file
+Add API environment variables to a `.env` file:
 ```
+# Song lyric API with {title} and {artist} placeholders
 API_URL="http://example.com/get-lyrics?title={title}&artist={artist}"
-API_AUTH="Bearer secrettoken" # Optional
+
+# Optional API authentication header
+API_AUTH="Bearer secrettoken"
 ```
 
-3. Run app in debug mode
+Run Songs2Slides on [localhost:5000](http://localhost:5000)
 ```
-flask --app songs2slides run --debug
+flask --app songs2slides run
 ```
-
-4. Visit [localhost:5000](http://localhost:5000)
