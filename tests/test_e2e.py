@@ -1,3 +1,4 @@
+import os
 import pytest
 from playwright.sync_api import Page, expect
 from xprocess import ProcessStarter
@@ -9,10 +10,8 @@ def api(xprocess):
     class Starter(ProcessStarter):
         pattern = '.*Running.*'
         timeout = 10
-        args = ['python3', '-m', 'flask', '--app', '../../../../mock_api.py', 'run']
-        env = {
-            'FLASK_RUN_PORT': port,
-        }
+        args = ['python', '-m', 'flask', '--app', '../../../../mock_api.py',
+                'run', '--port', port]
 
     # Start API
     xprocess.ensure('api', Starter)
@@ -29,11 +28,9 @@ def server(xprocess, api):
     class Starter(ProcessStarter):
         pattern = '.*Running.*'
         timeout = 10
-        args = ['python3', '-m', 'flask', '--app', '../../../../songs2slides', 'run']
-        env = {
-            'API_URL': api + '/{title}/{artist}/',
-            'FLASK_RUN_PORT': port,
-        }
+        args = ['python', '-m', 'flask', '--app', '../../../../songs2slides',
+                'run', '--port', port]
+        env = os.environ | { 'API_URL': api + '/{title}/{artist}/' }
 
     # Start server
     xprocess.ensure('server', Starter)
