@@ -8,17 +8,17 @@ SONGS = {
     'song 1': {
         'title': 'Song 1',
         'artist': 'Artist A',
-        'lyrics': 'Lyrics to song 1\nby artist A',
+        'lyrics': 'These are the lyrics\nto song 1\nby artist A',
     },
     'song 2': {
         'title': 'Song 2',
         'artist': 'Artist A',
-        'lyrics': 'Lyrics to song 2\nby artist A',
+        'lyrics': 'These are the lyrics\nto song 2\nby artist A',
     },
     'song 3': {
         'title': 'Song 3',
         'artist': 'Artist B',
-        'lyrics': 'Lyrics to song 3\nby artist B',
+        'lyrics': 'These are the lyrics\nto song 3\nby artist B',
     },
 }
 

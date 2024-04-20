@@ -20,3 +20,14 @@ Run Songs2Slides on [localhost:5000](http://localhost:5000)
 ```
 flask --app songs2slides run
 ```
+
+## Screenshots
+Screenshots of Songs2Slides with `mock_api.py` as the API:
+
+![Step 1: Select Songs](screenshots/step-1.png)
+
+![Step 2: Review lyrics](screenshots/step-2.png)
+
+![Step 3: Create slideshow](screenshots/step-3.png)
+
+![Completed slideshow](screenshots/slides.png)

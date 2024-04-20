@@ -1,48 +1,4 @@
-import os
-import pytest
 from playwright.sync_api import Page, expect
-from xprocess import ProcessStarter
-
-@pytest.fixture(autouse=True, scope='session')
-def api(xprocess):
-    port = '5003'
-
-    class Starter(ProcessStarter):
-        pattern = '.*Running.*'
-        timeout = 10
-        args = ['python', '-m', 'flask', '--app', '../../../../mock_api.py',
-                'run', '--port', port]
-
-    # Start API
-    xprocess.ensure('api', Starter)
-
-    yield f'http://localhost:{port}'
-
-    # Stop API
-    xprocess.getinfo('api').terminate()
-
-@pytest.fixture(autouse=True, scope='session')
-def server(xprocess, api):
-    port = '5002'
-
-    class Starter(ProcessStarter):
-        pattern = '.*Running.*'
-        timeout = 10
-        args = ['python', '-m', 'flask', '--app', '../../../../songs2slides',
-                'run', '--port', port]
-        env = os.environ | { 'API_URL': api + '/{title}/{artist}/' }
-
-    # Start server
-    xprocess.ensure('server', Starter)
-
-    yield f'http://localhost:{port}'
-
-    # Stop server
-    xprocess.getinfo('server').terminate()
-
-@pytest.fixture(autouse=True, scope='session')
-def base_url(server):
-    return server
 
 def test_basic(page: Page):
     # Start on homepage
@@ -80,7 +36,7 @@ def test_basic(page: Page):
 
     # Assert song lyrics are loaded (Song 1 lyrics uncollapsed)
     expect(page.get_by_role('textbox')).to_have_count(2)
-    expect(page.get_by_role('textbox').first).to_have_value('Lyrics to song 1\nby artist A')
+    expect(page.get_by_role('textbox').first).to_have_value('These are the lyrics\nto song 1\nby artist A')
     expect(page.get_by_role('textbox').last).to_have_value('')
 
     # Fill in missing lyrics
@@ -98,7 +54,7 @@ def test_basic(page: Page):
     expect(page).to_have_url('http://localhost:5002/slides/')
 
     # Assert slide content is correct
-    expect(page.locator('css=section.present')).to_have_text('LYRICS TO SONG 1\nBY ARTIST A')
+    expect(page.locator('css=section.present')).to_have_text('THESE ARE THE LYRICS\nTO SONG 1\nBY ARTIST A')
     page.keyboard.press('ArrowRight')
     expect(page.locator('css=section.present')).to_have_text('')
     page.keyboard.press('ArrowRight')
@@ -269,7 +225,7 @@ def test_back(page: Page):
 
     # Assert songs lyrics are loaded
     expect(page.get_by_role('textbox')).to_have_count(2)
-    expect(page.get_by_role('textbox').first).to_have_value('Lyrics to song 1\nby artist A')
+    expect(page.get_by_role('textbox').first).to_have_value('These are the lyrics\nto song 1\nby artist A')
     expect(page.get_by_role('textbox').last).to_have_value('')
 
     # Fill in bad missing lyrics
@@ -288,7 +244,7 @@ def test_back(page: Page):
 
     # Assert bad song lyrics are still loaded
     expect(page.get_by_role('textbox')).to_have_count(2)
-    expect(page.get_by_role('textbox').first).to_have_value('Lyrics to song 1\nby artist A')
+    expect(page.get_by_role('textbox').first).to_have_value('These are the lyrics\nto song 1\nby artist A')
     expect(page.get_by_role('textbox').last).to_have_value('custom song 5 lyrics (bad)')
 
     # Fill in correct missing lyrics
@@ -308,7 +264,7 @@ def test_back(page: Page):
     # Assert slide content is correct
     expect(page.locator('css=section.present')).to_have_text('SONG 1')
     page.keyboard.press('ArrowRight')
-    expect(page.locator('css=section.present')).to_have_text('LYRICS TO SONG 1\nBY ARTIST A')
+    expect(page.locator('css=section.present')).to_have_text('THESE ARE THE LYRICS\nTO SONG 1\nBY ARTIST A')
     page.keyboard.press('ArrowRight')
     expect(page.locator('css=section.present')).to_have_text('SONG 5')
     page.keyboard.press('ArrowRight')
@@ -332,7 +288,7 @@ def test_back(page: Page):
     expect(page).to_have_url('http://localhost:5002/slides/')
 
     # Assert slide content is correct
-    expect(page.locator('css=section.present')).to_have_text('LYRICS TO SONG 1\nBY ARTIST A')
+    expect(page.locator('css=section.present')).to_have_text('THESE ARE THE LYRICS\nTO SONG 1\nBY ARTIST A')
     page.keyboard.press('ArrowRight')
     expect(page.locator('css=section.present')).to_have_text('CUSTOM SONG 5 LYRICS')
     page.keyboard.press('ArrowRight')
