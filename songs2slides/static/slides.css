@@ -23,3 +23,10 @@ header .icon:active {
 :fullscreen header {
     display: none;
 }
+
+#noscript-message {
+    max-width: 500px;
+    margin: auto;
+    padding: 1rem;
+    text-align: center;
+}
