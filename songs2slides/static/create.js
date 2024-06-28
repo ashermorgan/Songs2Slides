@@ -6,7 +6,19 @@ addEventListener('pageshow', () => {
     // Correct page state after returning via browser back button
     document.getElementById('post-submit').hidden = true
 
-    if (STEP === 3) {
+    if (STEP === 1) {
+        // Load songs
+        for (let row of document.querySelectorAll('tbody tr')) {
+            row.remove()
+        }
+        const songs = storage_get('songs', [{ title: '', artist: '' }])
+        for (let song of songs) {
+            add_song()
+            const raw_song = document.querySelector('tbody tr:last-child')
+            raw_song.children[1].children[0].value = song.title
+            raw_song.children[2].children[0].value = song.artist
+        }
+    } else if (STEP === 3) {
         // Load settings
         const form = document.getElementById('create-form')
         form['title-slides'].checked = storage_get('title-slides', true)
@@ -60,6 +72,18 @@ function renumber_songs() {
         songs[i].children[2].children[0].name = `artist-${i}`
         songs[i].children[3].children[0].onclick = () => remove_song(i)
     }
+}
+
+function save_songs() {
+    const raw_songs = document.getElementsByTagName('tr')
+    let songs = []
+    for (let i = 1; i < raw_songs.length - 1; i++) {
+        songs.push({
+            title: raw_songs[i].children[1].children[0].value,
+            artist: raw_songs[i].children[2].children[0].value,
+        })
+    }
+    storage_set('songs', songs)
 }
 
 // Step 3 helper functions

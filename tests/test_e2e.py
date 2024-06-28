@@ -110,6 +110,12 @@ def test_localStorage(page: Page):
     page.get_by_role('link', name='Create a Slideshow').click()
     expect(page).to_have_url('http://localhost:5002/create/step-1/')
 
+    # Assert song information is not prefilled
+    expect(page.get_by_placeholder('Song title')).to_have_count(1)
+    expect(page.get_by_placeholder('Song title')).to_have_value('')
+    expect(page.get_by_placeholder('Song artist')).to_have_count(1)
+    expect(page.get_by_placeholder('Song artist')).to_have_value('')
+
     # Fill in song information
     page.get_by_placeholder('Song title').last.fill('Song 1')
     page.get_by_placeholder('Song artist').last.fill('aRtIsT A')
@@ -148,12 +154,13 @@ def test_localStorage(page: Page):
     page.get_by_role('link', name='Create a Slideshow').click()
     expect(page).to_have_url('http://localhost:5002/create/step-1/')
 
-    # Fill in song information
-    page.get_by_placeholder('Song title').last.fill('Song 1')
-    page.get_by_placeholder('Song artist').last.fill('aRtIsT A')
-    page.get_by_role('button', name='Add Song').click()
-    page.get_by_placeholder('Song title').last.fill('Song 5')
-    page.get_by_placeholder('Song artist').last.fill('')
+    # Assert song information is prefilled
+    expect(page.get_by_placeholder('Song title')).to_have_count(2)
+    expect(page.get_by_placeholder('Song title').first).to_have_value('Song 1')
+    expect(page.get_by_placeholder('Song title').last).to_have_value('Song 5')
+    expect(page.get_by_placeholder('Song artist')).to_have_count(2)
+    expect(page.get_by_placeholder('Song artist').first).to_have_value('aRtIsT A')
+    expect(page.get_by_placeholder('Song artist').last).to_have_value('')
 
     # Click Next
     page.get_by_role('button', name='Next').click()
@@ -181,6 +188,9 @@ def test_back(page: Page):
     # Fill in bad song information
     page.get_by_placeholder('Song title').last.fill('Song 11')
     page.get_by_placeholder('Song artist').last.fill('aRtIsT Aa')
+    page.get_by_role('button', name='Add Song').click()
+    page.get_by_placeholder('Song title').last.fill('Song 55')
+    page.get_by_placeholder('Song artist').last.fill('b')
 
     # Click Next
     page.get_by_role('button', name='Next').click()
@@ -191,22 +201,26 @@ def test_back(page: Page):
     expect(page.get_by_text('Song 5 lyrics not found')).to_be_hidden()
 
     # Assert song lyrics are loaded
-    expect(page.get_by_role('textbox')).to_have_count(1)
+    expect(page.get_by_role('textbox')).to_have_count(2)
     expect(page.get_by_role('textbox').first).to_have_value('')
+    expect(page.get_by_role('textbox').last).to_have_value('')
 
     # Click Back
     page.get_by_role('button', name='Back').click()
     expect(page).to_have_url('http://localhost:5002/create/step-1/')
 
     # Assert bad song information is still present
-    expect(page.get_by_placeholder('Song title')).to_have_count(1)
+    expect(page.get_by_placeholder('Song title')).to_have_count(2)
     expect(page.get_by_placeholder('Song title').first).to_have_value('Song 11')
-    expect(page.get_by_placeholder('Song artist')).to_have_count(1)
-    expect(page.get_by_placeholder('Song artist').last).to_have_value('aRtIsT Aa')
+    expect(page.get_by_placeholder('Song title').last).to_have_value('Song 55')
+    expect(page.get_by_placeholder('Song artist')).to_have_count(2)
+    expect(page.get_by_placeholder('Song artist').first).to_have_value('aRtIsT Aa')
+    expect(page.get_by_placeholder('Song artist').last).to_have_value('b')
 
     # Fill in correct song information
     page.get_by_placeholder('Song title').last.fill('Song 1')
     page.get_by_placeholder('Song artist').last.fill('aRtIsT A')
+    page.get_by_role('button', name='Remove').first.click()
     page.get_by_role('button', name='Add Song').click()
     page.get_by_placeholder('Song title').last.fill('Song 5')
     page.get_by_placeholder('Song artist').last.fill('')

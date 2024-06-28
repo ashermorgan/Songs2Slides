@@ -20,11 +20,11 @@
             <td></td>
             <td>
                 <input name="title-" placeholder="Song title"
-                    aria-label="Song title" required/>
+                    aria-label="Song title" onchange="save_songs()" required/>
             </td>
             <td>
                 <input name="artist-" placeholder="Song artist"
-                    aria-label="Song artist"/>
+                    aria-label="Song artist" onchange="save_songs()"/>
             </td>
             <td>
                 <button class="icon" type="button" title="Remove">
@@ -49,11 +49,12 @@
                 <td>1.</td>
                 <td>
                     <input type="text" name="title-1" placeholder="Song title"
-                        aria-label="Song title" required/>
+                        aria-label="Song title" onchange="save_songs()"
+                        required/>
                 </td>
                 <td>
-                    <input type="text" name="artist-1"
-                        placeholder="Song artist" aria-label="Song title"/>
+                    <input type="text" name="artist-1" placeholder="Song artist"
+                        aria-label="Song title" onchange="save_songs()"/>
                 </td>
                 <td>
                     <button class="icon" type="button" onclick="remove_song(1)"
