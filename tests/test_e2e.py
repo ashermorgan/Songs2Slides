@@ -322,3 +322,45 @@ def test_back(page: Page):
     expect(page.locator('css=section.present')).to_have_text('CUSTOM SONG 5 LYRICS')
     page.keyboard.press('ArrowRight')
     expect(page.locator('css=section.present')).to_have_text('CUSTOM SONG 5 LYRICS')
+
+def test_no_javascript(page: Page):
+    page.java_script_enabled = False
+
+    # Start on homepage
+    page.goto('/')
+
+    # Click 'Create a Slideshow'
+    page.get_by_role('link', name='Create a Slideshow').click()
+    expect(page).to_have_url('http://localhost:5002/create/step-1/')
+
+    # Fill in song information
+    page.get_by_placeholder('Song title').last.fill('Song 1')
+    page.get_by_placeholder('Song artist').last.fill('aRtIsT A')
+
+    # Click Next
+    page.get_by_role('button', name='Next').click()
+    expect(page).to_have_url('http://localhost:5002/create/step-2/')
+
+    # Assert song is loaded
+    expect(page.get_by_text('Song 1 (Artist A)')).to_be_visible()
+    expect(page.get_by_text('lyrics not found')).to_be_hidden()
+
+    # Assert song lyrics are loaded
+    expect(page.get_by_role('textbox')).to_have_value('These are the lyrics\nto song 1\nby artist A')
+
+    # Update lyrics
+    page.get_by_role('textbox').last.fill('custom song 1 lyrics')
+
+    # Click Next
+    page.get_by_role('button', name='Next').click()
+    expect(page).to_have_url('http://localhost:5002/create/step-3/')
+
+    # Fill in slideshow settings
+    page.get_by_role('checkbox', name='Include a title slide before each song').uncheck()
+
+    # Click create
+    page.get_by_role('button', name='Create').click()
+    expect(page).to_have_url('http://localhost:5002/slides/')
+
+    # Assert slide content is correct
+    expect(page.locator('css=section.present')).to_have_text('CUSTOM SONG 1 LYRICS')
