@@ -75,7 +75,11 @@ textarea {
 .missing summary {
     color: var(--error);
 }
+summary span {
+    display: none;
+}
 .missing summary span {
+    display: inline;
     float: right;
     font-weight: bold;
 }

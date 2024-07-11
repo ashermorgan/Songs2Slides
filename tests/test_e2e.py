@@ -20,11 +20,12 @@ def test_basic(page: Page):
     expect(page).to_have_url('http://localhost:5002/create/step-2/')
 
     # Assert missing song message is correct
-    expect(page.get_by_text('Lyrics must be entered manually for 1 song.')).to_be_visible()
+    expect(page.get_by_text('Lyrics must be entered manually for 1 song(s).')).to_be_visible()
 
     # Assert songs are loaded
     expect(page.get_by_text('Song 1 (Artist A)')).to_be_visible()
-    expect(page.get_by_text('Song 1 (Artist A) lyrics not found')).to_be_hidden()
+    expect(page.get_by_text('lyrics not found').first).to_be_hidden()
+    expect(page.get_by_text('lyrics not found').last).to_be_visible()
     expect(page.get_by_text('Song 5 lyrics not found')).to_be_visible()
 
     # Assert song lyrics are loaded (Song 1 lyrics still collapsed)
@@ -127,7 +128,9 @@ def test_localStorage(page: Page):
     page.get_by_role('button', name='Next').click()
     expect(page).to_have_url('http://localhost:5002/create/step-2/')
 
-    # Fill in missing lyrics
+    # Update lyrics
+    page.get_by_text('Song 1 (Artist A)').click()
+    page.get_by_role('textbox').first.fill('custom song 1 lyrics')
     page.get_by_role('textbox').last.fill('custom song 5 lyrics')
 
     # Click Next
@@ -166,8 +169,18 @@ def test_localStorage(page: Page):
     page.get_by_role('button', name='Next').click()
     expect(page).to_have_url('http://localhost:5002/create/step-2/')
 
-    # Fill in missing lyrics
-    page.get_by_role('textbox').last.fill('custom song 5 lyrics')
+    # Assert song lyrics are collapsed and not missing
+    expect(page.get_by_role('textbox')).to_have_count(0)
+    expect(page.get_by_text('lyrics not found').first).to_be_hidden()
+    expect(page.get_by_text('lyrics not found').last).to_be_hidden()
+
+    # Uncollapse songs
+    page.get_by_text('Song 1 (Artist A)').click()
+    page.get_by_text('Song 5').click()
+
+    # Assert song lyrics are prefilled
+    expect(page.get_by_role('textbox').first).to_have_value('custom song 1 lyrics')
+    expect(page.get_by_role('textbox').last).to_have_value('custom song 5 lyrics')
 
     # Click Next
     page.get_by_role('button', name='Next').click()
@@ -231,7 +244,8 @@ def test_back(page: Page):
 
     # Assert songs are loaded
     expect(page.get_by_text('Song 1 (Artist A)')).to_be_visible()
-    expect(page.get_by_text('Song 1 (Artist A) lyrics not found')).to_be_hidden()
+    expect(page.get_by_text('lyrics not found').first).to_be_hidden()
+    expect(page.get_by_text('lyrics not found').last).to_be_visible()
     expect(page.get_by_text('Song 5 lyrics not found')).to_be_visible()
 
     # Uncollapse Song 1
@@ -253,8 +267,9 @@ def test_back(page: Page):
     page.get_by_role('button', name='Back').click()
     expect(page).to_have_url('http://localhost:5002/create/step-2/')
 
-    # Uncollapse Song 1
+    # Uncollapse songs
     page.get_by_text('Song 1 (Artist A)').click()
+    page.get_by_text('Song 5').click()
 
     # Assert bad song lyrics are still loaded
     expect(page.get_by_role('textbox')).to_have_count(2)

@@ -14,7 +14,7 @@
 %}
 
 {% block main %}
-<form method="POST" action="{{ url_for('.create_step_3') }}">
+<form id="create-form" method="POST" action="{{ url_for('.create_step_3') }}">
     <h1>Step 2: Review Lyrics</h1>
     <p>
         Review the parsed song lyrics below and make any necessary corrections.
@@ -23,12 +23,10 @@
         {{ format_hint }}
     </p>
 
-    {% if missing > 0 %}
-    <p>
-        Lyrics must be entered manually for <strong>{{ missing }}
-        song{% if missing != 1 %}s{% endif %}</strong>.
+    <p id="missing-message" {% if missing == 0 %} hidden {% endif %}>
+        Lyrics must be entered manually for
+        <span id="missing-count">{{ missing }}</span> song(s).
     </p>
-    {% endif %}
 
     <div>
         {% for song in songs %}
@@ -48,19 +46,16 @@
                 ({{ song.artist }})
                 {% endif %}
 
-                {% if not song.lyrics %}
-                <span>lyrics not found</span>
-                {% endif %}
+                <span {% if not song.lyrics %} hidden {% endif %}>
+                    lyrics not found
+                </span>
             </summary>
 
-            {% if song.lyrics %}
-            <textarea name="lyrics-{{ loop.index }}" placeholder="{{format_hint}}"
-                aria-label="{{ song.title }} Lyrics">{{ song.lyrics }}</textarea>
-            {% else %}
             <textarea name="lyrics-{{ loop.index }}" placeholder="{{
-                'Lyrics not found, please enter them here manually.\n\n' +
-                format_hint }}" aria-label="{{ song.title }} Lyrics"></textarea>
-            {% endif %}
+                'Lyrics not found, please enter them here manually.\n\n'
+                if not songs.lyrics else '' }}{{ format_hint }}"
+                aria-label="{{ song.title }} Lyrics"
+                >{{ song.lyrics or '' }}</textarea>
         </details>
         {% endfor %}
     </div>
