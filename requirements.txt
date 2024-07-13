@@ -1,8 +1,5 @@
 flask
+gunicorn
 python-dotenv
 python-pptx
 requests
-pytest
-pytest-mock
-pytest-playwright
-pytest-xprocess

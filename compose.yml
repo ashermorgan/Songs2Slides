@@ -1,0 +1,12 @@
+name: songs2slides
+
+services:
+  bot:
+    build:
+      context: .
+    environment:
+      - API_URL
+      - API_AUTH
+    stop_signal: SIGINT
+    ports:
+      - '5000:5000'
