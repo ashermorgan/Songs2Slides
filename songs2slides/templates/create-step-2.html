@@ -53,7 +53,7 @@
 
             <textarea name="lyrics-{{ loop.index }}" placeholder="{{
                 'Lyrics not found, please enter them here manually.\n\n'
-                if not songs.lyrics else '' }}{{ format_hint }}"
+                if not song.lyrics else '' }}{{ format_hint }}"
                 aria-label="{{ song.title }} Lyrics"
                 >{{ song.lyrics or '' }}</textarea>
         </details>
