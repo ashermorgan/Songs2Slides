@@ -7,12 +7,6 @@
 <script src="{{ url_for('static', filename='create.js') }}"></script>
 {% endblock head %}
 
-{% set format_hint =
-'Each stanza will appear on its own slide. ' +
-'Stanzas must be separated by one blank line. ' +
-'Three blank lines represent an empty slide.'
-%}
-
 {% block main %}
 <form id="create-form" method="POST" action="{{ url_for('.create_step_3') }}">
     <h1>Step 2: Review Lyrics</h1>
@@ -20,7 +14,9 @@
         Review the parsed song lyrics below and make any necessary corrections.
     </p>
     <p>
-        {{ format_hint }}
+        Each stanza will appear on its own slide.
+        Stanzas must be separated by one blank line.
+        Three blank lines represent an empty slide.
     </p>
 
     <p id="missing-message" {% if missing == 0 %} hidden {% endif %}>
@@ -52,8 +48,8 @@
             </summary>
 
             <textarea name="lyrics-{{ loop.index }}" placeholder="{{
-                'Lyrics not found, please enter them here manually.\n\n'
-                if not song.lyrics else '' }}{{ format_hint }}"
+                'Lyrics not found, please enter them manually.'
+                if not song.lyrics else 'Enter song lyrics.' }}"
                 aria-label="{{ song.title }} Lyrics" oninput="save_lyrics()"
                 >{{ song.lyrics or '' }}</textarea>
 

@@ -62,6 +62,10 @@ tfoot td {
 }
 
 /* step 2 */
+#missing-message {
+    font-style: italic;
+}
+
 details {
     margin-bottom: 1rem;
 }
