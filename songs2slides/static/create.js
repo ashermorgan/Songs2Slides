@@ -38,9 +38,7 @@ addEventListener('submit', () => {
     // Show loading spinner
     document.getElementById('post-submit').hidden = false
 
-    if (STEP === 2) {
-        save_lyrics()
-    } else if (STEP === 3) {
+    if (STEP === 3) {
         // Save settings
         storage_set('title-slides', form['title-slides'].checked)
         storage_set('blank-slides', form['blank-slides'].checked)
@@ -109,6 +107,15 @@ function save_lyrics() {
     }
 }
 
+function revert_lyrics(n) {
+    form[`lyrics-${n}`].value = DEFAULT_LYRICS[n-1]
+    if (DEFAULT_LYRICS[n-1] === '') {
+        document.getElementsByTagName('details')[n-1].classList.add('missing')
+        update_missing_message()
+    }
+    save_lyrics()
+}
+
 function load_lyrics() {
     songs = document.getElementsByTagName('details')
     for (let i = 1; `title-${i}` in form; i++) {
@@ -122,7 +129,10 @@ function load_lyrics() {
             songs[i - 1].open = false
         }
     }
+    update_missing_message()
+}
 
+function update_missing_message() {
     // Update missing label
     const number = document.getElementsByClassName('missing').length
     document.getElementById('missing-count').textContent = number

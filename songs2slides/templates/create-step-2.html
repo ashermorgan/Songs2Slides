@@ -54,8 +54,17 @@
             <textarea name="lyrics-{{ loop.index }}" placeholder="{{
                 'Lyrics not found, please enter them here manually.\n\n'
                 if not song.lyrics else '' }}{{ format_hint }}"
-                aria-label="{{ song.title }} Lyrics"
+                aria-label="{{ song.title }} Lyrics" oninput="save_lyrics()"
                 >{{ song.lyrics or '' }}</textarea>
+
+            <p>
+                Lyric modifications are saved across sessions
+                <button class="icon" type="button" title="Revert lyrics"
+                    onclick="revert_lyrics({{ loop.index }})">
+                    <img src="{{ url_for('static', filename='revert.svg') }}"
+                        alt="Revert icon"/>
+                </button>
+            </p>
         </details>
         {% endfor %}
     </div>
@@ -77,5 +86,10 @@
 
 <script>
     const STEP = 2
+    const DEFAULT_LYRICS = [
+        {% for song in songs %}
+        `{{ song.lyrics if song.lyrics else '' }}`,
+        {% endfor %}
+    ]
 </script>
 {% endblock main %}

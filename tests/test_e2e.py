@@ -256,8 +256,9 @@ def test_back(page: Page):
     expect(page.get_by_role('textbox').first).to_have_value('These are the lyrics\nto song 1\nby artist A')
     expect(page.get_by_role('textbox').last).to_have_value('')
 
-    # Fill in bad missing lyrics
-    page.get_by_role('textbox').last.fill('custom song 5 lyrics (bad)')
+    # Update song lyrics
+    page.get_by_role('textbox').first.fill('custom song 1 lyrics')
+    page.get_by_role('textbox').last.fill('custom song 5 lyrics')
 
     # Click Next
     page.get_by_role('button', name='Next').click()
@@ -271,10 +272,16 @@ def test_back(page: Page):
     page.get_by_text('Song 1 (Artist A)').click()
     page.get_by_text('Song 5').click()
 
-    # Assert bad song lyrics are still loaded
+    # Assert updated song lyrics are still loaded
     expect(page.get_by_role('textbox')).to_have_count(2)
+    expect(page.get_by_role('textbox').first).to_have_value('custom song 1 lyrics')
+    expect(page.get_by_role('textbox').last).to_have_value('custom song 5 lyrics')
+
+    # Revert lyrics
+    page.get_by_title('Revert lyrics').first.click()
     expect(page.get_by_role('textbox').first).to_have_value('These are the lyrics\nto song 1\nby artist A')
-    expect(page.get_by_role('textbox').last).to_have_value('custom song 5 lyrics (bad)')
+    page.get_by_title('Revert lyrics').last.click()
+    expect(page.get_by_role('textbox').last).to_have_value('')
 
     # Fill in correct missing lyrics
     page.get_by_role('textbox').last.fill('custom song 5 lyrics')
