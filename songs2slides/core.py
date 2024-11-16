@@ -26,6 +26,10 @@ class SongData:
     artist: str
     lyrics: str
 
+class SongNotFound(Exception):
+    """Raised when the API cannot find the lyrics to a song"""
+    pass
+
 def filter_lyrics(lyrics: str):
     """
     Filter raw lyrics to remove text enclosed in brackets or parenthesis
@@ -75,7 +79,7 @@ def get_song_data(title: str, artist:str):
     # Get API URL
     url = os.getenv('API_URL')
     if url is None:
-        raise Exception()
+        raise Exception('Bad API_URL')
     url = url.replace('{title}', title, 1)
     url = url.replace('{artist}', artist, 1)
 
@@ -84,14 +88,20 @@ def get_song_data(title: str, artist:str):
     headers = { 'Authorization': auth } if auth else {}
 
     # Query API
-    data = requests.get(url, headers=headers).json()
+    res = requests.get(url, headers=headers)
+    if res.status_code != requests.codes.ok:
+        if res.status_code == 404:
+            raise SongNotFound()
+        else:
+            res.raise_for_status()
+    data = res.json()
 
     # Parse response
     if 'lyrics' in data.keys():
         return SongData(data['title'], data['artist'],
                         filter_lyrics(data['lyrics']))
     else:
-        raise Exception()
+        raise Exception('API returned invalid lyric data')
 
 def parse_song_lyrics(lyrics: str, lines_per_slide: int):
     """

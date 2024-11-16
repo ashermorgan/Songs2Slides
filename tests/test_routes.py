@@ -34,8 +34,8 @@ def test_get_lyrics_basic(client, mocker):
     core.parse_song_lyrics.assert_has_calls([
         mocker.call('L1', 4), mocker.call('L2', 4)
     ])
-    routes.render_template.assert_called_with('create-step-2.html',
-        songs=songs, missing=0)
+    routes.render_template.assert_called_with('create-step-2.html', songs=songs,
+                                              missing=0, api_error=False)
 
 def test_get_lyrics_one_error(client, mocker):
     # Mock get_song_data, parse_song_lyrics, and render_template
@@ -62,7 +62,8 @@ def test_get_lyrics_one_error(client, mocker):
         mocker.call('T1', 'A1'), mocker.call('T2', 'A2')
     ])
     core.parse_song_lyrics.assert_has_calls([mocker.call('L2', 4)])
-    routes.render_template.assert_called_with('create-step-2.html', songs=songs, missing=1)
+    routes.render_template.assert_called_with('create-step-2.html', songs=songs,
+                                              missing=1, api_error=False)
 
 def test_get_lyrics_missing_artist(client, mocker):
     # Mock get_song_data

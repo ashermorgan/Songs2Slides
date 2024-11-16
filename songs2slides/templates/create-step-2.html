@@ -20,6 +20,7 @@
     </p>
 
     <p id="missing-message" {% if missing == 0 %} hidden {% endif %}>
+        {% if api_error %} Our lyric API is currently down. {% endif %}
         Lyrics must be entered manually for
         <span id="missing-count">{{ missing }}</span> song(s).
     </p>

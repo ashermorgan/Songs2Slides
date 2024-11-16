@@ -59,19 +59,24 @@ def create_step_2():
     songs = parse_form(request.form)
 
     # Get lyrics
+    api_error = True # Whether an API error occured for all requests
     for i in range(len(songs)):
         try:
             songs[i] = core.get_song_data(songs[i].title, songs[i].artist)
+            api_error = False
             slides = core.parse_song_lyrics(songs[i].lyrics, 4)
             songs[i].lyrics = '\n\n'.join(slides)
-        except:
+        except core.SongNotFound:
+            api_error = False
+        except Exception as e:
             pass
 
     # Count missing songs
     missing = sum([1 for x in songs if x.lyrics == None])
 
     # Return song data
-    return render_template('create-step-2.html', songs=songs, missing=missing)
+    return render_template('create-step-2.html', songs=songs, missing=missing,
+                           api_error=api_error)
 
 @bp.get('/create/step-3/')
 def create_step_3_get():
