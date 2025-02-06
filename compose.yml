@@ -1,7 +1,7 @@
 name: songs2slides
 
 services:
-  bot:
+  app:
     build:
       context: .
     environment:
